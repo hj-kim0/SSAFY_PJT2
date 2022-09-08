@@ -1,9 +1,10 @@
 /title "[BE]"
 /label ~backend
 /assign me
-/reviewer @cg1735  
+/reviewer @today731
 /reviewer @aa981204
-/reviewer @stopone2639
+/reviewer @antipodal
+/reviewer @kiki249
 
 /remove_reviewer me
 
