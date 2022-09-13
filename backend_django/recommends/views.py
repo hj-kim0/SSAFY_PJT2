@@ -1,5 +1,4 @@
-import imp
-import re
+import pandas as pd
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status
@@ -11,8 +10,10 @@ from .serializers import PerfumeSerializer
 @api_view(['GET'])
 def collaboration(request):
     perfumes = Perfumes.objects.all()
-    print(perfumes[0])
+    df = pd.DataFrame(list(Perfumes.objects.all().values()))
+    print(df)
     serializer = PerfumeSerializer(perfumes, many=True)
+    print(serializer.data[0]['brand_name'])
     return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
 
 
