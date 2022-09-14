@@ -22,7 +22,7 @@ input {
 input:focus {
   outline: none;
 }
-
+/*
 button {
   background: none;
   border: none;
@@ -30,11 +30,12 @@ button {
   color: inherit;
   font-family: inherit;
 }
+*/
 
 /* custom reset end  */
 html,
 body,
-div,
+/* div, */
 span,
 applet,
 object,
@@ -45,7 +46,7 @@ h3,
 h4,
 h5,
 h6,
-p,
+/* p, */
 blockquote,
 pre,
 a,
