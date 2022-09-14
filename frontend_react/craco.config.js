@@ -23,7 +23,7 @@ module.exports = {
           "@components": "./src/components",
           "@styles": "./src/assets/styles",
           "@images": "./src/assets/images",
-          "@utils": "./src/utils"
+          "@utils": "./src/utils",
           // "@routers": "./src/routers"
         }
       }

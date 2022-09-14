@@ -1,29 +1,29 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true,
+    es2021: true
   },
   extends: [
     "plugin:react/recommended",
     "eslint:recommended",
     "airbnb",
-    "eslint-config-prettier",
+    "eslint-config-prettier"
   ],
   parserOptions: {
     ecmaFeatures: {
-      jsx: true,
+      jsx: true
     },
     ecmaVersion: "latest",
-    sourceType: "module",
+    sourceType: "module"
   },
   plugins: ["react"],
   rules: {
     "no-param-reassign": [
       "error",
-      { props: true, ignorePropertyModificationsFor: ["state"] },
-    ],
-    "import/no-unresolved": 0,
-    "react/prop-types": 0,
+      { props: true, ignorePropertyModificationsFor: ["state"] }
+    ]
+    ,"import/no-unresolved" : 0
+    , 
   },
   settings: {
     "import/resolver": {
@@ -35,8 +35,8 @@ module.exports = {
           ["@images", "./src/assets/images"],
           // ["@utils", "./src/utils"]
         ],
-        extensions: [".ts", ".js", ".jsx", ".json", ".svg"],
-      },
-    },
-  },
+        extensions: [".ts", ".js", ".jsx", ".json", ".svg"]
+      }
+    }
+  }
 };
