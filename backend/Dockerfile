@@ -1,14 +1,7 @@
-FROM gradle:7.5.0-jdk11-alpine AS build
-COPY --chown=gradle:gradle . /home/gradle/src
-WORKDIR /home/gradle/src
-RUN gradle build --no-daemon
-
 FROM adoptopenjdk/openjdk11
-
-EXPOSE 8083
-
-RUN mkdir /app
-
-COPY --from=build /home/build/libs/*.jar /app/spring-boot-application.jar
-
-ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/spring-boot-application.jar"]
+CMD ["./mvnw", "clean", "package"]
+WORKDIR /var/jenkins_home/workspace/Release/backend/
+RUN gradlew build
+ARG JAR_FILE_PATH=build/libs/*.jar
+COPY ${JAR_FILE_PATH} app.jar
+CMD ["java", "-jar", "app.jar"]
