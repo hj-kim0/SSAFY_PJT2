@@ -1,7 +1,15 @@
-FROM adoptopenjdk/openjdk11
-CMD ["./mvnw", "clean", "package"]
-WORKDIR /var/jenkins_home/workspace/Release/backend/
-RUN gradlew build
-ARG JAR_FILE_PATH=build/libs/*.jar
-COPY ${JAR_FILE_PATH} app.jar
-CMD ["java", "-jar", "app.jar"]
+FROM adoptopenjdk:11-jdk AS builder
+WORKDIR /var/jenkins_home/workspace/Release/backend
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
+COPY settings.gradle .
+COPY src src
+RUN chmod +x ./gradlew
+RUN ./gradlew bootJar
+
+FROM adoptopenjdk:11-jdk
+COPY --from=builder build/libs/*.jar app.jar
+
+EXPOSE 8083
+ENTRYPOINT ["java", "-jar", "/app.jar"]
