@@ -9,7 +9,6 @@ import lombok.*;
 @Builder
 public class KakaoDto {
     private Long id;
-    private Properties properties;
     private KakaoAccount kakao_account;
     private String test;
 
@@ -19,10 +18,4 @@ public class KakaoDto {
         private String email;
     }
 
-    @Getter
-    @ToString
-    public static class Properties{
-        private String nickname;
-        private String thumbnail_image;
-    }
 }
