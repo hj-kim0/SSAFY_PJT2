@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 public class BackendApplication {
 
-    @GetMapping("/")
-    public String Hello(){
-        return "일해라 젠킨스!!!!!!!";
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
     }
