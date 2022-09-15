@@ -20,7 +20,8 @@ public class UserEntity {
     @Id
     private Integer idx;
 
-    private String id;
+    @Column(name="user_id")
+    private String userId;
     @Column(name="profile_img")
     private String profileImg;
     private String nickname;
