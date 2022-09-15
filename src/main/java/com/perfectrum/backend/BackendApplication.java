@@ -13,7 +13,7 @@ public class BackendApplication {
 
     @GetMapping("/")
     public String Hello(){
-        return "안녕하세요";
+        return "일해라 젠킨스!!!!!!!";
     }
 
     public static void main(String[] args) {
