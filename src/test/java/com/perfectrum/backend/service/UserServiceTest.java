@@ -1,7 +1,10 @@
 package com.perfectrum.backend.service;
 
+import com.perfectrum.backend.domain.entity.ReviewEntity;
 import com.perfectrum.backend.domain.entity.UserEntity;
+import com.perfectrum.backend.domain.repository.ReviewRepository;
 import com.perfectrum.backend.domain.repository.UserRepository;
+import com.perfectrum.backend.dto.review.MyReviewDto;
 import com.perfectrum.backend.dto.user.UserInfoDto;
 import com.perfectrum.backend.mapper.UserInfoMapper;
 import org.junit.jupiter.api.Disabled;
@@ -10,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -18,11 +23,13 @@ public class UserServiceTest {
 
     private final UserRepository userRepository;
     private final UserInfoMapper userInfoMapper;
+    private final ReviewRepository reviewRepository;
 
     @Autowired
-    UserServiceTest(UserRepository userRepository, UserInfoMapper userInfoMapper){
+    UserServiceTest(UserRepository userRepository, UserInfoMapper userInfoMapper, ReviewRepository reviewRepository){
         this.userRepository = userRepository;
         this.userInfoMapper = userInfoMapper;
+        this.reviewRepository = reviewRepository;
     }
 
     @Test
@@ -116,15 +123,82 @@ public class UserServiceTest {
     @Disabled
     @Test
     public void 회원_탈퇴(){
-        String Id = "kakao123456";
+        String testId = "kakao123456";
 
-        Optional<UserEntity> optionalUser = userRepository.findByUserId(Id);
+        Optional<UserEntity> optionalUser = userRepository.findByUserId(testId);
         if(optionalUser.isPresent()){
             UserEntity userEntity = optionalUser.get();
             userRepository.delete(userEntity);
             System.out.println("okay");
         }else{
             System.out.println("fail");
+        }
+    }
+
+    @Test
+    public void 작성한_리뷰_조회_테스트(){
+        String testId = "kakao123145";
+
+        Optional<UserEntity> optionalUser = userRepository.findByUserId(testId);
+
+        if(optionalUser.isPresent()){
+            UserEntity userEntity = optionalUser.get();
+            List<MyReviewDto> myReviewList = new ArrayList<>();
+            
+            List<ReviewEntity> reviewEntityList = reviewRepository.findByUser(userEntity);
+            if(!reviewEntityList.isEmpty()){
+                for(ReviewEntity r : reviewEntityList){
+                    MyReviewDto myReviewDto = MyReviewDto.builder()
+                            .idx(r.getIdx())
+                            .perfumeIdx(r.getPerfume().getIdx())
+                            .perfumeName(r.getPerfume().getPerfumeName())
+                            .reviewImg(r.getReviewImg())
+                            .totalScore(r.getTotalScore())
+                            .longevity(r.getLongevity())
+                            .sillageScore(r.getSillageScore())
+                            .content(r.getContent())
+                            .time(r.getTime())
+                            .updateTime(r.getUpdateTime())
+                            .build();
+
+                    myReviewList.add(myReviewDto);
+                }
+                for(MyReviewDto d : myReviewList){
+                    System.out.println(d.toString());
+                }
+            }else{
+                System.out.println("리뷰 없음");
+            }
+        }
+    }
+
+    @Test
+    public void 리뷰_전체_개수(){
+        String testId = "kakao123145";
+
+        Optional<UserEntity> optionalUserEntity = userRepository.findByUserId(testId);
+        if(optionalUserEntity.isPresent()){
+            UserEntity userEntity = optionalUserEntity.get();
+            Integer count = reviewRepository.countByUser(userEntity);
+
+            System.out.println("======== 리뷰 개수 ========");
+            System.out.println(count);
+        }
+    }
+
+    @Test
+    public void 리뷰_전체_평점() {
+        String testId = "kakao123145";
+
+        Optional<UserEntity> optionalUserEntity = userRepository.findByUserId(testId);
+        if(optionalUserEntity.isPresent()){
+            UserEntity userEntity = optionalUserEntity.get();
+
+            int count = reviewRepository.countByUser(userEntity);
+            Double total_score = reviewRepository.sumByUser(userEntity);
+
+            Double avg_score = total_score/count;
+            System.out.println(avg_score);
         }
     }
 }

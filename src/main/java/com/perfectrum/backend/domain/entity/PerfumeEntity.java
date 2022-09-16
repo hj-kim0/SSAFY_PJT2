@@ -4,10 +4,7 @@ import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -20,6 +17,7 @@ import javax.persistence.Table;
 @Table(name="perfumes")
 public class PerfumeEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idx;
 
     @Column(name="brand_name")
