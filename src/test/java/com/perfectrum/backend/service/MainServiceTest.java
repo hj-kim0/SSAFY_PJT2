@@ -184,4 +184,74 @@ public class MainServiceTest {
             System.out.println(d.toString());
         }
     }
+
+    @Test
+    public void 오늘의_향수_Top20_랜덤6개_조회() {
+        LocalDate now = LocalDate.now(ZoneId.of("Asia/Seoul"));
+        int monthValue = now.getMonthValue();
+        // 계절
+        String season;
+        switch (monthValue){
+            case 3:
+            case 4:
+            case 5:
+                season = "spring";
+                break;
+            case 6:
+            case 7:
+            case 8:
+                season = "summer";
+                break;
+            case 9:
+            case 10:
+            case 11:
+                season = "fall";
+                break;
+            default:
+                season = "winter";
+                break;
+        }
+
+        // 2. 시간 얻어오기
+        LocalTime nowTIme = LocalTime.now(ZoneId.of("Asia/Seoul"));
+        int hour = nowTIme.getHour();
+
+        // 시간대 구하기
+        String timeZone;
+        if(6<=hour && hour<=18) timeZone = "day";
+        else timeZone = "night";
+
+        // when
+        Map<String, Object> resultMap = new HashMap<>();
+        List<PerfumeViewDto> list = new ArrayList<>();
+        List<PerfumeViewDto> result = new ArrayList<>();
+
+        List<PerfumeEntity> perfumeEntities = perfumeRepository.findTop20ByTimezoneAndSeasonsContainsOrderByItemRatingDesc(timeZone, season);
+        for(PerfumeEntity p : perfumeEntities){
+            PerfumeViewDto dto = perfumeViewMapper.toDto(p);
+            list.add(dto);
+        }
+
+        int[] num = new int[6];
+        Random r = new Random();
+        for(int i=0; i<6; i++){
+            num[i] = r.nextInt(list.size());
+            for(int j=0; j<i; j++){
+                if(num[i] == num[j]) i--;
+            }
+        }
+
+        for(int i=0; i<6; i++){
+            System.out.println(num[i]);
+            result.add(list.get(num[i]));
+        }
+        resultMap.put("data", result);
+        resultMap.put("message", success);
+        status = HttpStatus.OK;
+
+        // then
+        for(PerfumeViewDto d : result){
+            System.out.println(d.toString());
+        }
+    }
 }
