@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import MainNavBar from "@components/common/MainNavBar";
 // import Home from "@screens/Home";
-import PersonalPerfume from "../screens/PersonalPerfume";
+import PersonalPerfume from "@screens/PersonalPerfume";
 
 function Router() {
   return (

@@ -1,13 +1,6 @@
-import React from 'react';
-
-// import { Button } from '@material-ui/core';
-
-import styled from 'styled-components'
-
-const DivCenter = styled.div`
-    margin: 30px 0px 30px 0px;
-    text-align: center;
-`;
+import React, {useState} from 'react';
+import styled from 'styled-components';
+import Question from './Question';
 
 const Wrapper = styled.div`
     display: block;
@@ -15,52 +8,28 @@ const Wrapper = styled.div`
     height: auto;
 `;
 
-const Content = styled.p`
-    font-family: LoveYaLikeASister;
+const DivCenter = styled.div`
+    margin: 30px 0px 30px 0px;
     text-align: center;
-    margin: 15px 15px 0px 0px;
-    font-size: 64px;
 `;
 
-const SubContent = styled.p`
-    font-family: NotoSansMedium;
-    text-align: center;
-    margin: 15px 15px 0px 0px;
-    font-size: 28px;
-`;
+const PersonalPerfume = () => {
+    const [id, setId] = useState(0);
+    // 1. 부모 컴포넌트에서 useState 를 통해 전달받은 데이터를 저장할 변수를 선언한다.
+    // 2. 부모 컴포넌트에서 props로 함수를 넣어주면,
+    //    자식 컴포넌트에서 그 함수를 이용해 값을 전달한다.
 
-const StyledButton = styled.button`
-    width:360px;
-    height:72px;
-    margin-top: 30%;
-    padding-left: 15px;
-    padding-right: 15px;
-    color: white;
-    background-color: black;
-    border-radius: 8px;
-    padding: 3px 45px 3px 45px;
-    font-size: 32px;
-    font-family: NotoSansBold;
-`
-
-function PersonalPerfume (){
+    const parentFnc = (idx) => {
+        setId(idx);
+    }
     return (
         <Wrapper>
             <DivCenter>
-                <Content>
-                    PERSONAL PERFUME
-                </Content>
-                <SubContent>
-                    당신의 가치를 빛내줄 퍼스널 향수 추천
-                </SubContent>
-            </DivCenter>
-            <DivCenter>
-                <StyledButton>
-                    시작하기
-                </StyledButton>
+                <div>부모 컴포넌트 값 : {id}</div>
+                <Question idx={id} getIdx={parentFnc} />
             </DivCenter>
         </Wrapper>
-    )
-}
+    );
+};
 
 export default PersonalPerfume;

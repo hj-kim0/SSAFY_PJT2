@@ -23,7 +23,15 @@ module.exports = {
       { props: true, ignorePropertyModificationsFor: ["state"] }
     ]
     ,"import/no-unresolved" : 0
-    , 
+    , 'react/function-component-definition':[2, {namedcomponents:'arrow-function'}]
+    , "react/destructuring-assignment": [0, 'always']
+    , "react/prop-types": "off",
+    "no-shadow": [
+      "error",
+      {
+          "hoist": "all"
+      }
+  ],
   },
   settings: {
     "import/resolver": {
