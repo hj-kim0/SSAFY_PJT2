@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import styled from "styled-components";
 
 export const Select = styled.select`
@@ -17,15 +17,16 @@ export const Select = styled.select`
     border-color: $BLACK;
   }
 `;
-function selectItem(props) {
-  return (
-    <Select>
-      {props.options.map(option => (
-        <option key={option.value} value={option.value}>
-          {option.name}
-        </option>
-      ))}
-    </Select>
-  );
-}
-export default selectItem;
+export default Select;
+// function selectItem(props) {
+//   return (
+//     <Select>
+//       {props.options.map(option => (
+//         <option key={option.value} value={option.value}>
+//           {option.name}
+//         </option>
+//       ))}
+//     </Select>
+//   );
+// }
+// export default selectItem;

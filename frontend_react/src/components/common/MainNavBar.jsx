@@ -22,7 +22,7 @@ function MainNavBar() {
     setOpenTool(!openTool);
   };
   const moveMyReview = () => {
-    navigate("/");
+    navigate("/userreview");
     if (openTool === true) {
       setOpenTool(!openTool);
     }

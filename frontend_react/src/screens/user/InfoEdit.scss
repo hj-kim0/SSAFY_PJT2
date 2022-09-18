@@ -4,16 +4,16 @@
 .infoedit {
   width: (350px);
 }
+.divide {
+  width: 100%;
+  height: (1px);
+  background-color: $GRAY-F3;
+  margin-top: (38px);
+}
 .infoedit1 {
   width: 100%;
   align-items: center;
   flex-direction: column;
-  .divide {
-    width: 100%;
-    height: (1px);
-    background-color: $GRAY-F3;
-    margin-top: (38px);
-  }
   &_title {
     color: $GRAY-40;
     margin: (100px) 0 (40px);
@@ -83,16 +83,16 @@
   .infoedit {
     width: vw(350px);
   }
+  .divide {
+    width: 100%;
+    height: vw(1px);
+    background-color: $GRAY-F3;
+    margin-top: vw(38px);
+  }
   .infoedit1 {
     width: 100%;
     align-items: center;
     flex-direction: column;
-    .divide {
-      width: 100%;
-      height: vw(1px);
-      background-color: $GRAY-F3;
-      margin-top: vw(38px);
-    }
     &_title {
       color: $GRAY-40;
       margin: vw(100px) 0 vw(40px);
@@ -163,16 +163,16 @@
   .infoedit {
     width: vw-t(350px);
   }
+  .divide {
+    width: 100%;
+    height: vw-t(1px);
+    background-color: $GRAY-F3;
+    margin-top: vw-t(38px);
+  }
   .infoedit1 {
     width: 100%;
     align-items: center;
     flex-direction: column;
-    .divide {
-      width: 100%;
-      height: vw-t(1px);
-      background-color: $GRAY-F3;
-      margin-top: vw-t(38px);
-    }
     &_title {
       color: $GRAY-40;
       margin: vw-t(100px) 0 vw-t(40px);
@@ -243,16 +243,16 @@
   .infoedit {
     width: vw-p(350px);
   }
+  .divide {
+    width: 100%;
+    height: vw-p(1px);
+    background-color: $GRAY-F3;
+    margin-top: vw-p(38px);
+  }
   .infoedit1 {
     width: 100%;
     align-items: center;
     flex-direction: column;
-    .divide {
-      width: 100%;
-      height: vw-p(1px);
-      background-color: $GRAY-F3;
-      margin-top: vw-p(38px);
-    }
     &_title {
       color: $GRAY-40;
       margin: vw-p(100px) 0 vw-p(40px);

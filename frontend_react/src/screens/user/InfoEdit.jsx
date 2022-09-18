@@ -2,12 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import dummyProfile from "@images/icon/dummyIcon.png";
 import "./InfoEdit.scss";
-import SelectItem from "@components/user/SelectItem";
+// import SelectItem from "@components/user/SelectItem";
+import Select from "@components/user/SelectItem";
 
 const sex = [
+  { value: "unisex", name: "성별 무관" },
   { value: "men", name: "남성" },
-  { value: "women", name: "여성" },
-  { value: "unisex", name: "성별 무관" }
+  { value: "women", name: "여성" }
 ];
 const season = [
   { value: "spring", name: "봄" },
@@ -60,7 +61,15 @@ function InfoEdit() {
             className="infoedit3_input notoMid fs-14"
             placeholder="2~8자리의 문자로 입력해주세요"
           /> */}
-          <SelectItem options={sex} />
+          {/* <SelectItem options={sex} /> */}
+          <Select className="infoedit3_input notoMid fs-14">
+            <option value="default" disabled>성별을 선택해주세요</option>
+            {sex.map((item) => (
+              <option key={item.value} value={item.value}>
+                {item.name}
+              </option>
+            ))}
+          </Select>
         </div>
         <div id="infoedit4" className="infoedit4">
           <div className="infoedit4_title notoBold fs-15">선호하는 계절</div>
@@ -69,7 +78,15 @@ function InfoEdit() {
             className="infoedit4_input notoMid fs-14"
             placeholder="10~11자리의 숫자로 입력해주세요"
           /> */}
-          <SelectItem options={season} />
+          {/* <SelectItem options={season} /> */}
+          <Select className="infoedit4_input notoMid fs-14">
+            <option value="default" disabled>좋아하는 계절을 선택해주세요</option>
+            {season.map((item) => (
+              <option key={item.value} value={item.value}>
+                {item.name}
+              </option>
+            ))}
+          </Select>
         </div>
         <div id="infoedit5" className="infoedit5">
           <div className="infoedit5_title notoBold fs-15">선호하는 향기</div>
@@ -79,7 +96,15 @@ function InfoEdit() {
             value="카카오톡"
             readOnly
           /> */}
-          <SelectItem options={likeScent} />
+          {/* <SelectItem options={likeScent} /> */}
+          <Select className="infoedit5_input notoMid fs-14">
+            <option value="default" disabled>좋아하는 향을 선택해주세요</option>
+            {likeScent.map((item) => (
+              <option key={item.value} value={item.value}>
+                {item.name}
+              </option>
+            ))}
+          </Select>
         </div>
         <div id="infoedit6" className="infoedit6 flex justify-center">
           <button
