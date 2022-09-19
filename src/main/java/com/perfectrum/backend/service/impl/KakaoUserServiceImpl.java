@@ -46,7 +46,8 @@ public class KakaoUserServiceImpl implements KakaoUserService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=cd27f568a3b025f91f69fd043b1d57f1");
-            sb.append("&redirect_uri=http://localhost:8083/oauth/kakao");
+//            sb.append("&redirect_uri=http://localhost:8083/oauth/kakao");
+            sb.append("&redirect_uri=http://j7c105.p.ssafy.io:8083//oauth/kakao");
             sb.append("&code=" + code);
 
             bw.write(sb.toString());
