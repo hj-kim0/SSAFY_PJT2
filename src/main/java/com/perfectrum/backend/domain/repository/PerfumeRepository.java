@@ -13,4 +13,6 @@ public interface PerfumeRepository extends JpaRepository<PerfumeEntity, Integer>
     List<PerfumeEntity> findTop6ByTimezoneAndSeasonsContainsOrderByItemRatingDesc(String timeZone, String season);
 
     List<PerfumeEntity> findTop20ByTimezoneAndSeasonsContainsOrderByItemRatingDesc(String timeZone, String season);
+
+    PerfumeEntity findTop1BySeasonsContainsAndGenderAndLongevityAndTimezone(String like_seasons,String like_gender,Integer like_longevity,String like_timezone);
 }
