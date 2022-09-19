@@ -5,6 +5,7 @@ import Home from "@screens/Home";
 import InfoEdit from "@screens/user/InfoEdit";
 import UserReview from "@screens/user/UserReview";
 import PerfumeDetail from "@screens/perfume/PerfumeDetail";
+import TasteAnalysis from "@screens/perfume/TasteAnalysis";
 
 function Router() {
   return (
@@ -18,6 +19,7 @@ function Router() {
         <Route path="/userreview" element={<UserReview />} />
         {/* perfume */}
         <Route path="/perfumedetail" element={<PerfumeDetail />} />
+        <Route path="/tasteanalysis" element={<TasteAnalysis />} />
       </Routes>
     </>
   );
