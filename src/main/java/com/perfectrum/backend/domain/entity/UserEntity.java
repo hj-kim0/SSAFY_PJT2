@@ -30,4 +30,10 @@ public class UserEntity {
     private String seasons;
     @Column(name="accord_class")
     private Integer accordClass;
+
+    @Builder
+    public UserEntity(String userId, String nickname){
+        this.userId = userId;
+        this.nickname = nickname;
+    }
 }
