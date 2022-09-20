@@ -1,11 +1,13 @@
 package com.perfectrum.backend.domain.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -14,8 +16,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-@Table(name = "reviews")
-public class ReviewEntity {
+@Table(name = "wish_lists")
+public class WishListEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idx;
@@ -28,17 +30,6 @@ public class ReviewEntity {
     @JoinColumn(name = "perfume_idx")
     private PerfumeEntity perfume;
 
-    @Column(name="review_img")
-    private String reviewImg;
-    @Column(name="total_score")
-    private Integer totalScore;
-    private Integer longevity;
-    @Column(name="sillage_score")
-    private Integer sillageScore;
-    private String content;
-    @Column(name="like_count")
-    private Integer likeCount;
-    private LocalDateTime time;
-    @Column(name="update_time")
-    private LocalDateTime updateTime;
+    @Column(name = "is_delete")
+    private Boolean isDelete;
 }
