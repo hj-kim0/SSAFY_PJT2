@@ -23,7 +23,8 @@ module.exports = {
       { props: true, ignorePropertyModificationsFor: ["state"] }
     ]
     ,"import/no-unresolved" : 0
-    , 
+    ,"arrow-body-style": ["error", "always"]
+    ,"object-shorthand": ["error", "always"]
   },
   settings: {
     "import/resolver": {

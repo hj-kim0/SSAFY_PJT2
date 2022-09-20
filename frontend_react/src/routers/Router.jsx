@@ -2,7 +2,9 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import MainNavBar from "@components/common/MainNavBar";
 import Home from "@screens/Home";
-import Signin from "@screens/Signin";
+import Login from "@screens/Login";
+import Auth from "../Auth";
+// import Signin from "@screens/Signin";
 
 function Router() {
   return (
@@ -12,7 +14,8 @@ function Router() {
       <Routes>
         {/* main */}
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Signin/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/oauth/kakao" element={<Auth/>} />
       </Routes>
     </>
   );
