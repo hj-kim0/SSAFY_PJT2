@@ -36,7 +36,7 @@ public class MainController {
     }
 
 
-    @GetMapping("/best") // 베스트 향수 조회
+    @GetMapping("/recomm") // 베스트 향수 조회
     public ResponseEntity<?> viewBestPerfume(HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = "isLogin";
@@ -48,9 +48,14 @@ public class MainController {
         // 토큰만료안됨 -> 로그인 했거나 비로그인 상태
         if(decodeId != null){
             try{
-                List<PerfumeViewDto> list = perfumeService.viewBestPerfume(decodeId); // 사용자 정보 기반 베스트 향ㅅ
+                List<PerfumeViewDto> bestPerfumeList = perfumeService.viewBestPerfume(decodeId); // 사용자 정보 기반 베스트 향ㅅ
+                resultMap.put("BestPerfumeList", bestPerfumeList);
+                List<PerfumeViewDto> todayPerfumeList = perfumeService.viewTodayPerfume(decodeId); // 오늘의 향수 추천
+
+                resultMap.put("todayPerfumeList", todayPerfumeList);
                 resultMap.put("message", success);
-                resultMap.put("data", list);
+
+
                 status = HttpStatus.OK;
             }catch (Exception e){
                 resultMap.put("message", fail);

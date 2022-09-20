@@ -2,6 +2,7 @@ package com.perfectrum.backend.domain.repository;
 
 import com.perfectrum.backend.domain.entity.AccordClassEntity;
 import com.perfectrum.backend.domain.entity.PerfumeEntity;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -21,5 +22,5 @@ public interface PerfumeRepository extends JpaRepository<PerfumeEntity, Integer>
             "p.idx in (SELECT pa.perfume FROM PerfumeAccordsEntity AS pa " +
             "WHERE pa.accord IN (SELECT a.idx from AccordEntity AS a WHERE a.accordClass = :accordClassEntity)) " +
             "ORDER BY p.itemRating DESC")
-    List<PerfumeEntity> findBest6Perfumes(String gender, String season, AccordClassEntity accordClassEntity);
+    List<PerfumeEntity> findBest6Perfumes(String gender, String season, AccordClassEntity accordClassEntity, Pageable top6);
 }
