@@ -39,9 +39,9 @@ public class SurveyServiceTest {
     public void 설문조사_테스트(){
         Integer user_idx = 10;
         String user_id = "surveyT";
-        String like_seasons = "spring";
-        String like_gender = "Women";
-        Integer like_longevity = 4;
+        String like_seasons = "summer";
+        String like_gender = "Men";
+        Integer like_longevity = 3;
         String like_timezone = "day";
         Integer like_accord_class = 1;
 
@@ -63,13 +63,13 @@ public class SurveyServiceTest {
             Integer p_idx = perfume.getIdx();
 
 //            SurveyEntity surveyEntity = SurveyEntity.builder()
-//                    .userIdx(user_idx)
-//                    .perfumeIdx(p_idx)
+//                    .user(tmpUser.get())
+//                    .perfume(perfume)
 //                    .likeSeasons(like_seasons)
 //                    .likeGender(like_gender)
 //                    .likeLongevity(like_longevity)
 //                    .likeTimezone(like_timezone)
-//                    .likeAccordClass(like_accord_class)
+//                    .likeAccordClass(3)
 //                    .build();
             SurveyEntity surveyEntity = SurveyEntity.builder().build();
             SurveyEntity survey = new SurveyEntity();
@@ -83,7 +83,7 @@ public class SurveyServiceTest {
 
             // 설문결과 저장
             System.out.println("설문결과");
-            surveyRepository.save(survey);
+            surveyRepository.save(surveyEntity);
             resultMap.put("message",success);
         }else{
             resultMap.put("message",success);
