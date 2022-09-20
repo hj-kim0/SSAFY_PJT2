@@ -186,19 +186,19 @@ public class UserServiceTest {
         }
     }
 
-    @Test
-    public void 리뷰_전체_평점() {
-        String testId = "kakao123145";
-
-        Optional<UserEntity> optionalUserEntity = userRepository.findByUserId(testId);
-        if(optionalUserEntity.isPresent()){
-            UserEntity userEntity = optionalUserEntity.get();
-
-            int count = reviewRepository.countByUser(userEntity);
-            Double total_score = reviewRepository.sumByUser(userEntity);
-
-            Double avg_score = total_score/count;
-            System.out.println(avg_score);
-        }
-    }
+//    @Test
+//    public void 리뷰_전체_평점() {
+//        String testId = "kakao123145";
+//
+//        Optional<UserEntity> optionalUserEntity = userRepository.findByUserId(testId);
+//        if(optionalUserEntity.isPresent()){
+//            UserEntity userEntity = optionalUserEntity.get();
+//
+//            int count = reviewRepository.countByUser(userEntity);
+//            Double total_score = reviewRepository.sumByUser(userEntity);
+//
+//            Double avg_score = total_score/count;
+//            System.out.println(avg_score);
+//        }
+//    }
 }
