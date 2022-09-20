@@ -23,7 +23,6 @@ public class SurveyEntity{
 
     @ManyToOne
     @JoinColumn(name="perfume_idx")
-    @Column(name="perfume_idx")
     private PerfumeEntity perfume;
 
     @Column(name="like_seasons")

@@ -1,5 +1,6 @@
 package com.perfectrum.backend.controller;
 
+import com.perfectrum.backend.service.JwtService;
 import com.perfectrum.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,31 +16,23 @@ import java.util.Map;
 public class MainController {
     private static final String success = "SUCCESS";
     private static final String fail = "FAIL";
-    private static final String timeOut = "access-token tieout";
+    private static final String timeOut = "access-token timeout";
     private static HttpStatus status = HttpStatus.NOT_FOUND;
 
     private UserService userService;
+    private JwtService jwtService;
 
     @Autowired
-    MainController(UserService userService){
+    MainController(UserService userService, JwtService jwtService ){
+        this.jwtService = jwtService;
         this.userService = userService;
     }
 
-//    private String checkToken(HttpServletRequest request, Map<String, Object> resultMap) {
-//        String accessToken = request.getHeader("Authorization");
-//        String decodeId = jwtService.decodeToken(accessToken);
-//        if(!decodeId.equals("timeout")){
-//            return decodeId;
-//        }else{
-//            resultMap.put("message", timeOut);
-//            status = HttpStatus.UNAUTHORIZED;
-//            return null;
-//        }
-//    }
 
     @GetMapping("/best") // 베스트 향수 조회
     public ResponseEntity<?> viewBestPerfume(HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
+        String userId = "";
 
         return null;
     }
@@ -59,5 +52,17 @@ public class MainController {
         }
 
         return new ResponseEntity<>(resultMap, status);
+    }
+
+    public String checkToken(HttpServletRequest request, Map<String, Object> resultMap){
+        String accessToken = request.getHeader("Authorization");
+        String decodeId = jwtService.decodeToken(accessToken);
+        if(!decodeId.equals("timeout")){
+            return decodeId;
+        }else{
+            resultMap.put("message", timeOut);
+            status = HttpStatus.UNAUTHORIZED;
+            return null;
+        }
     }
 }

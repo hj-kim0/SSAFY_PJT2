@@ -25,11 +25,6 @@ public class KakaoUserServiceImpl implements KakaoUserService {
     KakaoUserServiceImpl(UserRepository userRepository){
         this.userRepository = userRepository;
     }
-    @Override
-    @Transactional
-    public String[] kakaoLogin(String authToken) {
-        return new String[0];
-    }
 
     @Override
     public String getKakaoAccessToken(String code) throws IOException { // 카카오 자체 accesstoken 발급
@@ -62,7 +57,7 @@ public class KakaoUserServiceImpl implements KakaoUserService {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-//            System.out.println("result = " + result);
+            System.out.println("result = " + result);
 
             // json parsing
             JSONParser parser = new JSONParser();
@@ -70,8 +65,8 @@ public class KakaoUserServiceImpl implements KakaoUserService {
 
             String access_token = elem.get("access_token").toString();
             String refresh_token = elem.get("refresh_token").toString();
-//            System.out.println("refresh_token = " + refresh_token);
-//            System.out.println("access_token = " + access_token);
+            System.out.println("refresh_token = " + refresh_token);
+            System.out.println("access_token = " + access_token);
 
             accessToken = access_token;
 
@@ -86,7 +81,6 @@ public class KakaoUserServiceImpl implements KakaoUserService {
     }
 
     @Override
-    @Transactional
     public String[] createKakaoUser(String accessToken) {
         String reqURL = "https://kapi.kakao.com/v2/user/me";
         String[] jsonId = new String[2];
