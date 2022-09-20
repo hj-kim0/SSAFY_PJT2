@@ -24,18 +24,20 @@ import java.util.*;
 public class MainServiceTest {
     private static final String success = "SUCCESS";
     private static final String fail = "FAIL";
-    private static final String timeOut = "access-token tieout";
+    private static final String timeOut = "access-token timeout";
     private static HttpStatus status = HttpStatus.NOT_FOUND;
     private UserRepository userRepository;
     private PerfumeRepository perfumeRepository;
     private PerfumeViewMapper perfumeViewMapper;
+    private JwtService jwtService;
 
 
     @Autowired
-    MainServiceTest(UserRepository userRepository, PerfumeRepository perfumeRepository, PerfumeViewMapper perfumeViewMapper){
+    MainServiceTest(UserRepository userRepository, PerfumeRepository perfumeRepository, PerfumeViewMapper perfumeViewMapper, JwtService jwtService){
         this.userRepository = userRepository;
         this.perfumeRepository = perfumeRepository;
         this.perfumeViewMapper = perfumeViewMapper;
+        this.jwtService = jwtService;
     }
 
     @Test
@@ -253,5 +255,12 @@ public class MainServiceTest {
         for(PerfumeViewDto d : result){
             System.out.println(d.toString());
         }
+    }
+
+    @Test
+    public void 토근으로_유저아이디_확인_테스트(){
+        String accessToken = "eyJ0eXAiOiJKV1QiLCJyZWdEYXRlIjoxNjYzNjMwNzI5NjUwLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NjM2MzQzMjksInN1YiI6ImFjY2Vzcy10b2tlbiIsImlkIjoia2FrYW8yNDM1NTc3MTg0In0.Iuy5rwZ0Xrn7Mfhyg9moaO7Z5R_YwAT-eDPPl0UaagQ";
+        String decodeId = jwtService.decodeToken(accessToken);
+        System.out.println(decodeId);
     }
 }
