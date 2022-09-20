@@ -11,6 +11,8 @@ import com.perfectrum.backend.mapper.PerfumeViewMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 
 import javax.transaction.Transactional;
@@ -76,7 +78,8 @@ public class MainServiceTest {
             if(gender != null){
 //                List<PerfumeEntity> perfumes = perfumeRepository.findTop6ByGenderAndSeasonsContainsOrderByItemRatingDesc(gender, season);
                 AccordClassEntity accordClassEntity = accordClassRepository.findByIdx(accordClass);
-                List<PerfumeEntity> perfumes = perfumeRepository.findBest6Perfumes(gender, season, accordClassEntity);
+                Pageable top6 = PageRequest.ofSize(6);
+                List<PerfumeEntity> perfumes = perfumeRepository.findBest6Perfumes(gender, season, accordClassEntity,top6);
                 for(PerfumeEntity p : perfumes){
                     PerfumeViewDto perfumeViewDto = perfumeViewMapper.toDto(p);
                     result.add(perfumeViewDto);
