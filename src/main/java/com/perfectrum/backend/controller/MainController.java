@@ -1,6 +1,9 @@
 package com.perfectrum.backend.controller;
 
+import com.perfectrum.backend.domain.entity.PerfumeEntity;
+import com.perfectrum.backend.dto.perfume.PerfumeViewDto;
 import com.perfectrum.backend.service.JwtService;
+import com.perfectrum.backend.service.PerfumeService;
 import com.perfectrum.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -21,20 +25,39 @@ public class MainController {
 
     private UserService userService;
     private JwtService jwtService;
+    private PerfumeService perfumeService;
+
 
     @Autowired
-    MainController(UserService userService, JwtService jwtService ){
+    MainController(UserService userService, JwtService jwtService, PerfumeService perfumeService ){
         this.jwtService = jwtService;
         this.userService = userService;
+        this.perfumeService = perfumeService;
     }
 
 
     @GetMapping("/best") // 베스트 향수 조회
     public ResponseEntity<?> viewBestPerfume(HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
-        String userId = "";
+        String decodeId = "isLogin";
 
-        return null;
+        if(request != null & request.getHeader("Authorization") != null){
+            decodeId = checkToken(request, resultMap);
+        }
+
+        // 토큰만료안됨 -> 로그인 했거나 비로그인 상태
+        if(decodeId != null){
+            try{
+                List<PerfumeViewDto> list = perfumeService.viewBestPerfume(decodeId); // 사용자 정보 기반 베스트 향ㅅ
+                resultMap.put("message", success);
+                resultMap.put("data", list);
+                status = HttpStatus.OK;
+            }catch (Exception e){
+                resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }
+        return new ResponseEntity<>(resultMap, status);
     }
 
     @GetMapping("/")
