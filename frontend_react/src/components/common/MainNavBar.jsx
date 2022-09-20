@@ -19,7 +19,7 @@ function MainNavBar() {
             <img className="logo" title="!213" alt="logoImage" src={navLogo} />
           </Link>
           <NavLink
-            className={({ isActive }) => {activeClassName(isActive)}}
+            className=""
             to="/board"
           >
             향수모음
