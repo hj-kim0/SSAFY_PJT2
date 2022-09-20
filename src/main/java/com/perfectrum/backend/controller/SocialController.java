@@ -103,10 +103,10 @@ public class SocialController {
     @GetMapping("/kakao")
     public ResponseEntity<?> authKakao(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
-        String authCode = request.getHeader("authCode"); // 프론트에서 인가코드 헤더에 실어서 보냄
-        String kakaoToken = kakaoUserService.getKakaoAccessToken(authCode); // 인가코드로 카카오토큰 발급
+        String authToken = request.getHeader("authToken"); // 프론트에서 인가코드 헤더에 실어서 보냄
+//        String kakaoToken = kakaoUserService.getKakaoAccessToken(authCode); // 인가코드로 카카오토큰 발급
         try{
-            String[] res = kakaoUserService.createKakaoUser(kakaoToken); // 카카오 토근으로 카카오 회원 정보 조회
+            String[] res = kakaoUserService.createKakaoUser(authToken); // 카카오 토근으로 카카오 회원 정보 조회
             if(res!=null){
                 // 로그인 됨 -> 엑세스토큰, 리프레시토큰 발급
                 String accessToken = jwtService.createAccessToken("id", res[0]);
