@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import cookies from "react-cookies";
 
 const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
-const REDIRECT_URI = 'http://j7c105.p.ssafy.io:80/oauth/kakao';
+const REDIRECT_URI = 'http://j7c105.p.ssafy.io/oauth/kakao';
 
 function Auth() {
     const coder = new URL(window.location.href).searchParams.get("code");
