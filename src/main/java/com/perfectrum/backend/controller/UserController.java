@@ -1,6 +1,7 @@
 package com.perfectrum.backend.controller;
 
 import com.perfectrum.backend.dto.review.MyReviewDto;
+import com.perfectrum.backend.dto.review.MyReviewListDto;
 import com.perfectrum.backend.dto.user.UserMoreInfoDto;
 import com.perfectrum.backend.dto.user.UserInfoDto;
 import com.perfectrum.backend.dto.user.UserUpdateInfoDto;
@@ -131,14 +132,15 @@ public class UserController {
     }
 
     @GetMapping("/profile/reviews") // 내가 쓴 리뷰 조회
-    public ResponseEntity<?> viewMyReviews(HttpServletRequest request){
+    public ResponseEntity<?> viewMyReviews(HttpServletRequest request, @RequestBody MyReviewListDto myReviewListDto){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request,resultMap);
 
         if(decodeId != null){
             try{
-                List<MyReviewDto> list = userService.viewMyReviews(decodeId);
-                resultMap.put("data", list);
+                Map<String, Object> data = userService.viewMyReviews(decodeId, myReviewListDto);
+                resultMap.put("hasNext", data.get("hasNext"));
+                resultMap.put("myReviewList", data.get("myReviewList"));
                 resultMap.put("message", success);
                 status = HttpStatus.OK;
             }catch (Exception e){

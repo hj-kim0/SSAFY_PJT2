@@ -5,17 +5,18 @@ import com.perfectrum.backend.domain.entity.UserEntity;
 import com.perfectrum.backend.domain.repository.ReviewRepository;
 import com.perfectrum.backend.domain.repository.UserRepository;
 import com.perfectrum.backend.dto.review.MyReviewDto;
+import com.perfectrum.backend.dto.review.MyReviewListDto;
 import com.perfectrum.backend.dto.user.UserInfoDto;
 import com.perfectrum.backend.dto.user.UserMoreInfoDto;
 import com.perfectrum.backend.dto.user.UserUpdateInfoDto;
 import com.perfectrum.backend.mapper.UserInfoMapper;
 import com.perfectrum.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -98,16 +99,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<MyReviewDto> viewMyReviews(String decodeId) {
+    public Map<String,Object> viewMyReviews(String decodeId, MyReviewListDto myReviewListDto) {
+        Map<String, Object> data = new HashMap<>();
+
+        String type = myReviewListDto.getType();
+        Integer lastIdx = myReviewListDto.getLastIdx();
+        Integer lastScore = myReviewListDto.getLastScore();
+        Integer pageSize = myReviewListDto.getPageSize();
+
+        Pageable pageable = Pageable.ofSize(pageSize);
+
         Optional<UserEntity> userEntityOptional = userRepository.findByUserId(decodeId);
         if(userEntityOptional.isPresent()){
-            UserEntity user = userEntityOptional.get();
-            List<MyReviewDto> myReviewList = new ArrayList<>();
+            UserEntity userEntity = userEntityOptional.get();
+            Slice<ReviewEntity> reviews;
 
-            List<ReviewEntity> reviewEntityList = reviewRepository.findByUser(user);
-            if(!reviewEntityList.isEmpty()){
-                for(ReviewEntity r : reviewEntityList){
+            if(lastIdx == null){
+                lastIdx = reviewRepository.findTop1ByUserOrderByIdxDesc(userEntity).getIdx() + 1; // 최신 게시물을 포함해야 하므로 +1
+            }
+            if(lastScore == null){
+                lastScore = reviewRepository.findTop1ByUserOrderByTotalScoreDescIdxDesc(userEntity).getTotalScore() + 1;
+            }
 
+            if (type.equals("최신순")) {
+                reviews = reviewRepository.findByUserOrderByIdxDesc(userEntity, lastIdx, pageable);
+            }else{ // 평점순
+                reviews = reviewRepository.findByUserOrderByTotalScoreDescIdxDesc(userEntity, lastScore, lastIdx, pageable);
+            }
+
+            if(!reviews.isEmpty()){
+                boolean hasNext = reviews.hasNext();
+                data.put("hasNext", hasNext);
+
+                List<MyReviewDto> myReviewList = new ArrayList<>();
+                for(ReviewEntity r : reviews){
                     MyReviewDto myReviewDto = MyReviewDto.builder()
                             .idx(r.getIdx())
                             .perfumeIdx(r.getPerfume().getIdx())
@@ -123,9 +148,10 @@ public class UserServiceImpl implements UserService {
 
                     myReviewList.add(myReviewDto);
                 }
-                return myReviewList;
+                data.put("myReviewList",myReviewList);
             }
         }
-        return null;
+
+        return data;
     }
 }
