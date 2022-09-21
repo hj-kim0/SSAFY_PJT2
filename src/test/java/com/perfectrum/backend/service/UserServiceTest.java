@@ -148,14 +148,6 @@ public class UserServiceTest {
             List<ReviewEntity> reviewEntityList = reviewRepository.findByUser(userEntity);
             if(!reviewEntityList.isEmpty()){
                 for(ReviewEntity r : reviewEntityList){
-                    System.out.println(r.getReviewImg());
-                    String reviewImg;
-                    if(r.getReviewImg() == null){
-                        reviewImg = r.getPerfume().getPerfumeImg();
-                    }else{
-                        reviewImg = r.getReviewImg();
-                    }
-                    System.out.println(reviewImg);
                     MyReviewDto myReviewDto = MyReviewDto.builder()
                             .idx(r.getIdx())
                             .perfumeIdx(r.getPerfume().getIdx())
