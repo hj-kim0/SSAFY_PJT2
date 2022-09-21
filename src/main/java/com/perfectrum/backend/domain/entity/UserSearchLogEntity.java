@@ -1,9 +1,6 @@
 package com.perfectrum.backend.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -32,4 +29,13 @@ public class UserSearchLogEntity {
     @ManyToOne
     @JoinColumn(name = "accord_class")
     private AccordClassEntity accordClass;
+
+    @Builder
+    public UserSearchLogEntity(Integer idx, UserEntity user, String gender, Integer duration, AccordClassEntity accordClass) {
+        this.idx = idx;
+        this.user = user;
+        this.gender = gender;
+        this.duration = duration;
+        this.accordClass = accordClass;
+    }
 }
