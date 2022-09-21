@@ -25,7 +25,7 @@ module.exports = {
     ,"import/no-unresolved" : 0
     ,"arrow-body-style": ["error", "always"]
     ,"object-shorthand": ["error", "always"]
-    ,"no-console": process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    ,'no-console': 'off'
     ,
   },
   settings: {
