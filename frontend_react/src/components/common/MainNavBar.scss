@@ -33,9 +33,19 @@
     }
   }
 
-  .right_nav {
-    &__link {
-      margin-left: (24px);
+  .nav {
+    margin: 0 (24px) 0 (24px);
+    &_img {
+      width: (48px);
+      height: (48px);
+      padding: 0;
+      overflow: hidden;
+      border-radius: 70%;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
   }
 }
@@ -59,9 +69,19 @@
       }
     }
 
-    .right_nav {
-      &__link {
-        margin-left: vw(24px);
+    .nav {
+      margin: 0 vw(24px);
+      &_img {
+        width: vw(48px);
+        height: vw(48px);
+        padding: 0;
+        overflow: hidden;
+        border-radius: 70%;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
     }
   }
@@ -85,9 +105,19 @@
       }
     }
 
-    .right_nav {
-      &__link {
-        margin-left: vw-t(24px);
+    .nav {
+      margin: 0 vw-t(24px);
+      &_img {
+        width: vw-t(48px);
+        height: vw-t(48px);
+        padding: 0;
+        overflow: hidden;
+        border-radius: 70%;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
       }
     }
   }
@@ -112,9 +142,19 @@
     }
   }
 
-  .right_nav {
-    &__link {
-      margin-left: vw-p(24px);
+  .nav {
+    margin: 0 vw-p(24px);
+    &_img {
+      width: vw-p(48px);
+      height: vw-p(48px);
+      padding: 0;
+      overflow: hidden;
+      border-radius: 70%;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
   }
 }
