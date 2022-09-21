@@ -1,7 +1,9 @@
 package com.perfectrum.backend.service;
 
+import com.perfectrum.backend.domain.entity.AccordClassEntity;
 import com.perfectrum.backend.domain.entity.PerfumeEntity;
 import com.perfectrum.backend.domain.entity.UserEntity;
+import com.perfectrum.backend.domain.repository.AccordClassRepository;
 import com.perfectrum.backend.domain.repository.PerfumeRepository;
 import com.perfectrum.backend.domain.repository.UserRepository;
 import com.perfectrum.backend.dto.perfume.PerfumeViewDto;
@@ -9,6 +11,8 @@ import com.perfectrum.backend.mapper.PerfumeViewMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 
 import javax.transaction.Transactional;
@@ -29,14 +33,18 @@ public class MainServiceTest {
     private UserRepository userRepository;
     private PerfumeRepository perfumeRepository;
     private PerfumeViewMapper perfumeViewMapper;
+    private AccordClassRepository accordClassRepository;
+
     private JwtService jwtService;
 
 
     @Autowired
-    MainServiceTest(UserRepository userRepository, PerfumeRepository perfumeRepository, PerfumeViewMapper perfumeViewMapper, JwtService jwtService){
+    MainServiceTest(UserRepository userRepository, PerfumeRepository perfumeRepository, PerfumeViewMapper perfumeViewMapper, JwtService jwtService,
+                    AccordClassRepository accordClassRepository){
         this.userRepository = userRepository;
         this.perfumeRepository = perfumeRepository;
         this.perfumeViewMapper = perfumeViewMapper;
+        this.accordClassRepository = accordClassRepository;
         this.jwtService = jwtService;
     }
 
@@ -48,7 +56,7 @@ public class MainServiceTest {
         String testId = "kakao123456";
         String gender = null;
         String season = null;
-        String accordClass = null;
+        Integer accordClass;
 
         // 회원 정보 없을 때
 
@@ -62,11 +70,16 @@ public class MainServiceTest {
             UserEntity testUser = testUserOptional.get();
             gender = testUser.getGender();
             season = testUser.getSeasons();
-
+            accordClass = testUser.getAccordClass();
+            System.out.println("===================================");
+            System.out.println(gender + " , " + season + ", " + accordClass);
+            System.out.println("===================================");
             // 추가 정보 값이 있다면 -> 추가 정보 기반 향수 추천
             if(gender != null){
-                List<PerfumeEntity> perfumes = perfumeRepository.findTop6ByGenderAndSeasonsContainsOrderByItemRatingDesc(gender, season);
-
+//                List<PerfumeEntity> perfumes = perfumeRepository.findTop6ByGenderAndSeasonsContainsOrderByItemRatingDesc(gender, season);
+                AccordClassEntity accordClassEntity = accordClassRepository.findByIdx(accordClass);
+                Pageable top6 = PageRequest.ofSize(6);
+                List<PerfumeEntity> perfumes = perfumeRepository.findBest6Perfumes(gender, season, accordClassEntity,top6);
                 for(PerfumeEntity p : perfumes){
                     PerfumeViewDto perfumeViewDto = perfumeViewMapper.toDto(p);
                     result.add(perfumeViewDto);
@@ -103,6 +116,9 @@ public class MainServiceTest {
         }
 
         // then
+        for (PerfumeViewDto d : result){
+            System.out.println(d.toString());
+        }
         System.out.println(resultMap.toString());
     }
 
