@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "user_search_logs")
