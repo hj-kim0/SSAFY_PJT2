@@ -10,7 +10,6 @@ function Router() {
   return (
     <>
       <MainNavBar />
-
       <Routes>
         {/* main */}
         <Route path="/" element={<Home />} />

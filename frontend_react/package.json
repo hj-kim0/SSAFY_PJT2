@@ -13,6 +13,7 @@
     "prop-types": "^15.8.1",
     "qs": "^6.11.0",
     "react": "^18.1.0",
+    "react-cookies": "^0.1.1",
     "react-daum-postcode": "^3.1.1",
     "react-dom": "^18.1.0",
     "react-redux": "^8.0.2",
@@ -56,6 +57,6 @@
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.5.0",
     "node-sass": "^7.0.1"
-  }
-  ,"proxy": "http://j7c105.p.ssafy.io"
+  },
+  "proxy": "http://j7c105.p.ssafy.io"
 }
