@@ -62,24 +62,24 @@ public class SurveyServiceTest {
             System.out.println("향수 반환 결과");
             Integer p_idx = perfume.getIdx();
 
-//            SurveyEntity surveyEntity = SurveyEntity.builder()
-//                    .user(tmpUser.get())
-//                    .perfume(perfume)
-//                    .likeSeasons(like_seasons)
-//                    .likeGender(like_gender)
-//                    .likeLongevity(like_longevity)
-//                    .likeTimezone(like_timezone)
-//                    .likeAccordClass(3)
-//                    .build();
-            SurveyEntity surveyEntity = SurveyEntity.builder().build();
-            SurveyEntity survey = new SurveyEntity();
-            survey.setUser(tmpUser.get());
-            survey.setPerfume(perfume);
-            survey.setLikeSeasons(like_seasons);
-            survey.setLikeGender(like_gender);
-            survey.setLikeLongevity(like_longevity);
-            survey.setLikeTimezone(like_timezone);
-            survey.setLikeAccordClass(like_accord_class);
+            SurveyEntity surveyEntity = SurveyEntity.builder()
+                    .user(tmpUser.get())
+                    .perfume(perfume)
+                    .likeSeasons(like_seasons)
+                    .likeGender(like_gender)
+                    .likeLongevity(like_longevity)
+                    .likeTimezone(like_timezone)
+                    .likeAccordClass(3)
+                    .build();
+//            SurveyEntity surveyEntity = SurveyEntity.builder().build();
+//            SurveyEntity survey = new SurveyEntity();
+//            survey.setUser(tmpUser.get());
+//            survey.setPerfume(perfume);
+//            survey.setLikeSeasons(like_seasons);
+//            survey.setLikeGender(like_gender);
+//            survey.setLikeLongevity(like_longevity);
+//            survey.setLikeTimezone(like_timezone);
+//            survey.setLikeAccordClass(like_accord_class);
 
             // 설문결과 저장
             System.out.println("설문결과");
