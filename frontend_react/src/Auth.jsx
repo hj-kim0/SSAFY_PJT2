@@ -20,7 +20,7 @@ function Auth() {
             code: coder,
         });
         try{
-            console.log("카카오");
+            // console.log("카카오");
             const response = await axios.post(
                 "https://kauth.kakao.com/oauth/token", payload
             );
@@ -31,7 +31,7 @@ function Auth() {
                     'authToken' : accessToken,
                 }
 
-                console.log(headers);
+                // console.log(headers);
                 try{
                     const res = await axios.get(
                         "http://j7c105.p.ssafy.io:8083/kakao",
@@ -41,7 +41,7 @@ function Auth() {
 
                     const acToken = res.data[`access-token`];
                     
-                    console.log(acToken);
+                    // console.log(acToken);
 
                     const expires = new Date();
 
@@ -57,15 +57,17 @@ function Auth() {
                     )
 
                 }catch(err){
-                    console.error("sendToken err");
+                    navigate.replace("/");
+                    // console.error("sendToken err");
                 }
             }
 
             sendToken();
-            console.log("백엔드");
+            // console.log("백엔드");
             navigate.replace("/");
         }catch(err){
-            console.error("getToken err");
+            navigate.replace("/");
+            // console.error("getToken err");
         }
     };
 
