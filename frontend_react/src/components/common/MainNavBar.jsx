@@ -6,10 +6,10 @@ import "./MainNavBar.scss";
 import navLogo from "@images/logo/logo2.svg";
 
 function MainNavBar() {
-  const activeClassName = active => {
-    const prefix = "left_nav__link fs-16 btn--";
-    return active ? `${prefix}active` : `${prefix}unactive`;
-  };
+  // const activeClassName = active => {
+  //   const prefix = "left_nav__link fs-16 btn--";
+  //   return active ? `${prefix}active` : `${prefix}unactive`;
+  // };
 
   return (
     <div className="wrapper flex align-center">
@@ -19,7 +19,7 @@ function MainNavBar() {
             <img className="logo" title="!213" alt="logoImage" src={navLogo} />
           </Link>
           <NavLink
-            className={({ isActive }) => {activeClassName(isActive)}}
+            className=""
             to="/board"
           >
             향수모음
