@@ -11,6 +11,9 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -135,19 +138,42 @@ public class UserServiceTest {
         }
     }
 
-    @Disabled
     @Test
     public void 작성한_리뷰_조회_테스트(){
-        String testId = "kakao2435577184";
+        // given
+        String testId = "kakao2437169172";
+        String type = "좋아요순"; // 최신순, 평점순
+
+        Integer lastIdx = null; // 마지막으로 본 리뷰의 idx(null이면 처음부터 조회 -> DB에서 가장 최신 게시글 번호 찾기)
+        Integer lastScore = null; // 마지막으로 본 리뷰의 평점, 최신순으로만 조회한다면 lastScore 필요없음
+
+        Integer pageSize = 5; // 한 페이지에 조회할 게시글 수
+        Pageable pageable = PageRequest.ofSize(pageSize);
 
         Optional<UserEntity> optionalUser = userRepository.findByUserId(testId);
 
         if(optionalUser.isPresent()){
             UserEntity userEntity = optionalUser.get();
-            List<MyReviewDto> myReviewList = new ArrayList<>();
 
             List<ReviewEntity> reviewEntityList = reviewRepository.findByUser(userEntity);
-            if(!reviewEntityList.isEmpty()){
+            Slice<ReviewEntity> reviews = null;
+
+            if(lastIdx == null){ // null인 경우 가장 최신 글 idx 찾아서 넣어줌
+                lastIdx = reviewRepository.findTop1ByUserOrderByIdxDesc(userEntity).getIdx() + 1; // 최신 게시물을 포함해야 하므로 +1
+            }
+            if(lastScore == null){
+                lastScore = reviewRepository.findTop1ByUserOrderByTotalScoreDescIdxDesc(userEntity).getTotalScore() + 1;
+            }
+
+            if (type.equals("최신순")) {
+                reviews = reviewRepository.findByUserOrderByIdxDesc(userEntity, lastIdx, pageable);
+            }else{ // 평점순
+                reviews = reviewRepository.findByUserOrderByTotalScoreDescIdxDesc(userEntity, lastScore, lastIdx, pageable);
+            }
+
+            if(!reviews.isEmpty()){
+                boolean hasNext = reviews.hasNext(); // 다음 결과 있는지 없는지 여부(false면 마지막 페이지)
+                List<MyReviewDto> myReviewList = new ArrayList<>();
                 for(ReviewEntity r : reviewEntityList){
                     MyReviewDto myReviewDto = MyReviewDto.builder()
                             .idx(r.getIdx())
@@ -167,6 +193,7 @@ public class UserServiceTest {
                 for(MyReviewDto d : myReviewList){
                     System.out.println(d.toString());
                 }
+                System.out.println("hasNext : " + hasNext);
             }else{
                 System.out.println("리뷰 없음");
             }
