@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "reviews")
@@ -41,4 +41,19 @@ public class ReviewEntity {
     private LocalDateTime time;
     @Column(name="update_time")
     private LocalDateTime updateTime;
+
+    @Builder
+    public ReviewEntity(Integer idx, UserEntity user, PerfumeEntity perfume, String reviewImg, Integer totalScore, Integer longevity, Integer sillageScore, String content, Integer likeCount,LocalDateTime time, LocalDateTime updateTime) {
+        this.idx = idx;
+        this.user = user;
+        this.perfume = perfume;
+        this.reviewImg = reviewImg;
+        this.totalScore = totalScore;
+        this.longevity = longevity;
+        this.sillageScore = sillageScore;
+        this.content = content;
+        this.likeCount = likeCount;
+        this.time = time;
+        this.updateTime = updateTime;
+    }
 }

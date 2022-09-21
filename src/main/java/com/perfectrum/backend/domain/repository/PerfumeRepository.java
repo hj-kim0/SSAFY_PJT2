@@ -26,4 +26,5 @@ public interface PerfumeRepository extends JpaRepository<PerfumeEntity, Integer>
             "ORDER BY p.itemRating DESC")
     List<PerfumeEntity> findBest6Perfumes(String gender, String season, AccordClassEntity accordClassEntity, Pageable top6);
 
+    PerfumeEntity findByIdx(Integer idx);
 }
