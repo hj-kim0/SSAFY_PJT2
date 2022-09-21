@@ -1,11 +1,13 @@
 package com.perfectrum.backend.service;
 
 import com.perfectrum.backend.dto.review.MyReviewDto;
+import com.perfectrum.backend.dto.review.MyReviewListDto;
 import com.perfectrum.backend.dto.user.UserInfoDto;
 import com.perfectrum.backend.dto.user.UserMoreInfoDto;
 import com.perfectrum.backend.dto.user.UserUpdateInfoDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
     UserInfoDto getUserInfo(String decodeId);
@@ -18,5 +20,5 @@ public interface UserService {
 
     void deleteUser(String decodeId);
 
-    List<MyReviewDto> viewMyReviews(String decodeId);
+    Map<String, Object> viewMyReviews(String decodeId, MyReviewListDto myReviewListDto);
 }

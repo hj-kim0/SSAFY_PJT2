@@ -38,6 +38,7 @@ public class ReviewEntity {
     private String content;
     @Column(name="like_count")
     private Integer likeCount;
+
     private LocalDateTime time;
     @Column(name="update_time")
     private LocalDateTime updateTime;
