@@ -137,17 +137,25 @@ public class UserServiceTest {
 
     @Test
     public void 작성한_리뷰_조회_테스트(){
-        String testId = "kakao123145";
+        String testId = "kakao2435577184";
 
         Optional<UserEntity> optionalUser = userRepository.findByUserId(testId);
 
         if(optionalUser.isPresent()){
             UserEntity userEntity = optionalUser.get();
             List<MyReviewDto> myReviewList = new ArrayList<>();
-            
+
             List<ReviewEntity> reviewEntityList = reviewRepository.findByUser(userEntity);
             if(!reviewEntityList.isEmpty()){
                 for(ReviewEntity r : reviewEntityList){
+                    System.out.println(r.getReviewImg());
+                    String reviewImg;
+                    if(r.getReviewImg() == null){
+                        reviewImg = r.getPerfume().getPerfumeImg();
+                    }else{
+                        reviewImg = r.getReviewImg();
+                    }
+                    System.out.println(reviewImg);
                     MyReviewDto myReviewDto = MyReviewDto.builder()
                             .idx(r.getIdx())
                             .perfumeIdx(r.getPerfume().getIdx())
