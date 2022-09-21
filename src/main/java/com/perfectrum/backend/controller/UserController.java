@@ -1,5 +1,6 @@
 package com.perfectrum.backend.controller;
 
+import com.perfectrum.backend.dto.review.MyReviewDto;
 import com.perfectrum.backend.dto.user.UserMoreInfoDto;
 import com.perfectrum.backend.dto.user.UserInfoDto;
 import com.perfectrum.backend.dto.user.UserUpdateInfoDto;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -125,6 +127,25 @@ public class UserController {
             }
         }
 
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @GetMapping("/profile/reviews") // 내가 쓴 리뷰 조회
+    public ResponseEntity<?> viewMyReviews(HttpServletRequest request){
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request,resultMap);
+
+        if(decodeId != null){
+            try{
+                List<MyReviewDto> list = userService.viewMyReviews(decodeId);
+                resultMap.put("data", list);
+                resultMap.put("message", success);
+                status = HttpStatus.OK;
+            }catch (Exception e){
+                resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }
         return new ResponseEntity<>(resultMap, status);
     }
 
