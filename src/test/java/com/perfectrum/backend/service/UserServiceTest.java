@@ -135,6 +135,7 @@ public class UserServiceTest {
         }
     }
 
+    @Disabled
     @Test
     public void 작성한_리뷰_조회_테스트(){
         String testId = "kakao2435577184";
