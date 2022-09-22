@@ -112,22 +112,22 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> userEntityOptional = userRepository.findByUserId(decodeId);
         if(userEntityOptional.isPresent()){
             UserEntity userEntity = userEntityOptional.get();
-            Slice<ReviewEntity> reviews;
-
-            if(lastIdx == null){
-                lastIdx = reviewRepository.findTop1ByUserOrderByIdxDesc(userEntity).getIdx() + 1; // 최신 게시물을 포함해야 하므로 +1
-            }
-            if(lastScore == null){
-                lastScore = reviewRepository.findTop1ByUserOrderByTotalScoreDescIdxDesc(userEntity).getTotalScore() + 1;
-            }
-
-            if (type.equals("최신순")) {
-                reviews = reviewRepository.findByUserOrderByIdxDesc(userEntity, lastIdx, pageable);
-            }else{ // 평점순
-                reviews = reviewRepository.findByUserOrderByTotalScoreDescIdxDesc(userEntity, lastScore, lastIdx, pageable);
-            }
+            Slice<ReviewEntity> reviews = reviewRepository.findByUser(userEntity);
 
             if(!reviews.isEmpty()){
+                if(lastIdx == null){
+                    lastIdx = reviewRepository.findTop1ByUserOrderByIdxDesc(userEntity).getIdx() + 1; // 최신 게시물을 포함해야 하므로 +1
+                }
+                if(lastScore == null){
+                    lastScore = reviewRepository.findTop1ByUserOrderByTotalScoreDescIdxDesc(userEntity).getTotalScore() + 1;
+                }
+
+                if (type.equals("최신순")) {
+                    reviews = reviewRepository.findByUserOrderByIdxDesc(userEntity, lastIdx, pageable);
+                }else{ // 평점순
+                    reviews = reviewRepository.findByUserOrderByTotalScoreDescIdxDesc(userEntity, lastScore, lastIdx, pageable);
+                }
+
                 boolean hasNext = reviews.hasNext();
                 data.put("hasNext", hasNext);
 
@@ -149,6 +149,9 @@ public class UserServiceImpl implements UserService {
                     myReviewList.add(myReviewDto);
                 }
                 data.put("myReviewList",myReviewList);
+            }else{
+                data.put("myReviewList", null);
+                data.put("hasNext", null);
             }
         }
 
