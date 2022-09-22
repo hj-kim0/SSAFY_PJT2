@@ -1,9 +1,6 @@
 package com.perfectrum.backend.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -13,7 +10,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "have_lists")
@@ -32,4 +28,12 @@ public class HaveListEntity {
 
     @Column(name = "is_delete")
     private Boolean isDelete;
+
+    @Builder
+    public HaveListEntity(Integer idx, UserEntity user, PerfumeEntity perfume, Boolean isDelete) {
+        this.idx = idx;
+        this.user = user;
+        this.perfume = perfume;
+        this.isDelete = isDelete;
+    }
 }
