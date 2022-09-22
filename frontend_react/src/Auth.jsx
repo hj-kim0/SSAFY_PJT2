@@ -43,12 +43,18 @@ function Auth() {
 
         const AT = cookies.load("Kakao");
 
-        const headers = {
-            'authToken': AT,
-        };
+        // const headers = {
+        //     'Context-Type': 'application/json',
+        //     'authToken': AT,
+        // };
 
         try{
-            const response2 = await axios.get(headers, "http://j7c105.p.ssafy.io:8083/kakao");
+            const response2 = await axios.get("http://j7c105.p.ssafy.io:8083/kakao",{
+                headers: {
+                    "Context-Type": "application/json",
+                    "authToken": AT,
+                }
+            });
             console.log(response2.data);
             navigate("/")
         }catch(err){
