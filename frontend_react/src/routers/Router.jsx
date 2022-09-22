@@ -4,6 +4,7 @@ import MainNavBar from "@components/common/MainNavBar";
 import Home from "@screens/Home";
 import Login from "@screens/Login";
 import Auth from "../Auth";
+import Token from "../Token";
 
 function Router() {
   return (
@@ -14,6 +15,7 @@ function Router() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login/>}/>
         <Route path="/oauth/kakao" element={<Auth/>} />
+        <Route path="/oauth/token" element={<Token/>}/>
       </Routes>
     </>
   );
