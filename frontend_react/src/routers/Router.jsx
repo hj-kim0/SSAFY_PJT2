@@ -4,7 +4,6 @@ import MainNavBar from "@components/common/MainNavBar";
 import Home from "@screens/Home";
 import Login from "@screens/Login";
 import Auth from "../Auth";
-// import Signin from "@screens/Signin";
 
 function Router() {
   return (
