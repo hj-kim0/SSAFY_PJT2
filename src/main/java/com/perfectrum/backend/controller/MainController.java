@@ -36,7 +36,7 @@ public class MainController {
     }
 
 
-    @GetMapping("/recomm") // 베스트 향수 조회
+    @GetMapping("/main") // 베스트 향수 조회
     public ResponseEntity<?> viewBestPerfume(HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = "isLogin";
@@ -62,23 +62,6 @@ public class MainController {
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
         }
-        return new ResponseEntity<>(resultMap, status);
-    }
-
-    @GetMapping("/")
-    public ResponseEntity<?> testPostman(){
-        Map<String, Object> resultMap = new HashMap<>();
-
-        try{
-            resultMap.put("message", success);
-            resultMap.put("data", "성공");
-
-            status = HttpStatus.OK;
-        }catch (Exception e){
-            resultMap.put("message", fail);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
-
         return new ResponseEntity<>(resultMap, status);
     }
 
