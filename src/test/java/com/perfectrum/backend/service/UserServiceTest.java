@@ -141,11 +141,11 @@ public class UserServiceTest {
     @Test
     public void 작성한_리뷰_조회_테스트(){
         // given
-        String testId = "kakao2437169172";
+        String testId = "kakao2435577184";
         String type = "좋아요순"; // 최신순, 평점순
 
-        Integer lastIdx = null; // 마지막으로 본 리뷰의 idx(null이면 처음부터 조회 -> DB에서 가장 최신 게시글 번호 찾기)
-        Integer lastScore = null; // 마지막으로 본 리뷰의 평점, 최신순으로만 조회한다면 lastScore 필요없음
+        Integer lastIdx = 6; // 마지막으로 본 리뷰의 idx(null이면 처음부터 조회 -> DB에서 가장 최신 게시글 번호 찾기)
+        Integer lastScore = 4; // 마지막으로 본 리뷰의 평점, 최신순으로만 조회한다면 lastScore 필요없음
 
         Integer pageSize = 5; // 한 페이지에 조회할 게시글 수
         Pageable pageable = PageRequest.ofSize(pageSize);
@@ -155,26 +155,25 @@ public class UserServiceTest {
         if(optionalUser.isPresent()){
             UserEntity userEntity = optionalUser.get();
 
-            List<ReviewEntity> reviewEntityList = reviewRepository.findByUser(userEntity);
-            Slice<ReviewEntity> reviews = null;
-
-            if(lastIdx == null){ // null인 경우 가장 최신 글 idx 찾아서 넣어줌
-                lastIdx = reviewRepository.findTop1ByUserOrderByIdxDesc(userEntity).getIdx() + 1; // 최신 게시물을 포함해야 하므로 +1
-            }
-            if(lastScore == null){
-                lastScore = reviewRepository.findTop1ByUserOrderByTotalScoreDescIdxDesc(userEntity).getTotalScore() + 1;
-            }
-
-            if (type.equals("최신순")) {
-                reviews = reviewRepository.findByUserOrderByIdxDesc(userEntity, lastIdx, pageable);
-            }else{ // 평점순
-                reviews = reviewRepository.findByUserOrderByTotalScoreDescIdxDesc(userEntity, lastScore, lastIdx, pageable);
-            }
+            Slice<ReviewEntity> reviews = reviewRepository.findByUser(userEntity);
 
             if(!reviews.isEmpty()){
+                if(lastIdx == null){ // null인 경우 가장 최신 글 idx 찾아서 넣어줌
+                    lastIdx = reviewRepository.findTop1ByUserOrderByIdxDesc(userEntity).getIdx() + 1; // 최신 게시물을 포함해야 하므로 +1
+                }
+                if(lastScore == null){
+                    lastScore = reviewRepository.findTop1ByUserOrderByTotalScoreDescIdxDesc(userEntity).getTotalScore() + 1;
+                }
+
+                if (type.equals("최신순")) {
+                    reviews = reviewRepository.findByUserOrderByIdxDesc(userEntity, lastIdx, pageable);
+                }else{ // 평점순
+                    reviews = reviewRepository.findByUserOrderByTotalScoreDescIdxDesc(userEntity, lastScore, lastIdx, pageable);
+                }
+
                 boolean hasNext = reviews.hasNext(); // 다음 결과 있는지 없는지 여부(false면 마지막 페이지)
                 List<MyReviewDto> myReviewList = new ArrayList<>();
-                for(ReviewEntity r : reviewEntityList){
+                for(ReviewEntity r : reviews){
                     MyReviewDto myReviewDto = MyReviewDto.builder()
                             .idx(r.getIdx())
                             .perfumeIdx(r.getPerfume().getIdx())
