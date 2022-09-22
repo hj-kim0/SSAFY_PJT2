@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -53,10 +54,10 @@ public class PerfumeDetailServiceTest {
         Map<String,Object> resultMap = new HashMap<>();
 
         PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
-
+        List<ReviewEntity> review_list = reviewRepository.findByPerfumeIdx(perfume.getIdx());
         resultMap.put("message",success);
-        resultMap.put("data",perfume);
-
+        resultMap.put("perfume",perfume);
+        resultMap.put("review_list",review_list);
         if(tmpUser.isPresent()){
 
 
