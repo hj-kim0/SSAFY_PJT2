@@ -143,7 +143,7 @@ class UserSearchLogs(models.Model):
 
 
 class Users(models.Model):
-    id = models.CharField(max_length=30)
+    user_id = models.CharField(max_length=30)
     profile_img = models.CharField(max_length=500, blank=True, null=True)
     nickname = models.CharField(max_length=20, blank=True, null=True)
     gender = models.CharField(max_length=10, blank=True, null=True)

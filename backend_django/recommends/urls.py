@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path('recommend/', views.collaboration), # api/recommend
-    path('recommendk/', views.knn),
+    path('recommend2/', views.collaboration2),
 ]
