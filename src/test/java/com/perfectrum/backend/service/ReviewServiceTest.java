@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +38,7 @@ public class ReviewServiceTest {
     @Test
     public void 리뷰등록_테스트(){
         Integer userIdx = 3;
-        String userId = "reviewT";
+        String userId = "Test";
         Integer perfumeIdx = 100;
         String reviewImg = "ImgURL";
         Integer totalScore = 4;
@@ -44,7 +46,7 @@ public class ReviewServiceTest {
         Integer sillageScore;
         String content = "이 향수 너무 좋아요";
         Integer likeCount = 3;
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
         Optional<UserEntity> tmpUser = userRepository.findByUserId(userId);
         PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
@@ -60,6 +62,7 @@ public class ReviewServiceTest {
                     .sillageScore(perfume.getSillage())
                     .content(content)
                     .time(now)
+                    .updateTime(null)
                     .build();
             reviewRepository.save(reviewEntity);
             resultMap.put("message",success);
@@ -71,7 +74,7 @@ public class ReviewServiceTest {
     @Test
     public void 리뷰수정_테스트(){
         Integer userIdx = 3;
-        String userId = "reviewT";
+        String userId = "Test";
         Integer perfumeIdx = 100;
         String reviewImg = "imgURL_re";
         Integer totalScore = 1;
@@ -79,14 +82,19 @@ public class ReviewServiceTest {
         Integer sillageScore;
         String content = "이 향수 별로에요";
         Integer likeCount = 3;
+        Integer reviewIdx = 1038;
 
         Optional<UserEntity> tmpUser = userRepository.findByUserId(userId);
         PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
         Map<String,Object> resultMap = new HashMap<>();
+        ReviewEntity re = reviewRepository.findByIdx(1038);
 
+//        ReviewEntity reviewEntity = reviewRepository.findByIdx(reviewIdx);
         if(tmpUser.isPresent()){
             LocalDateTime now = LocalDateTime.now();
+//            now.atOffset("Asia/Seoul");
             ReviewEntity reviewEntity = ReviewEntity.builder()
+                    .idx(re.getIdx())
                     .user(tmpUser.get())
                     .perfume(perfume)
                     .reviewImg(reviewImg)
@@ -94,6 +102,8 @@ public class ReviewServiceTest {
                     .longevity(perfume.getLongevity())
                     .sillageScore(perfume.getSillage())
                     .content(content)
+                    .likeCount(6)
+                    .time(re.getTime())
                     .updateTime(now)
                     .build();
             reviewRepository.save(reviewEntity);
