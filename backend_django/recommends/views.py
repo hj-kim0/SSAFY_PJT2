@@ -8,12 +8,21 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
-from .models import Perfumes, Reviews, HaveLists
+from .models import Perfumes, Reviews, HaveLists, WishLists
 from .serializers import PerfumeSerializer, ReviewSerializer, PerfumeListSerializer
-
+import pymysql
 # Create your views here.
+def compute_cos_similarity(v1, v2) :
+    norm1 = np.sqrt(np.sum(np.square(v1)))
+    norm2 = np.sqrt(np.sum(np.square(v2)))
+    dot = np.dot(v1,v2)
+    return dot / (norm1 * norm2)
+    
 @api_view(['GET'])
 def collaboration(request):
+    data = request.query_params
+    target_user_idx = changeInt(data.get("user_idx"))
+
     Review = Reviews.objects.all()
     df = pd.DataFrame(list(Reviews.objects.all().values('user_idx','perfume_idx','total_score')))
     df2 = pd.DataFrame(list(HaveLists.objects.all().values('user_idx','perfume_idx')))
@@ -34,7 +43,7 @@ def collaboration(request):
     U,S,V = randomized_svd(adj_matrix, n_components=2)
     S = np.diag(S)
     np.matmul(np.matmul(U,S), V)
-    my_id, my_vector = 8, U[8]
+    my_id, my_vector = target_user_idx, U[target_user_idx]
     best_match, best_match_id, best_match_vector = -1, -1, []
     for user_id, user_vector in enumerate(U) :
         if my_id != user_id :
