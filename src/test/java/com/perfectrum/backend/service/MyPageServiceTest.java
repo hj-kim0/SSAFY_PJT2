@@ -78,6 +78,7 @@ public class MyPageServiceTest {
         }
     }
 
+    @Disabled
     @Test
     public void wish에서_have로_이동(){
         // given
