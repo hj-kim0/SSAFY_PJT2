@@ -21,7 +21,7 @@ public class JwtServiceImpl implements JwtService {
     public static final Logger logger = LoggerFactory.getLogger(JwtServiceImpl.class);
 
     private static final String SALT = "perfectrum";
-    private static final int EXPRITE_MINUTES = 60; // 토근 만료 시간 10분
+    private static final int EXPRITE_MINUTES = 60;  // 토큰만료시간
 
     // 토큰 발급 메서드를 활용한 access-token 생성
     @Override
