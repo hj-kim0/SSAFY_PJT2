@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
-    List<ReviewEntity> findByUser(UserEntity userEntity);
+    Slice<ReviewEntity> findByUser(UserEntity userEntity);
 
     Integer countByUser(UserEntity userEntity);
 
