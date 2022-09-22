@@ -12,7 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,6 +153,54 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
 
+    @GetMapping("/user/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response){
+        Map<String, Object> resultMap = new HashMap<>();
+        try{
+            Cookie oldCookie = null;
+            Cookie[] cookies = request.getCookies();
+            if(cookies != null){
+                for(Cookie c : cookies){
+                    if(c.getName().equals("refresh-token")){
+                        oldCookie = c;
+                    }
+                }
+            }
+            if(oldCookie != null){ // 토큰 제거
+                oldCookie.setValue(null);
+                oldCookie.setPath("/");
+                oldCookie.setMaxAge(0);
+                response.addCookie(oldCookie);
+            }
+            status = HttpStatus.OK;
+            resultMap.put("message", success);
+        }catch (Exception e){
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+            resultMap.put("message", fail);
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
+
+    @GetMapping("/user/token") // 엑세스 토큰 재발급
+    public ResponseEntity<?> updateAccessToken(HttpServletRequest request, @CookieValue("refresh-token") String refreshToken){
+        Map<String, Object> resultMap = new HashMap<>();
+        String decodeId = jwtService.decodeToken(refreshToken);
+        System.out.println("=====================");
+        System.out.println(decodeId);
+        System.out.println("=====================");
+        if(!decodeId.equals("timeout")){
+            String accessToken = jwtService.createAccessToken("id", decodeId);
+            resultMap.put("access-token", accessToken);
+            resultMap.put("message", success);
+            status = HttpStatus.OK;
+        }else {
+            resultMap.put("message", "refresh-token timeout");
+            status = HttpStatus.UNAUTHORIZED;
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
     public String checkToken(HttpServletRequest request, Map<String, Object> resultMap){
         String accessToken = request.getHeader("Authorization");
         String decodeId = jwtService.decodeToken(accessToken);
