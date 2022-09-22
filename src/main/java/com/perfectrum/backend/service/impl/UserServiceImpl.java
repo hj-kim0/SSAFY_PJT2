@@ -157,4 +157,33 @@ public class UserServiceImpl implements UserService {
 
         return data;
     }
+
+    @Override
+    public Object getTotalReviews(String decodeId) {
+        Optional<UserEntity> userEntityOptional = userRepository.findByUserId(decodeId);
+        Integer count = 0;
+
+        if(userEntityOptional.isPresent()){
+            UserEntity userEntity = userEntityOptional.get();
+            count = reviewRepository.countByUser(userEntity);
+        }
+        return count;
+    }
+
+    @Override
+    public Object getAvgReviews(String decodeId) {
+        Optional<UserEntity> userEntityOptional = userRepository.findByUserId(decodeId);
+        double avg_score = 0;
+        if(userEntityOptional.isPresent()){
+            UserEntity userEntity = userEntityOptional.get();
+            Slice<ReviewEntity> reviewEntities = reviewRepository.findByUser(userEntity);
+            if(!reviewEntities.isEmpty()){
+                int count = reviewRepository.countByUser(userEntity);
+                double total_score = reviewRepository.sumByUser(userEntity);
+
+                avg_score = total_score/count;
+            }
+        }
+        return avg_score;
+    }
 }

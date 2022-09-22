@@ -34,7 +34,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/profile") // 내 정보 조회
+    @GetMapping("/user") // 내 정보 조회
     public ResponseEntity<?> getUserInfo(HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request, resultMap);
@@ -58,7 +58,7 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PostMapping("/profile") // 추가 정보 입력
+    @PostMapping("/user") // 추가 정보 입력
     public ResponseEntity<?> addMoreUserInfo(HttpServletRequest request, @RequestBody UserMoreInfoDto userMoreInfoDto){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request, resultMap);
@@ -77,7 +77,7 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/profile/check/{nickname}") // 닉네임 체크
+    @GetMapping("/user/check/{nickname}") // 닉네임 체크
     public ResponseEntity<?> checkNickName(@PathVariable String nickname){
         Map<String, Object> resultMap = new HashMap<>();
         try {
@@ -94,7 +94,7 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PutMapping("/profile") // 회원 정보 수정
+    @PutMapping("/user") // 회원 정보 수정
     public ResponseEntity<?> updateUserInfo(HttpServletRequest request, @RequestBody UserUpdateInfoDto userUpdateInfoDto){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request, resultMap);
@@ -114,7 +114,7 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @DeleteMapping("/profile") // 회원 탈퇴
+    @DeleteMapping("/user") // 회원 탈퇴
     public ResponseEntity<?> deleteUser(HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request, resultMap);
@@ -133,7 +133,7 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/profile/reviews") // 내가 쓴 리뷰 조회
+    @GetMapping("/user/reviews") // 내가 쓴 리뷰 조회
     public ResponseEntity<?> viewMyReviews(HttpServletRequest request, @RequestBody MyReviewListDto myReviewListDto){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request,resultMap);
@@ -141,6 +141,8 @@ public class UserController {
         if(decodeId != null){
             try{
                 Map<String, Object> data = userService.viewMyReviews(decodeId, myReviewListDto);
+                resultMap.put("totalReviews", userService.getTotalReviews(decodeId));
+                resultMap.put("avgReviews", userService.getAvgReviews(decodeId));
                 resultMap.put("hasNext", data.get("hasNext"));
                 resultMap.put("myReviewList", data.get("myReviewList"));
                 resultMap.put("message", success);
@@ -186,9 +188,6 @@ public class UserController {
     public ResponseEntity<?> updateAccessToken(HttpServletRequest request, @CookieValue("refresh-token") String refreshToken){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = jwtService.decodeToken(refreshToken);
-        System.out.println("=====================");
-        System.out.println(decodeId);
-        System.out.println("=====================");
         if(!decodeId.equals("timeout")){
             String accessToken = jwtService.createAccessToken("id", decodeId);
             resultMap.put("access-token", accessToken);
