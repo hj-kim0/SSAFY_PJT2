@@ -9,7 +9,7 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-public interface SurveyRepository extends JpaRepository<PerfumeEntity, String> {
+public interface SurveyRepository extends JpaRepository<PerfumeEntity, Integer> {
     //    PerfumeEntity findTopBylikeSeasonsContainsAndlikeGenderAndlikeLongevityAndlikeTimezoneAndlikeAccordClass(String like_seasons,String like_gender,Integer like_longevity,String like_timezone,Integer like_accord_class);
 //    PerfumeEntity findTopBylikeSeasonsContainsAndlikeGenderAndlikeLongevityAndlikeTimezone(String like_seasons,String like_gender,Integer like_longevity,String like_timezone);
     PerfumeEntity findTopBySeasonsContainsAndGenderAndLongevityAndTimezone(String like_seasons,String like_gender,Integer like_longevity,String like_timezone);
