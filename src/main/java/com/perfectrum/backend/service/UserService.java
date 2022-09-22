@@ -21,4 +21,8 @@ public interface UserService {
     void deleteUser(String decodeId);
 
     Map<String, Object> viewMyReviews(String decodeId, MyReviewListDto myReviewListDto);
+
+    Object getTotalReviews(String decodeId);
+
+    Object getAvgReviews(String decodeId);
 }
