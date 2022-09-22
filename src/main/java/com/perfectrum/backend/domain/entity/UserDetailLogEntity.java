@@ -1,8 +1,10 @@
 package com.perfectrum.backend.domain.entity;
 
-import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -10,10 +12,9 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@DynamicInsert
-@DynamicUpdate
-@Table(name = "wish_lists")
-public class WishListEntity {
+@Table(name = "user_detail_logs")
+public class UserDetailLogEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idx;
@@ -26,14 +27,11 @@ public class WishListEntity {
     @JoinColumn(name = "perfume_idx")
     private PerfumeEntity perfume;
 
-    @Column(name = "is_delete")
-    private Boolean isDelete;
-
     @Builder
-    public WishListEntity(Integer idx, UserEntity user, PerfumeEntity perfume, Boolean isDelete) {
+    public UserDetailLogEntity(Integer idx, UserEntity user,PerfumeEntity perfume){
         this.idx = idx;
         this.user = user;
         this.perfume = perfume;
-        this.isDelete = isDelete;
     }
+
 }
