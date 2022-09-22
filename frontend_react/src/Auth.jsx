@@ -42,12 +42,7 @@ function Auth() {
     const getToken2 = async () => {
 
         const AT = cookies.load("Kakao");
-
-        // const headers = {
-        //     'Context-Type': 'application/json',
-        //     'authToken': AT,
-        // };
-
+        
         try{
             const response2 = await axios.get("http://j7c105.p.ssafy.io:8083/kakao",{
                 headers: {
@@ -55,7 +50,8 @@ function Auth() {
                     "authToken": AT,
                 }
             });
-            console.log(response2.data);
+
+            cookies.save("Spring", response2.data["access-token"]);
             navigate("/")
         }catch(err){
             console.log(err);
