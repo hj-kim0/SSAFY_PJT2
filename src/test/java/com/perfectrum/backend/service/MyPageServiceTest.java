@@ -1,15 +1,10 @@
 package com.perfectrum.backend.service;
 
-import com.perfectrum.backend.domain.entity.HaveListEntity;
-import com.perfectrum.backend.domain.entity.PerfumeEntity;
-import com.perfectrum.backend.domain.entity.UserEntity;
-import com.perfectrum.backend.domain.entity.WishListEntity;
-import com.perfectrum.backend.domain.repository.HaveListRepository;
-import com.perfectrum.backend.domain.repository.PerfumeRepository;
-import com.perfectrum.backend.domain.repository.UserRepository;
-import com.perfectrum.backend.domain.repository.WishListRepository;
-import com.perfectrum.backend.dto.HaveListDto;
-import com.perfectrum.backend.dto.WishListDto;
+import com.perfectrum.backend.domain.entity.*;
+import com.perfectrum.backend.domain.repository.*;
+import com.perfectrum.backend.dto.MyPage.HaveListDto;
+import com.perfectrum.backend.dto.MyPage.UserAccordClassDto;
+import com.perfectrum.backend.dto.MyPage.WishListDto;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +23,44 @@ public class MyPageServiceTest {
     private WishListRepository wishListRepository;
     private HaveListRepository haveListRepository;
     private PerfumeRepository perfumeRepository;
+    private UserAccordClassRepository userAccordClassRepository;
 
     @Autowired
     MyPageServiceTest(UserRepository userRepository, WishListRepository wishListRepository, HaveListRepository haveListRepository,
-                      PerfumeRepository perfumeRepository){
+                      PerfumeRepository perfumeRepository, UserAccordClassRepository userAccordClassRepository){
         this.userRepository = userRepository;
         this.wishListRepository = wishListRepository;
         this.haveListRepository = haveListRepository;
         this.perfumeRepository = perfumeRepository;
+        this.userAccordClassRepository = userAccordClassRepository;
+    }
+
+    @Test
+    public void 선호향_조회_테스트(){
+        String testId = "kakao2435577184";
+
+        Optional<UserEntity> userEntity = userRepository.findByUserId(testId);
+        List<UserAccordClassDto> list = new ArrayList<>();
+        if(userEntity.isPresent()){
+            UserEntity user = userEntity.get();
+
+            List<UserAccordClassEntity> userAccordClassEntities = userAccordClassRepository.findByUser(user);
+            if(!userAccordClassEntities.isEmpty()){
+                for(UserAccordClassEntity u : userAccordClassEntities){
+                    UserAccordClassDto dto = UserAccordClassDto.builder()
+                            .accordClassIdx(u.getAccordClass().getIdx())
+                            .accordClassName(u.getAccordClass().getClassName())
+                            .accordClassCount(u.getAccordClassCount())
+                            .build();
+
+                    list.add(dto);
+                }
+            }
+        }
+
+        for(UserAccordClassDto u : list){
+            System.out.println(u.toString());
+        }
     }
 
     @Test
@@ -169,4 +194,6 @@ public class MyPageServiceTest {
             }
         }
     }
+
+
 }

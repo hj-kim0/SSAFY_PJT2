@@ -2,10 +2,9 @@ package com.perfectrum.backend.service.impl;
 
 import com.perfectrum.backend.domain.entity.HaveListEntity;
 import com.perfectrum.backend.domain.entity.UserEntity;
-import com.perfectrum.backend.domain.entity.WishListEntity;
 import com.perfectrum.backend.domain.repository.HaveListRepository;
 import com.perfectrum.backend.domain.repository.UserRepository;
-import com.perfectrum.backend.dto.HaveListDto;
+import com.perfectrum.backend.dto.MyPage.HaveListDto;
 import com.perfectrum.backend.service.HaveListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

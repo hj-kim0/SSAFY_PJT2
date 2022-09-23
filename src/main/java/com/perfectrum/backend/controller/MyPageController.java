@@ -1,7 +1,7 @@
 package com.perfectrum.backend.controller;
 
-import com.perfectrum.backend.dto.HaveListDto;
-import com.perfectrum.backend.dto.WishListDto;
+import com.perfectrum.backend.dto.MyPage.HaveListDto;
+import com.perfectrum.backend.dto.MyPage.WishListDto;
 import com.perfectrum.backend.service.HaveListService;
 import com.perfectrum.backend.service.JwtService;
 import com.perfectrum.backend.service.WishListService;

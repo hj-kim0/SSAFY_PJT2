@@ -115,6 +115,9 @@ public class UserServiceImpl implements UserService {
             Slice<ReviewEntity> reviews = reviewRepository.findByUser(userEntity);
 
             if(!reviews.isEmpty()){
+                if(type == null){
+                    type = "평점순";
+                }
                 if(lastIdx == null){
                     lastIdx = reviewRepository.findTop1ByUserOrderByIdxDesc(userEntity).getIdx() + 1; // 최신 게시물을 포함해야 하므로 +1
                 }
