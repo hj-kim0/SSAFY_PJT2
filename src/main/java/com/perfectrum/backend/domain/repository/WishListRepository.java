@@ -1,5 +1,6 @@
 package com.perfectrum.backend.domain.repository;
 
+import com.perfectrum.backend.domain.entity.PerfumeEntity;
 import com.perfectrum.backend.domain.entity.UserEntity;
 import com.perfectrum.backend.domain.entity.WishListEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +20,6 @@ public interface WishListRepository extends JpaRepository<WishListEntity,String>
     Optional<WishListEntity> findByUserAndIdx(Optional<UserEntity> userEntityOptional, Integer idx);
 
     Long countByuserIdx(Integer userIdx);
+
+    Optional<WishListEntity> findByUserAndPerfumeAndIsDelete(UserEntity user, PerfumeEntity perfume, boolean b);
 }
