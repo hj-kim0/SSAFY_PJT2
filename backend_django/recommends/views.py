@@ -8,7 +8,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
-from .models import Perfumes, Reviews, HaveLists, WishLists
+from .models import Perfumes, Reviews, HaveLists, WishLists,Users
 from .serializers import PerfumeSerializer, ReviewSerializer, PerfumeListSerializer
 import pymysql
 # Create your views here.
@@ -23,22 +23,23 @@ def collaboration(request):
     data = request.query_params
     target_user_idx = changeInt(data.get("user_idx"))
 
-    Review = Reviews.objects.all()
+    users = Users.objects.values_list('idx').order_by('-idx')
     df = pd.DataFrame(list(Reviews.objects.all().values('user_idx','perfume_idx','total_score')))
-    df2 = pd.DataFrame(list(HaveLists.objects.all().values('user_idx','perfume_idx')))
+    df2 = pd.DataFrame(list(HaveLists.objects.all().values('user_idx','perfume_idx','is_delete')))
     Review_score = list(zip(df['user_idx'],df['perfume_idx'],df['total_score']))
-    Have_score = list(zip(df2['user_idx'],df2['perfume_idx']))
+    Have_score = list(zip(df2['user_idx'],df2['perfume_idx'],df2['is_delete']))
     raw_data = np.array(Review_score, dtype=int)
     raw_data2 = np.array(Have_score, dtype=int)
-    # raw_data[:,0] -= 1
-    # raw_data[:,1] -= 1 
-    n_users = np.max(raw_data[:,0]) # 유저의 최댓값
+    # n_users = np.max(raw_data[:,0]) # 유저의 최댓값
+    n_users = users[0][0]
     n_perfumes = 765
     shape = (n_users+1, n_perfumes+1)
     adj_matrix = np.zeros(shape=shape)
     for user_id, perfume_id, rating in raw_data :
         adj_matrix[user_id][perfume_id] = rating
-    for user_id, perfume_id in raw_data2 :
+    for user_id, perfume_id, is_delete in raw_data2 :
+        if is_delete :
+            continue
         adj_matrix[user_id][perfume_id] += 2.5 
     U,S,V = randomized_svd(adj_matrix, n_components=2)
     S = np.diag(S)
@@ -58,9 +59,7 @@ def collaboration(request):
         log1, log2 = log
         if log1 < 1. and log2 > 0. :
             recommend_list.append(i)
-    perfume = []
-    for i in recommend_list :
-        perfume += Perfumes.objects.filter(idx=i)
+    perfume = list(Perfumes.objects.filter(idx__in=recommend_list))
     serializer = PerfumeListSerializer(perfume, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
