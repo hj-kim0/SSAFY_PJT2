@@ -13,6 +13,7 @@ from rest_framework.decorators import api_view
 from .models import Perfumes, Reviews, HaveLists, WishLists,Users,UserDetailLogs, UserSearchLogs, Accords, AccordsClasses
 from .serializers import PerfumeSerializer, ReviewSerializer, PerfumeListSerializer
 import pymysql
+import json
 # Create your views here.
 def compute_cos_similarity(v1, v2) :
     norm1 = np.sqrt(np.sum(np.square(v1)))
@@ -79,14 +80,21 @@ def changeInt(variable):
 
 @api_view(['GET'])
 def collaboration2(request) :
+    
     data = request.query_params
     target_perfume_idx = changeInt(data.get("perfume_idx"))
     
     # 선택된 향수 정보 가져오기 와서 향수 정보가 없는 경우 400
     target_perfume = Perfumes.objects.filter(idx = target_perfume_idx)
+    
     if not target_perfume:
         return Response(status=status.HTTP_400_BAD_REQUEST)
     
+    #레디스에서 추천된 정보 받아오기 없다면 추천 알고리즘 진행
+    target_recommends = cache.get(target_perfume_idx)
+    if target_recommends is not None:
+        return Response(target_recommends, status=status.HTTP_200_OK)       
+
     # 선호 리스트, 보유 리스트 받아오기
     conn = pymysql.connect(host='j7c105.p.ssafy.io', user='ssafy', password='ssafy', db='S07P22C105', charset='utf8')
 
@@ -131,8 +139,6 @@ def collaboration2(request) :
     raw_data = np.array(data, dtype=int)
     print(raw_data)
     for idx, user_idx, perfume_idx in raw_data:
-        if is_delete:
-            continue
         matrix[perfume_idx][user_idx] += 1
     conn.close()
 
@@ -152,11 +158,10 @@ def collaboration2(request) :
                 perfume.append(item.perfume_idx)
             for item in WishLists.objects.filter(user_idx=i):
                 perfume.append(item.perfume_idx)
-    residue = 8 - len(perfume)
-    if residue > 0:
-        perfume += Perfumes.objects.all().order_by('-idx')[:residue]
-    perfume = perfume[:8]
-    serializer = PerfumeListSerializer(perfume, many=True)
+    serializer = PerfumeListSerializer(perfume[:8], many=True)
+    
+    # 레디스에 결과 저장하기
+    cache.set(target_perfume_idx, serializer.data)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
