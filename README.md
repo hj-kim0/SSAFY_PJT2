@@ -10,4 +10,10 @@
 | ERD           | [ERD 바로가기](https://www.notion.so/ERD-168f302a1ef344c28950a65741c4128f) |
 | 아키텍처 설계 | [아키텍처 설계 바로가기](https://www.notion.so/fc7cab5b994540e785867a4cb6ea6ca7) |
 
+---------
+### C105 Sub3 평가 추가사항
+| 구분          | 링크                                                         |
+| ------------- | ------------------------------------------------------------ |
+| 백엔드API 산출물 | [백엔드API 산출물 바로가기](https://www.notion.so/API-73acdbfda51148c39c510bffa2477256) |
 
+#### 저희조는 백엔드(spring)은 spring_boot 브랜치에서, 데이터(django)와 프론트(react)는 release 브랜치에서 각각 따로 자동배포를 진행하고 있습니다.
