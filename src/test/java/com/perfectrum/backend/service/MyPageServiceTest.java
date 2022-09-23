@@ -48,7 +48,7 @@ public class MyPageServiceTest {
             if(!userAccordClassEntities.isEmpty()){
                 for(UserAccordClassEntity u : userAccordClassEntities){
                     UserAccordClassDto dto = UserAccordClassDto.builder()
-                            .accordClassIdx(u.getIdx())
+                            .accordClassIdx(u.getAccordClass().getIdx())
                             .accordClassName(u.getAccordClass().getClassName())
                             .accordClassCount(u.getAccordClassCount())
                             .build();
