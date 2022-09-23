@@ -8,7 +8,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-public interface WishListRepository extends JpaRepository<WishListEntity,Integer> {
+public interface WishListRepository extends JpaRepository<WishListEntity,String> {
     List<WishListEntity> findByUser(UserEntity userEntity);
 
     @Transactional
@@ -17,4 +17,6 @@ public interface WishListRepository extends JpaRepository<WishListEntity,Integer
     WishListEntity findByIdx(Integer idx);
 
     Optional<WishListEntity> findByUserAndIdx(Optional<UserEntity> userEntityOptional, Integer idx);
+
+    Long countByuserIdx(Integer userIdx);
 }
