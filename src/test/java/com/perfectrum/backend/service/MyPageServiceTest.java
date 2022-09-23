@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
-@Transactional
+//@Transactional
 public class MyPageServiceTest {
 
     private UserRepository userRepository;
@@ -24,15 +24,18 @@ public class MyPageServiceTest {
     private HaveListRepository haveListRepository;
     private PerfumeRepository perfumeRepository;
     private UserAccordClassRepository userAccordClassRepository;
+    private AccordClassRepository accordClassRepository;
 
     @Autowired
     MyPageServiceTest(UserRepository userRepository, WishListRepository wishListRepository, HaveListRepository haveListRepository,
-                      PerfumeRepository perfumeRepository, UserAccordClassRepository userAccordClassRepository){
+                      PerfumeRepository perfumeRepository, UserAccordClassRepository userAccordClassRepository,
+                      AccordClassRepository accordClassRepository){
         this.userRepository = userRepository;
         this.wishListRepository = wishListRepository;
         this.haveListRepository = haveListRepository;
         this.perfumeRepository = perfumeRepository;
         this.userAccordClassRepository = userAccordClassRepository;
+        this.accordClassRepository = accordClassRepository;
     }
 
     @Test
@@ -131,31 +134,67 @@ public class MyPageServiceTest {
 
     @Test
     public void wishList_삭제(){
-        String testId = "kakao2435577184";
-        Integer idx = 1060;
+        String testId = "kakao123145";
+        Integer idx = 1077;
 
         Optional<UserEntity> userEntityOptional = userRepository.findByUserId(testId);
         Optional<WishListEntity> wishListEntity = wishListRepository.findByUserAndIdx(userEntityOptional,idx);
 
         if(wishListEntity.isPresent()){
+            UserEntity user = userEntityOptional.get();
             WishListEntity wishList = wishListEntity.get();
             WishListEntity updateWishList = WishListEntity.builder().idx(idx).perfume(wishList.getPerfume()).user(wishList.getUser()).isDelete(true).build();
             wishListRepository.save(updateWishList);
+
+            // userAccordClass에도 삭제(cnt-1)
+            PerfumeEntity perfume = wishList.getPerfume();
+            List<AccordClassEntity> accordClassEntities = accordClassRepository.findByPerfumeAccordClass(perfume);
+            for(AccordClassEntity a : accordClassEntities){
+                Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user, a);
+                if(userAccordClass.isPresent()){
+                    UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
+                            .idx(userAccordClass.get().getIdx())
+                            .user(userAccordClass.get().getUser())
+                            .accordClass(userAccordClass.get().getAccordClass())
+                            .accordClassCount(userAccordClass.get().getAccordClassCount()-1)
+                            .build();
+
+                    userAccordClassRepository.save(updateUserAccordClass);
+                }
+            }
         }
     }
 
     @Test
     public void haveList_삭제(){
-        String testId = "kakao2435577184";
-        Integer idx = 228;
+        String testId = "kakao123145";
+        Integer idx = 243;
 
         Optional<UserEntity> userEntityOptional = userRepository.findByUserId(testId);
         Optional<HaveListEntity> haveListEntity = haveListRepository.findByUserAndIdx(userEntityOptional,idx);
 
         if(haveListEntity.isPresent()){
+            UserEntity user = userEntityOptional.get();
             HaveListEntity haveList = haveListEntity.get();
             HaveListEntity updateHaveList = HaveListEntity.builder().idx(idx).perfume(haveList.getPerfume()).user(haveList.getUser()).isDelete(true).build();
             haveListRepository.save(updateHaveList);
+
+            // userAccordClass에도 삭제(cnt-1)
+            PerfumeEntity perfume = haveList.getPerfume();
+            List<AccordClassEntity> accordClassEntities = accordClassRepository.findByPerfumeAccordClass(perfume);
+            for(AccordClassEntity a : accordClassEntities){
+                Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user, a);
+                if(userAccordClass.isPresent()){
+                    UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
+                            .idx(userAccordClass.get().getIdx())
+                            .user(userAccordClass.get().getUser())
+                            .accordClass(userAccordClass.get().getAccordClass())
+                            .accordClassCount(userAccordClass.get().getAccordClassCount()-1)
+                            .build();
+
+                    userAccordClassRepository.save(updateUserAccordClass);
+                }
+            }
         }
     }
 

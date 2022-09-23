@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @DynamicInsert
 @DynamicUpdate
 @Table(name="accords_classes")

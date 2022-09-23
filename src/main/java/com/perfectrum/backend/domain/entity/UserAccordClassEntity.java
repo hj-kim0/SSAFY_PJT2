@@ -1,9 +1,6 @@
 package com.perfectrum.backend.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -13,7 +10,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "user_accord_class")
@@ -32,4 +28,12 @@ public class UserAccordClassEntity {
 
     @Column(name = "accord_class_count")
     Integer accordClassCount;
+
+    @Builder
+    public UserAccordClassEntity(Integer idx, UserEntity user, AccordClassEntity accordClass, Integer accordClassCount) {
+        this.idx =idx;
+        this.user = user;
+        this.accordClass = accordClass;
+        this.accordClassCount = accordClassCount;
+    }
 }
