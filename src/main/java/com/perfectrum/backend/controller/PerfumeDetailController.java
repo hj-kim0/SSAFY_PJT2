@@ -53,33 +53,37 @@ public class PerfumeDetailController {
         return new ResponseEntity<>(resultMap,status);
     }
 
-    @PostMapping("detail/{idx}/wish")
+    @GetMapping("detail/wish/{idx}")
     public ResponseEntity<?> addWishList(HttpServletRequest request, @PathVariable("idx") Integer perfumeIdx){
         Map<String,Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request, resultMap);
-        Map<String,Object> data = new HashMap<>();
         if(decodeId != null){
             try{
-                perfumeDetailService.addWishList(decodeId,perfumeIdx);
-                data.put("message",success);
+                Map<String, Object> result = perfumeDetailService.addWishList(decodeId,perfumeIdx);
+                resultMap.put("isClicked", result.get("isClicked"));
+                resultMap.put("message",success);
+                status = HttpStatus.OK;
             }catch(Exception e){
                 resultMap.put("message",fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
         }
 
-        return new ResponseEntity<>(data,status);
+        return new ResponseEntity<>(resultMap,status);
     }
 
 
-    @PostMapping("detail/{idx}/have")
-    public ResponseEntity<?> addHaveList(HttpServletRequest request,@PathVariable Integer perfumeIdx){
+    @GetMapping("detail/have/{idx}")
+    public ResponseEntity<?> addHaveList(HttpServletRequest request,@PathVariable("idx") Integer perfumeIdx){
         Map<String,Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request, resultMap);
         if(decodeId != null){
             try{
-                perfumeDetailService.addHaveList(decodeId,perfumeIdx);
+                Map<String, Object> result = perfumeDetailService.addHaveList(decodeId,perfumeIdx);
+                resultMap.put("isClicked", result.get("isClicked"));
+                if(result.get("isWishClicked") != null) resultMap.put("isWishClicked", result.get("isWishClicked"));
                 resultMap.put("message",success);
+                status = HttpStatus.OK;
             }catch(Exception e){
                 resultMap.put("message",fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;

@@ -74,6 +74,95 @@ public class PerfumeDetailServiceTest {
     }
 
     @Test
+    public void 위시리스트_향수담기(){
+        String testId = "kakao123145";
+        Integer perfumeIdx = 471;
+
+        Optional<UserEntity> userOptional = userRepository.findByUserId(testId);
+        if(userOptional.isPresent()){
+            UserEntity user = userOptional.get();
+            PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
+
+            Optional<WishListEntity> wishListOptional = wishListRepository.findByUserAndPerfumeAndIsDelete(user,perfume,false);
+//            System.out.println(cnt);
+            // 이미 등록한 향수 -> 삭제 처리
+            if(wishListOptional.isPresent()){
+                WishListEntity wishList = WishListEntity.builder()
+                        .idx(wishListOptional.get().getIdx())
+                        .user(user)
+                        .perfume(perfume)
+                        .isDelete(true)
+                        .build();
+                wishListRepository.save(wishList);
+            }else{ // 없음 -> db에 등록
+                WishListEntity wishList = WishListEntity.builder()
+                        .user(user)
+                        .perfume(perfume)
+                        .build();
+                wishListRepository.save(wishList);
+            }
+        }
+    }
+
+    @Test
+    public void 보유리스트_담기(){
+        String testId = "kakao123145";
+        Integer perfumeIdx = 471;
+
+        Optional<UserEntity> userOptional = userRepository.findByUserId(testId);
+        if(userOptional.isPresent()){
+            UserEntity user = userOptional.get();
+            PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
+
+            Optional<WishListEntity> wishListOptional = wishListRepository.findByUserAndPerfumeAndIsDelete(user,perfume,false);
+
+            // 이미 위시에 담겨져있음 -> 위시에서 지우고 보유에 등록
+            if(wishListOptional.isPresent()){
+                WishListEntity wishList = WishListEntity.builder()
+                        .idx(wishListOptional.get().getIdx())
+                        .user(user)
+                        .perfume(perfume)
+                        .isDelete(true)
+                        .build();
+                wishListRepository.save(wishList);
+
+                HaveListEntity haveList = HaveListEntity.builder()
+                        .user(user)
+                        .perfume(perfume)
+                        .build();
+                haveListRepository.save(haveList);
+            }else{ // 없음 -> 바로 DB 등록
+                HaveListEntity haveList = HaveListEntity.builder()
+                        .user(user)
+                        .perfume(perfume)
+                        .build();
+                haveListRepository.save(haveList);
+
+                List<AccordClassEntity> accordClassEntity = accordClassRepository.findByPerfumeAccordClass(perfume);
+                for(AccordClassEntity a : accordClassEntity){
+                    Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user,a);
+                    // DB 존재 -> cnt+1 수정
+                    if(userAccordClass.isPresent()){
+                        UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
+                                .idx(userAccordClass.get().getIdx())
+                                .user(userAccordClass.get().getUser())
+                                .accordClass(userAccordClass.get().getAccordClass())
+                                .accordClassCount(userAccordClass.get().getAccordClassCount()+1)
+                                .build();
+                        userAccordClassRepository.save(updateUserAccordClass);
+
+                    }else{ // DB에 삽입
+                        UserAccordClassEntity userAccordClassEntity = UserAccordClassEntity.builder()
+                                .user(user)
+                                .accordClass(a)
+                                .build();
+                        userAccordClassRepository.save(userAccordClassEntity);
+                    }
+                }
+            }
+        }
+    }
+    @Test
     public void 향수담기_테스트(){
         String userId = "kakao123145";
         Integer perfumeIdx = 77;

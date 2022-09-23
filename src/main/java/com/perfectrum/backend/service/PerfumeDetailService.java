@@ -9,9 +9,9 @@ public interface PerfumeDetailService {
 
     Map<String,Object> getPerfumeDetail(String decodeId, Integer perfumeIdx);
 
-    void addWishList(String decodeId, Integer perfumeIdx);
+    Map<String,Object> addWishList(String decodeId, Integer perfumeIdx);
 
-    void addHaveList(String decodeId,Integer perfumeIdx);
+    Map<String,Object> addHaveList(String decodeId,Integer perfumeIdx);
 
     void registReview(String decodeId,Integer perfumeIdx, ReviewViewDto review);
 
