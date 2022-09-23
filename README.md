@@ -17,6 +17,9 @@
 | 백엔드API 산출물 | [백엔드API 산출물 바로가기](https://www.notion.so/API-73acdbfda51148c39c510bffa2477256) |
 | 프론트 배포페이지   | [프론트 배포페이지 바로가기](http://j7c105.p.ssafy.io/) |
 
-#### 저희 5조는 백엔드(spring)는 backend_springboot 브랜치에서, 데이터(django)와 프론트(react)는 release 브랜치에서 각각 따로 자동배포를 진행하고 있습니다. (프론트, 백엔드 전부 자동배포 CI/CD 구축완료)
+
+
+> #### 저희 5조는 백엔드(spring)는 backend_springboot 브랜치에서, 데이터(django)와 프론트(react)는 release 브랜치에서 각각 따로 자동배포를 진행하고 있습니다. (프론트, 백엔드 전부 자동배포 CI/CD 구축완료)
+
 
 ![image](https://user-images.githubusercontent.com/94892374/191939858-6037022d-22d3-4692-a11f-558843c00c2c.png)
