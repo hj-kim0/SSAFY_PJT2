@@ -29,12 +29,13 @@ public class PerfumeDetailServiceTest {
     private UserDetailLogRepository userDetailLogRepository;
     private HaveListRepository haveListRepository;
     private WishListRepository wishListRepository;
+    private UserAccordClassRepository userAccordClassRepository;
 
     @Autowired
     PerfumeDetailServiceTest(UserRepository userRepository, PerfumeRepository perfumeRepository,
                              AccordClassRepository accordClassRepository,ReviewRepository reviewRepository,
                              UserDetailLogRepository userDetailLogRepository,
-                             HaveListRepository haveListRepository,WishListRepository wishListRepository) {
+                             HaveListRepository haveListRepository,WishListRepository wishListRepository, UserAccordClassRepository userAccordClassRepository) {
         this.userRepository = userRepository;
         this.perfumeRepository = perfumeRepository;
         this.accordClassRepository = accordClassRepository;
@@ -42,6 +43,7 @@ public class PerfumeDetailServiceTest {
         this.userDetailLogRepository = userDetailLogRepository;
         this.haveListRepository = haveListRepository;
         this.wishListRepository = wishListRepository;
+        this.userAccordClassRepository = userAccordClassRepository;
     }
 
     @Test
@@ -73,28 +75,55 @@ public class PerfumeDetailServiceTest {
 
     @Test
     public void 향수담기_테스트(){
-        Integer userIdx = 10;
-        String userId = "Test";
-        Integer perfumeIdx = 100;
+        String userId = "kakao123145";
+        Integer perfumeIdx = 77;
 
         Optional<UserEntity> tmpUser = userRepository.findByUserId(userId);
-        Map<String,Object> resultMap = new HashMap<>();
 
-        PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
+        if(tmpUser.isPresent()){
+            UserEntity user = tmpUser.get();
+            PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
 
-        HaveListEntity have = HaveListEntity.builder()
-                .user(tmpUser.get())
-                .perfume(perfume)
-                .isDelete(false)
-                .build();
-        haveListRepository.save(have);
+//            WishListEntity wish = WishListEntity.builder()
+//                    .user(tmpUser.get())
+//                    .perfume(perfume)
+//                    .isDelete(false)
+//                    .build();
+//            wishListRepository.save(wish);
 
-        WishListEntity wish = WishListEntity.builder()
-                .user(tmpUser.get())
-                .perfume(perfume)
-                .isDelete(false)
-                .build();
-        wishListRepository.save(wish);
+            HaveListEntity have = HaveListEntity.builder()
+                    .user(tmpUser.get())
+                    .perfume(perfume)
+                    .isDelete(false)
+                    .build();
+            haveListRepository.save(have);
+
+            // userAccordClass에도 담기 - 중복되면 cnt+1
+            List<AccordClassEntity> accordClassEntity = accordClassRepository.findByPerfumeAccordClass(perfume);
+            for(AccordClassEntity a : accordClassEntity){
+                Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user,a);
+                // DB 존재 -> cnt+1 수정
+                if(userAccordClass.isPresent()){
+                    UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
+                            .idx(userAccordClass.get().getIdx())
+                            .user(userAccordClass.get().getUser())
+                            .accordClass(userAccordClass.get().getAccordClass())
+                            .accordClassCount(userAccordClass.get().getAccordClassCount()+1)
+                            .build();
+                    userAccordClassRepository.save(updateUserAccordClass);
+
+                }else{ // DB에 삽입
+                    UserAccordClassEntity userAccordClassEntity = UserAccordClassEntity.builder()
+                            .user(user)
+                            .accordClass(a)
+                            .build();
+                    userAccordClassRepository.save(userAccordClassEntity);
+                }
+            }
+
+        }
+
+
 
     }
 
