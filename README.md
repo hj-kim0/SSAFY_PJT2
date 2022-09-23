@@ -16,4 +16,4 @@
 | ------------- | ------------------------------------------------------------ |
 | 백엔드API 산출물 | [백엔드API 산출물 바로가기](https://www.notion.so/API-73acdbfda51148c39c510bffa2477256) |
 
-#### 저희조는 백엔드(spring)은 spring_boot 브랜치에서, 데이터(django)와 프론트(react)는 release 브랜치에서 각각 따로 자동배포를 진행하고 있습니다.
+#### 저희조는 백엔드(spring)은 backend_springboot 브랜치에서, 데이터(django)와 프론트(react)는 release 브랜치에서 각각 따로 자동배포를 진행하고 있습니다.
