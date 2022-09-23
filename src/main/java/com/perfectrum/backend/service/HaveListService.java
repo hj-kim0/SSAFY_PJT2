@@ -1,6 +1,6 @@
 package com.perfectrum.backend.service;
 
-import com.perfectrum.backend.dto.HaveListDto;
+import com.perfectrum.backend.dto.MyPage.HaveListDto;
 
 import java.util.List;
 

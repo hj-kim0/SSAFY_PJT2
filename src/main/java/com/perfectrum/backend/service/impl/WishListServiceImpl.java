@@ -8,7 +8,7 @@ import com.perfectrum.backend.domain.repository.HaveListRepository;
 import com.perfectrum.backend.domain.repository.PerfumeRepository;
 import com.perfectrum.backend.domain.repository.UserRepository;
 import com.perfectrum.backend.domain.repository.WishListRepository;
-import com.perfectrum.backend.dto.WishListDto;
+import com.perfectrum.backend.dto.MyPage.WishListDto;
 import com.perfectrum.backend.service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

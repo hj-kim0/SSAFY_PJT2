@@ -1,6 +1,6 @@
 package com.perfectrum.backend.service;
 
-import com.perfectrum.backend.dto.WishListDto;
+import com.perfectrum.backend.dto.MyPage.WishListDto;
 
 import java.util.List;
 
