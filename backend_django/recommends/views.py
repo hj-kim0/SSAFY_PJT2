@@ -202,10 +202,7 @@ def collaboration3(request) :
         # recommend_matrix[user_id][perfume_id] += 1
     for user_id, perfume_id in search_data :
         adj_matrix[user_id][perfume_id] += 0.1
-    print(adj_matrix)
-
     A, B ,iter = non_negative_factorization(adj_matrix, n_components=2)
-    print(np.matmul(A,B))
     my_id, my_vector = target_user_idx, A[target_user_idx]
     best_match, best_match_id, best_match_vector = -1, -1, []
     for user_id, user_vector in enumerate(A) :
@@ -215,13 +212,11 @@ def collaboration3(request) :
                 best_match = cos_similarity
                 best_match_id = user_id
                 best_match_vector = user_vector
-    print(f'Best Match : {best_match}, Best Match ID : {best_match_id}]')
     recommend_list = []
     for i, log in enumerate(zip(recommend_matrix[my_id], recommend_matrix[best_match_id])) :
         log1, log2 = log
         if log1 < 1. and log2 > 0. :
             recommend_list.append(i)
-    print(recommend_list)
     perfume = list(Perfumes.objects.filter(idx__in=recommend_list))
     serializer = PerfumeListSerializer(perfume, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
