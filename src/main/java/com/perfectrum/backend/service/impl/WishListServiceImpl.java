@@ -1,13 +1,7 @@
 package com.perfectrum.backend.service.impl;
 
-import com.perfectrum.backend.domain.entity.HaveListEntity;
-import com.perfectrum.backend.domain.entity.PerfumeEntity;
-import com.perfectrum.backend.domain.entity.UserEntity;
-import com.perfectrum.backend.domain.entity.WishListEntity;
-import com.perfectrum.backend.domain.repository.HaveListRepository;
-import com.perfectrum.backend.domain.repository.PerfumeRepository;
-import com.perfectrum.backend.domain.repository.UserRepository;
-import com.perfectrum.backend.domain.repository.WishListRepository;
+import com.perfectrum.backend.domain.entity.*;
+import com.perfectrum.backend.domain.repository.*;
 import com.perfectrum.backend.dto.MyPage.WishListDto;
 import com.perfectrum.backend.service.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +17,18 @@ public class WishListServiceImpl implements WishListService {
     private WishListRepository wishListRepository;
     private HaveListRepository haveListRepository;
     private PerfumeRepository perfumeRepository;
+    private AccordClassRepository accordClassRepository;
+    private UserAccordClassRepository userAccordClassRepository;
 
     @Autowired
-    WishListServiceImpl(UserRepository userRepository, WishListRepository wishListRepository,
-                        HaveListRepository haveListRepository, PerfumeRepository perfumeRepository){
+    WishListServiceImpl(UserRepository userRepository, WishListRepository wishListRepository, AccordClassRepository accordClassRepository,
+                        HaveListRepository haveListRepository, PerfumeRepository perfumeRepository, UserAccordClassRepository userAccordClassRepository){
         this.userRepository = userRepository;
         this.wishListRepository = wishListRepository;
         this.haveListRepository = haveListRepository;
         this.perfumeRepository = perfumeRepository;
+        this.accordClassRepository = accordClassRepository;
+        this.userAccordClassRepository = userAccordClassRepository;
     }
     @Override
     public List<WishListDto> viewWishList(String decodeId) {
@@ -85,9 +83,26 @@ public class WishListServiceImpl implements WishListService {
         Optional<WishListEntity> wishListEntity = wishListRepository.findByUserAndIdx(userEntity,idx);
 
         if(wishListEntity.isPresent()){
+            UserEntity user = userEntity.get();
             WishListEntity wishList = wishListEntity.get();
             WishListEntity updateWishList = WishListEntity.builder().idx(idx).perfume(wishList.getPerfume()).user(wishList.getUser()).isDelete(true).build();
             wishListRepository.save(updateWishList);
+
+            PerfumeEntity perfume = wishList.getPerfume();
+            List<AccordClassEntity> accordClassEntities = accordClassRepository.findByPerfumeAccordClass(perfume);
+            for(AccordClassEntity a : accordClassEntities){
+                Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user, a);
+                if(userAccordClass.isPresent()){
+                    UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
+                            .idx(userAccordClass.get().getIdx())
+                            .user(userAccordClass.get().getUser())
+                            .accordClass(userAccordClass.get().getAccordClass())
+                            .accordClassCount(userAccordClass.get().getAccordClassCount()-1)
+                            .build();
+
+                    userAccordClassRepository.save(updateUserAccordClass);
+                }
+            }
         }
     }
 }
