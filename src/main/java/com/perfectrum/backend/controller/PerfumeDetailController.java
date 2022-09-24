@@ -2,6 +2,7 @@ package com.perfectrum.backend.controller;
 
 
 import com.perfectrum.backend.domain.entity.PerfumeEntity;
+import com.perfectrum.backend.dto.review.ReviewListDto;
 import com.perfectrum.backend.dto.review.ReviewViewDto;
 import com.perfectrum.backend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,17 +38,25 @@ public class PerfumeDetailController {
     }
 
     @GetMapping("/detail/{idx}")
-    public ResponseEntity<?> getPerfumeDetail(HttpServletRequest request, @PathVariable("idx") Integer perfumeIdx){
+    public ResponseEntity<?> getPerfumeDetail(HttpServletRequest request, @PathVariable("idx") Integer perfumeIdx, @RequestBody ReviewListDto reviewListDto){
         Map<String,Object> resultMap = new HashMap<>();
+        Map<String,Object> data = new HashMap<>();
         String decodeId = checkToken(request, resultMap);
         if(decodeId != null){
             try{
-                resultMap = perfumeDetailService.getPerfumeDetail(decodeId,perfumeIdx);
+                System.out.println("컨트롤러 진입");
+                data = perfumeDetailService.getPerfumeDetail(decodeId,perfumeIdx,reviewListDto);
+//                resultMap.putAll(perfumeDetailService.getPerfumeDetail(decodeId,perfumeIdx,reviewListDto));
+                resultMap.put("perfume",data.get("perfume"));
+                resultMap.put("hasNext",data.get("hasNext"));
+                resultMap.put("reviewList",data.get("reviewList"));
                 resultMap.put("message",success);
+                status = HttpStatus.OK;
             }catch(Exception e){
                 resultMap.put("message",fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
+
         }
 
         return new ResponseEntity<>(resultMap,status);
@@ -100,6 +109,7 @@ public class PerfumeDetailController {
         if(decodeId != null){
             try{
                 perfumeDetailService.registReview(decodeId,perfumeIdx,reviewViewDto);
+                status = HttpStatus.OK;
             }catch(Exception e){
                 resultMap.put("message", fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -116,6 +126,7 @@ public class PerfumeDetailController {
         if(decodeId != null){
             try{
                 perfumeDetailService.updateReview(decodeId,perfumeIdx,reviewIdx,reviewViewDto);
+                status = HttpStatus.OK;
             }catch(Exception e){
                 resultMap.put("message", fail);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;

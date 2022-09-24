@@ -178,42 +178,35 @@ public class PerfumeDetailServiceTest {
 //                    .perfume(perfume)
 //                    .isDelete(false)
 //                    .build();
-//            wishListRepository.save(wish);
-
-            HaveListEntity have = HaveListEntity.builder()
-                    .user(tmpUser.get())
-                    .perfume(perfume)
-                    .isDelete(false)
-                    .build();
-            haveListRepository.save(have);
-
-            // userAccordClass에도 담기 - 중복되면 cnt+1
-            List<AccordClassEntity> accordClassEntity = accordClassRepository.findByPerfumeAccordClass(perfume);
-            for(AccordClassEntity a : accordClassEntity){
-                Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user,a);
-                // DB 존재 -> cnt+1 수정
-                if(userAccordClass.isPresent()){
-                    UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
-                            .idx(userAccordClass.get().getIdx())
-                            .user(userAccordClass.get().getUser())
-                            .accordClass(userAccordClass.get().getAccordClass())
-                            .accordClassCount(userAccordClass.get().getAccordClassCount()+1)
-                            .build();
-                    userAccordClassRepository.save(updateUserAccordClass);
-
-                }else{ // DB에 삽입
-                    UserAccordClassEntity userAccordClassEntity = UserAccordClassEntity.builder()
-                            .user(user)
-                            .accordClass(a)
-                            .build();
-                    userAccordClassRepository.save(userAccordClassEntity);
-                }
-            }
-
-        }
-
-
-
-    }
-
-}
+//            haveListRepository.save(have);
+//
+//            // userAccordClass에도 담기 - 중복되면 cnt+1
+//            List<AccordClassEntity> accordClassEntity = accordClassRepository.findByPerfumeAccordClass(perfume);
+//            for(AccordClassEntity a : accordClassEntity){
+//                Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user,a);
+//                // DB 존재 -> cnt+1 수정
+//                if(userAccordClass.isPresent()){
+//                    UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
+//                            .idx(userAccordClass.get().getIdx())
+//                            .user(userAccordClass.get().getUser())
+//                            .accordClass(userAccordClass.get().getAccordClass())
+//                            .accordClassCount(userAccordClass.get().getAccordClassCount()+1)
+//                            .build();
+//                    userAccordClassRepository.save(updateUserAccordClass);
+//
+//                }else{ // DB에 삽입
+//                    UserAccordClassEntity userAccordClassEntity = UserAccordClassEntity.builder()
+//                            .user(user)
+//                            .accordClass(a)
+//                            .build();
+//                    userAccordClassRepository.save(userAccordClassEntity);
+//                }
+//            }
+//
+//        }
+//
+//
+//
+//    }
+//
+//}
