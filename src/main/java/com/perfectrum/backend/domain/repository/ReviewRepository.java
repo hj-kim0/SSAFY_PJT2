@@ -60,6 +60,8 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
                     "where r.perfume = :perfume and r.idx <:lastIdx "+
                     "Order by r.idx desc, r.likeCount desc")
     Slice<ReviewEntity> findByPerfumeOrderByIdxDescLikeCountDesc(PerfumeEntity perfume, Integer lastIdx, Pageable pageable);
+
+    List<ReviewEntity> findByPerfumeIdx(Integer idx);
 //    @Modifying
 //    @Query("UPDATE reviews r SET r.review_img =:reviewImg, r.total_score = :totalScore,r.content = :content, r.update_time = :updateTime" +
 //            "WHERE r.idx = :idx")

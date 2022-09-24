@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @SpringBootTest
+@Transactional
 public class PerfumeDetailServiceTest {
     private static final String success = "SUCCESS";
     private static final String fail = "FAIL";
@@ -33,9 +34,9 @@ public class PerfumeDetailServiceTest {
 
     @Autowired
     PerfumeDetailServiceTest(UserRepository userRepository, PerfumeRepository perfumeRepository,
-                             AccordClassRepository accordClassRepository,ReviewRepository reviewRepository,
+                             AccordClassRepository accordClassRepository, ReviewRepository reviewRepository,
                              UserDetailLogRepository userDetailLogRepository,
-                             HaveListRepository haveListRepository,WishListRepository wishListRepository, UserAccordClassRepository userAccordClassRepository) {
+                             HaveListRepository haveListRepository, WishListRepository wishListRepository, UserAccordClassRepository userAccordClassRepository) {
         this.userRepository = userRepository;
         this.perfumeRepository = perfumeRepository;
         this.accordClassRepository = accordClassRepository;
@@ -47,21 +48,21 @@ public class PerfumeDetailServiceTest {
     }
 
     @Test
-    public void 향수상세정보_테스트(){
+    public void 향수상세정보_테스트() {
         Integer userIdx = 10;
         String userId = "Test";
         Integer perfumeIdx = 100;
 
         Optional<UserEntity> tmpUser = userRepository.findByUserId(userId);
-        Map<String,Object> resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>();
 
         PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
         List<ReviewEntity> review_list = reviewRepository.findByPerfumeIdx(perfume.getIdx());
 
-        resultMap.put("reviewList",review_list);
-        resultMap.put("perfume",perfume);
-        resultMap.put("message",success);
-        if(tmpUser.isPresent()){
+        resultMap.put("reviewList", review_list);
+        resultMap.put("perfume", perfume);
+        resultMap.put("message", success);
+        if (tmpUser.isPresent()) {
 
 
             UserDetailLogEntity userDetailLogEntity = UserDetailLogEntity.builder()
@@ -74,19 +75,19 @@ public class PerfumeDetailServiceTest {
     }
 
     @Test
-    public void 위시리스트_향수담기(){
+    public void 위시리스트_향수담기() {
         String testId = "kakao123145";
         Integer perfumeIdx = 471;
 
         Optional<UserEntity> userOptional = userRepository.findByUserId(testId);
-        if(userOptional.isPresent()){
+        if (userOptional.isPresent()) {
             UserEntity user = userOptional.get();
             PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
 
-            Optional<WishListEntity> wishListOptional = wishListRepository.findByUserAndPerfumeAndIsDelete(user,perfume,false);
+            Optional<WishListEntity> wishListOptional = wishListRepository.findByUserAndPerfumeAndIsDelete(user, perfume, false);
 //            System.out.println(cnt);
             // 이미 등록한 향수 -> 삭제 처리
-            if(wishListOptional.isPresent()){
+            if (wishListOptional.isPresent()) {
                 WishListEntity wishList = WishListEntity.builder()
                         .idx(wishListOptional.get().getIdx())
                         .user(user)
@@ -94,7 +95,7 @@ public class PerfumeDetailServiceTest {
                         .isDelete(true)
                         .build();
                 wishListRepository.save(wishList);
-            }else{ // 없음 -> db에 등록
+            } else { // 없음 -> db에 등록
                 WishListEntity wishList = WishListEntity.builder()
                         .user(user)
                         .perfume(perfume)
@@ -105,19 +106,19 @@ public class PerfumeDetailServiceTest {
     }
 
     @Test
-    public void 보유리스트_담기(){
+    public void 보유리스트_담기() {
         String testId = "kakao123145";
         Integer perfumeIdx = 471;
 
         Optional<UserEntity> userOptional = userRepository.findByUserId(testId);
-        if(userOptional.isPresent()){
+        if (userOptional.isPresent()) {
             UserEntity user = userOptional.get();
             PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
 
-            Optional<WishListEntity> wishListOptional = wishListRepository.findByUserAndPerfumeAndIsDelete(user,perfume,false);
+            Optional<WishListEntity> wishListOptional = wishListRepository.findByUserAndPerfumeAndIsDelete(user, perfume, false);
 
             // 이미 위시에 담겨져있음 -> 위시에서 지우고 보유에 등록
-            if(wishListOptional.isPresent()){
+            if (wishListOptional.isPresent()) {
                 WishListEntity wishList = WishListEntity.builder()
                         .idx(wishListOptional.get().getIdx())
                         .user(user)
@@ -131,7 +132,7 @@ public class PerfumeDetailServiceTest {
                         .perfume(perfume)
                         .build();
                 haveListRepository.save(haveList);
-            }else{ // 없음 -> 바로 DB 등록
+            } else { // 없음 -> 바로 DB 등록
                 HaveListEntity haveList = HaveListEntity.builder()
                         .user(user)
                         .perfume(perfume)
@@ -139,19 +140,19 @@ public class PerfumeDetailServiceTest {
                 haveListRepository.save(haveList);
 
                 List<AccordClassEntity> accordClassEntity = accordClassRepository.findByPerfumeAccordClass(perfume);
-                for(AccordClassEntity a : accordClassEntity){
-                    Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user,a);
+                for (AccordClassEntity a : accordClassEntity) {
+                    Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user, a);
                     // DB 존재 -> cnt+1 수정
-                    if(userAccordClass.isPresent()){
+                    if (userAccordClass.isPresent()) {
                         UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
                                 .idx(userAccordClass.get().getIdx())
                                 .user(userAccordClass.get().getUser())
                                 .accordClass(userAccordClass.get().getAccordClass())
-                                .accordClassCount(userAccordClass.get().getAccordClassCount()+1)
+                                .accordClassCount(userAccordClass.get().getAccordClassCount() + 1)
                                 .build();
                         userAccordClassRepository.save(updateUserAccordClass);
 
-                    }else{ // DB에 삽입
+                    } else { // DB에 삽입
                         UserAccordClassEntity userAccordClassEntity = UserAccordClassEntity.builder()
                                 .user(user)
                                 .accordClass(a)
@@ -162,51 +163,4 @@ public class PerfumeDetailServiceTest {
             }
         }
     }
-    @Test
-    public void 향수담기_테스트(){
-        String userId = "kakao123145";
-        Integer perfumeIdx = 77;
-
-        Optional<UserEntity> tmpUser = userRepository.findByUserId(userId);
-
-        if(tmpUser.isPresent()){
-            UserEntity user = tmpUser.get();
-            PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
-
-//            WishListEntity wish = WishListEntity.builder()
-//                    .user(tmpUser.get())
-//                    .perfume(perfume)
-//                    .isDelete(false)
-//                    .build();
-//            haveListRepository.save(have);
-//
-//            // userAccordClass에도 담기 - 중복되면 cnt+1
-//            List<AccordClassEntity> accordClassEntity = accordClassRepository.findByPerfumeAccordClass(perfume);
-//            for(AccordClassEntity a : accordClassEntity){
-//                Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user,a);
-//                // DB 존재 -> cnt+1 수정
-//                if(userAccordClass.isPresent()){
-//                    UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
-//                            .idx(userAccordClass.get().getIdx())
-//                            .user(userAccordClass.get().getUser())
-//                            .accordClass(userAccordClass.get().getAccordClass())
-//                            .accordClassCount(userAccordClass.get().getAccordClassCount()+1)
-//                            .build();
-//                    userAccordClassRepository.save(updateUserAccordClass);
-//
-//                }else{ // DB에 삽입
-//                    UserAccordClassEntity userAccordClassEntity = UserAccordClassEntity.builder()
-//                            .user(user)
-//                            .accordClass(a)
-//                            .build();
-//                    userAccordClassRepository.save(userAccordClassEntity);
-//                }
-//            }
-//
-//        }
-//
-//
-//
-//    }
-//
-//}
+}
