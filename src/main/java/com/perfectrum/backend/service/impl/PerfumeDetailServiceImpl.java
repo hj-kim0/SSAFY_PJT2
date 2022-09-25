@@ -2,7 +2,6 @@ package com.perfectrum.backend.service.impl;
 
 import com.perfectrum.backend.dto.perfume.PerfumeAccordsDto;
 import com.perfectrum.backend.dto.review.ReviewListDto;
-import com.perfectrum.backend.dto.review.ReviewRegistDto;
 import com.perfectrum.backend.dto.review.ReviewViewDto;
 import com.perfectrum.backend.domain.entity.*;
 import com.perfectrum.backend.domain.repository.*;
@@ -279,12 +278,12 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
     }
 
     @Override
-    public void registReview(String decodeId, Integer perfumeIdx, ReviewRegistDto reviewRegistDto) {
+    public void registReview(String decodeId, Integer perfumeIdx, ReviewViewDto reviewDto) {
         Optional<UserEntity> user = userRepository.findByUserId(decodeId);
         PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
-        String reviewImg = reviewRegistDto.getReviewImg();
-        Integer totalScore = reviewRegistDto.getTotalScore();
-        String content = reviewRegistDto.getContent();
+        String reviewImg = reviewDto.getReviewImg();
+        Integer totalScore = reviewDto.getTotalScore();
+        String content = reviewDto.getContent();
         LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
         if (user.isPresent()) {
@@ -296,7 +295,6 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                     .longevity(perfume.getLongevity())
                     .sillageScore(perfume.getSillage())
                     .content(content)
-                    .likeCount(0)
                     .time(now)
                     .updateTime(null)
                     .build();
@@ -306,18 +304,16 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
     }
 
     @Override
-    public void updateReview(String decodeId, Integer perfumeIdx, Integer reviewIdx, ReviewRegistDto reviewRegistDto) {
+    public void updateReview(String decodeId, Integer perfumeIdx, Integer reviewIdx, ReviewViewDto reviewDto) {
         Optional<UserEntity> user = userRepository.findByUserId(decodeId);
         PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
-        ReviewEntity originReview = reviewRepository.findByIdx(reviewIdx);
-        String reviewImg = reviewRegistDto.getReviewImg();
-        Integer totalScore = reviewRegistDto.getTotalScore();
-        String content = reviewRegistDto.getContent();
-        LocalDateTime registTime = LocalDateTime.from(originReview.getTime());
+        String reviewImg = reviewDto.getReviewImg();
+        Integer totalScore = reviewDto.getTotalScore();
+        String content = reviewDto.getContent();
+        LocalDateTime registTime = LocalDateTime.from(reviewDto.getTime());
         LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
         if (user.isPresent()) {
             ReviewEntity reviewEntity = ReviewEntity.builder()
-                    .idx(originReview.getIdx())
                     .user(user.get())
                     .perfume(perfume)
                     .reviewImg(reviewImg)
@@ -325,14 +321,12 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                     .longevity(perfume.getLongevity())
                     .sillageScore(perfume.getSillage())
                     .content(content)
-                    .likeCount(originReview.getLikeCount())
                     .time(registTime)
                     .updateTime(now)
                     .build();
 
             reviewRepository.save(reviewEntity);
         }
-
     }
 
 }
