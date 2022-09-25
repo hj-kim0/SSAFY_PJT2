@@ -1,5 +1,6 @@
 package com.perfectrum.backend.service.impl;
 
+import com.perfectrum.backend.dto.perfume.PerfumeAccordsDto;
 import com.perfectrum.backend.dto.review.ReviewListDto;
 import com.perfectrum.backend.dto.review.ReviewViewDto;
 import com.perfectrum.backend.domain.entity.*;
@@ -11,7 +12,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -51,39 +51,52 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
 
     @Override
     public Map<String, Object> getPerfumeDetail(String decodeId, Integer perfumeIdx, ReviewListDto reviewListDto) {
-        System.out.println("Service 진입");
         Map<String, Object> data = new HashMap<>();
         List<ReviewViewDto> reviewList = new ArrayList<>();
+        List<AccordEntity> accordList;
+        List<PerfumeAccordsDto> aList = new ArrayList<>();
         String type = reviewListDto.getType();
         Integer lastIdx = reviewListDto.getLastIdx();
+        Integer lastTotalScore = reviewListDto.getLastTotalScore();
+        Integer lastLikeCount = reviewListDto.getLastLikeCount();
         Integer pageSize = reviewListDto.getPageSize();
 
         Pageable pageable = Pageable.ofSize(pageSize);
 
         PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
+        accordList = perfumeRepository.findByPerfume(perfume);
         data.put("perfume", perfume);
+
+        for(AccordEntity ae : accordList){
+            PerfumeAccordsDto pad = PerfumeAccordsDto.builder()
+                    .accordName(ae.getAccordName())
+                    .accordDescription(ae.getAccordDescription())
+                    .accordImg(ae.getAccordImg())
+                    .build();
+
+            aList.add(pad);
+        }
+        data.put("perfumeAccordList",aList);
         Slice<ReviewEntity> reviews = reviewRepository.findByPerfume(perfume);
-        System.out.println("일단 리뷰 다 가져옴");
         if (!reviews.isEmpty()) {
             if (lastIdx == null) {
                 // 현재까지 화면에 표시된 리뷰중 마지막 리뷰의 idx를 가져와서
                 // 그 다음 리뷰를 추가로 가져오는데 처음 화면을 표시할 경우 idx를
                 // 알 수 없으므로 현재 등록된 리뷰 중 가장 큰 idx값을 기본으로 설정함
-                System.out.println("lastIdx 대입 전");
                 lastIdx = reviewRepository.findTop1ByPerfumeOrderByIdxDesc(perfume).getIdx() + 1;
-                System.out.println("lastIdx 대입 후"+lastIdx);
+                lastTotalScore = reviewRepository.findTop1ByPerfumeOrderByIdxDesc(perfume).getIdx();
+                lastLikeCount = reviewRepository.findTop1ByPerfumeOrderByIdxDesc(perfume).getIdx();
             }
 
             if (type.equals("평점순")) {
-                System.out.println("평점 순이라면?");
-                reviews = reviewRepository.findByPerfumeOrderByIdxDescLikeCountDesc(perfume, lastIdx, pageable);
-            } else {
-                System.out.println("평점순이 아니라면");
+                reviews = reviewRepository.findByPerfumeOrderTotalScoreDescIdxDesc(perfume, lastIdx,lastTotalScore, pageable);
+            } else if(type.equals("공감순")){
+                reviews = reviewRepository.findByPerfumeOrderByLikeCountDescIdxDesc(perfume, lastIdx,lastLikeCount, pageable);
+            } else{ // 최신순 or null
                 reviews = reviewRepository.findByPerfumeOrderByIdxDesc(perfume, lastIdx, pageable);
-                System.out.println("리뷰 다 가져옴");
+
             }
         }
-        System.out.println("어디냐 대체");
         boolean hasNext = reviews.hasNext();
         data.put("hasNext", hasNext);
 
@@ -104,7 +117,6 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
             reviewList.add(reviewViewDto);
         }
         data.put("reviewList",reviewList);
-        System.out.println("리뷰 갯수");
         return data;
     }
 

@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 public class ReviewListDto {
         private String type;
         private Integer lastIdx;
+        private Integer lastTotalScore;
+        private Integer lastLikeCount;
         private Integer pageSize;
 
 }
