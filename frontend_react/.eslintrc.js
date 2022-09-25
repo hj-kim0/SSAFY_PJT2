@@ -23,15 +23,18 @@ module.exports = {
       { props: true, ignorePropertyModificationsFor: ["state"] }
     ]
     ,"import/no-unresolved" : 0
-    , 'react/function-component-definition':[2, {namedcomponents:'arrow-function'}]
-    , "react/destructuring-assignment": [0, 'always']
-    , "react/prop-types": "off",
-    "no-shadow": [
-      "error",
-      {
-          "hoist": "all"
-      }
-  ],
+    ,"arrow-body-style": "off"
+    ,"object-shorthand": "off"
+    ,"no-console": "off"
+    ,"react/prop-types": "off"
+    ,"react/self-closing-comp": "off"
+    ,"react/function-component-definition": "off"
+    ,"react/destructuring-assignment": "off"
+    ,"react/no-array-index-key": "off"
+    ,"global-require": "off"
+    ,"no-plusplus": "off"
+    ,"prefer-template": "off"
+    ,"jsx-a11y/alt-text": "off"
   },
   settings: {
     "import/resolver": {
