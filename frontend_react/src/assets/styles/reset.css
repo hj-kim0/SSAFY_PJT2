@@ -23,18 +23,18 @@ input:focus {
   outline: none;
 }
 
-/* button {
+button {
   background: none;
   border: none;
   cursor: pointer;
   color: inherit;
   font-family: inherit;
-} */
+}
 
 /* custom reset end  */
 html,
 body,
-/*  , */
+div,
 span,
 applet,
 object,
@@ -48,7 +48,7 @@ h6,
 p,
 blockquote,
 pre,
-/* a, */
+a,
 abbr,
 acronym,
 address,
@@ -58,7 +58,7 @@ code,
 del,
 dfn,
 em,
-/*  img, */
+img,
 ins,
 kbd,
 q,

@@ -1,0 +1,36 @@
+
+.banner {
+    width: 100%;
+    height: auto;
+    background-size: cover;
+    position: relative;    
+    display : inline-block;
+    margin-bottom: 5%;
+    max-width: 100%;
+    background-repeat :no-repeat;
+  }
+  
+  .banner-txt {
+    margin-top:0%;
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate( -50%, -50%);
+    font-size: x-large;
+  }
+
+  .maintheme {
+    font-family: LoveYaLikeASister;
+    text-align: center;
+    margin: 15px 15px 0px 0px;
+    font-size: 48px;
+    color: aliceblue;
+  }
+
+  .subtheme {
+    font-family: NotoSansMedium;
+    text-align: center;
+    margin: 15px 15px 0px 0px;
+    font-size: 14px;
+    color: aliceblue;
+  }
