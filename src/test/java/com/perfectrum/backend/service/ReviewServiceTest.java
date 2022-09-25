@@ -4,6 +4,7 @@ import com.perfectrum.backend.domain.entity.PerfumeEntity;
 import com.perfectrum.backend.domain.entity.ReviewEntity;
 import com.perfectrum.backend.domain.entity.UserEntity;
 import com.perfectrum.backend.domain.repository.*;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 
 @SpringBootTest
+@Disabled
 public class ReviewServiceTest {
     private static final String success = "SUCCESS";
     private static final String fail = "FAIL";
