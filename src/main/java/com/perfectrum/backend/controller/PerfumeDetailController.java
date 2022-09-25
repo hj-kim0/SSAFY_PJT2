@@ -3,6 +3,7 @@ package com.perfectrum.backend.controller;
 
 import com.perfectrum.backend.domain.entity.PerfumeEntity;
 import com.perfectrum.backend.dto.review.ReviewListDto;
+import com.perfectrum.backend.dto.review.ReviewRegistDto;
 import com.perfectrum.backend.dto.review.ReviewViewDto;
 import com.perfectrum.backend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,12 +105,13 @@ public class PerfumeDetailController {
     }
 
     @PostMapping("detail/{idx}/review")
-    public ResponseEntity<?> writeReview(HttpServletRequest request, @PathVariable("idx") Integer perfumeIdx, @RequestBody ReviewViewDto reviewViewDto){
+    public ResponseEntity<?> writeReview(HttpServletRequest request, @PathVariable("idx") Integer perfumeIdx, @RequestBody ReviewRegistDto reviewRegistDto){
         Map<String,Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request,resultMap);
         if(decodeId != null){
             try{
-                perfumeDetailService.registReview(decodeId,perfumeIdx,reviewViewDto);
+                perfumeDetailService.registReview(decodeId,perfumeIdx,reviewRegistDto);
+                resultMap.put("message",success);
                 status = HttpStatus.OK;
             }catch(Exception e){
                 resultMap.put("message", fail);
@@ -120,13 +122,14 @@ public class PerfumeDetailController {
         return new ResponseEntity<>(resultMap,status);
     }
 
-    @PostMapping("detail/{idx}/review/{review_idx}")
-    public ResponseEntity<?> updateReview(HttpServletRequest request, @PathVariable("idx") Integer perfumeIdx,@PathVariable("review_idx") Integer reviewIdx, @RequestBody ReviewViewDto reviewViewDto){
+    @PutMapping("detail/{idx}/review/{review_idx}")
+    public ResponseEntity<?> updateReview(HttpServletRequest request, @PathVariable("idx") Integer perfumeIdx,@PathVariable("review_idx") Integer reviewIdx, @RequestBody ReviewRegistDto reviewRegistDto){
         Map<String,Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request,resultMap);
         if(decodeId != null){
             try{
-                perfumeDetailService.updateReview(decodeId,perfumeIdx,reviewIdx,reviewViewDto);
+                perfumeDetailService.updateReview(decodeId,perfumeIdx,reviewIdx,reviewRegistDto);
+                resultMap.put("message",success);
                 status = HttpStatus.OK;
             }catch(Exception e){
                 resultMap.put("message", fail);
