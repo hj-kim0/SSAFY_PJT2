@@ -23,10 +23,18 @@ module.exports = {
       { props: true, ignorePropertyModificationsFor: ["state"] }
     ]
     ,"import/no-unresolved" : 0
-    ,"arrow-body-style": ["error", "always"]
-    ,"object-shorthand": ["error", "always"]
-    ,'no-console': 'off'
-    ,
+    ,"arrow-body-style": "off"
+    ,"object-shorthand": "off"
+    ,"no-console": "off"
+    ,"react/prop-types": "off"
+    ,"react/self-closing-comp": "off"
+    ,"react/function-component-definition": "off"
+    ,"react/destructuring-assignment": "off"
+    ,"react/no-array-index-key": "off"
+    ,"global-require": "off"
+    ,"no-plusplus": "off"
+    ,"prefer-template": "off"
+    ,"jsx-a11y/alt-text": "off"
   },
   settings: {
     "import/resolver": {

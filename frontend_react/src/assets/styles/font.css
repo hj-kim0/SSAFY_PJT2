@@ -94,3 +94,13 @@
     url("./fonts/Roboto-Bold.woff") format("woff"),
     url("./fonts/Roboto-Bold.otf") format("opentype");
 }
+
+
+@font-face {
+  font-family: "LoveYaLikeASister";
+  font-style: normal;
+  /* font-weight: 700; */
+  src: url("./fonts/LoveYaLikeASister.ttf") format("truetype"),
+    url("./fonts/LoveYaLikeASisterSolid.ttf") format("truetype");
+}
+

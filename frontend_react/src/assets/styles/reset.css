@@ -22,19 +22,33 @@ input {
 input:focus {
   outline: none;
 }
+<<<<<<< HEAD
 
 /* button {
+=======
+/*
+button {
+>>>>>>> FE_publishing_김혁주
   background: none;
   border: none;
   cursor: pointer;
   color: inherit;
   font-family: inherit;
+<<<<<<< HEAD
 } */
+=======
+}
+*/
+>>>>>>> FE_publishing_김혁주
 
 /* custom reset end  */
 html,
 body,
+<<<<<<< HEAD
 /*  , */
+=======
+/* div, */
+>>>>>>> FE_publishing_김혁주
 span,
 applet,
 object,
@@ -45,7 +59,7 @@ h3,
 h4,
 h5,
 h6,
-p,
+/* p, */
 blockquote,
 pre,
 /* a, */
