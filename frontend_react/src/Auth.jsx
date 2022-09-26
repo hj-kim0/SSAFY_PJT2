@@ -20,6 +20,9 @@ function Auth() {
 
     const [user, setUser] = useRecoilState(userState);
 
+
+    const User = user;
+
     const navigate = useNavigate();
     const getToken = async () => {
         const payload = qs.stringify({
@@ -50,7 +53,6 @@ function Auth() {
     const getToken2 = async () => {
 
         const AT = cookies.load("Kakao");
-        
         try{
             const response2 = await axios.get("http://j7c105.p.ssafy.io:8083/kakao",{
                 headers: {
@@ -60,8 +62,11 @@ function Auth() {
             });
 
             cookies.save("Spring", response2.data["access-token"]);
-            setUser({isLogin : true});
-            console.log(user.isLogin);
+            console.log("어스 로그");
+            User.isLogin = true;
+            setUser(User);
+            console.log(User);
+            console.log(user);
             navigate("/")
         }catch(err){
             console.log(err);

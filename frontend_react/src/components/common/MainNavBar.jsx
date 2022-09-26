@@ -7,43 +7,22 @@ import navLogo from "@images/logo/logo.png";
 import { useRecoilState } from "recoil";
 
 import { Button } from "@material-ui/core";
+import  cookies  from "react-cookies";
 import { userState } from "../../atom";
-
-
 
 function MainNavBar() {
   const [user, setUser] = useRecoilState(userState);
 
-  const isLogged = user.isLogin;
+  const User = user;
 
   function handleLogoutClick() {
-    setUser({isLogin: false});
+    User.isLogin = false;
+    cookies.remove("Kakao",[]);
+    cookies.remove("Spring",[]);
+    setUser(User);
   };
 
   let barInfo;
-  
-  if(isLogged){
-    barInfo =  
-    <nav className="right_nav notoReg">
-      <Button variant="contained" color="white" onClick={handleLogoutClick()}>로그아웃</Button>
-    </nav>
-  }else{
-    barInfo = 
-    <NavLink className="right_nav__link fs-16" to="/login">로그인</NavLink>
-  }
-
-  // const chgPage = () =>{{
-  //   if(userdata.isLogin){
-  //   return <nav className="right_nav notoReg">
-  //     <Button variant="contained" color="white" onClick={setUser({isLogin : true})}>로그아웃</Button>
-  //     </nav>
-  //   }
-  //   return <nav className="right_nav notoReg">
-  //         <NavLink className="right_nav__link fs-16" to="/login">
-  //           로그인
-  //         </NavLink>
-  //       </nav>
-  // }}
 
   return (
 
@@ -60,7 +39,11 @@ function MainNavBar() {
             향수모음
           </NavLink>
         </nav>
-        {barInfo}
+        { User.isLogin && <nav className="right_nav notoReg">
+      <Button variant="contained" color="white" onClick={handleLogoutClick()}>로그아웃</Button>
+    </nav>}
+        { !User.isLogin &&
+    <NavLink className="right_nav__link fs-16" to="/login">로그인</NavLink>}
       </nav>
     </div>
   );
