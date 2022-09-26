@@ -41,10 +41,15 @@ public class PerfumeDetailController {
     @PostMapping("/detail/{idx}")
     public ResponseEntity<?> getPerfumeDetail(HttpServletRequest request, @PathVariable("idx") Integer perfumeIdx, @RequestBody ReviewListDto reviewListDto){
         Map<String,Object> resultMap = new HashMap<>();
-        Map<String,Object> data = new HashMap<>();
-        String decodeId = checkToken(request, resultMap);
+        String decodeId = "isLogin";
+
+        if(request != null && request.getHeader("Authorization") != null){
+            decodeId = checkToken(request, resultMap);
+        }
+
         if(decodeId != null){
             try{
+                Map<String, Object> data = new HashMap<>();
                 System.out.println("컨트롤러 진입");
                 data = perfumeDetailService.getPerfumeDetail(decodeId,perfumeIdx,reviewListDto);
 //                resultMap.putAll(perfumeDetailService.getPerfumeDetail(decodeId,perfumeIdx,reviewListDto));
