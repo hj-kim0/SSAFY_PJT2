@@ -39,10 +39,10 @@ function MainNavBar() {
             향수모음
           </NavLink>
         </nav>
-        { User.isLogin && <nav className="right_nav notoReg">
+        { !(!User.isLogin) && <nav className="right_nav notoReg">
       <Button variant="contained" color="white" onClick={handleLogoutClick()}>로그아웃</Button>
     </nav>}
-        { !User.isLogin &&
+        { !(User.isLogin) &&
     <NavLink className="right_nav__link fs-16" to="/login">로그인</NavLink>}
       </nav>
     </div>

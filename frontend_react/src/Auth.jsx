@@ -42,8 +42,6 @@ function Auth() {
             cookies.save("Kakao", accessToken);
 
             console.log(cookies.load("Kakao"));
-            // navigate('/oauth/token');
-
 
         }catch(err){
             console.log(err);
@@ -62,11 +60,11 @@ function Auth() {
             });
 
             cookies.save("Spring", response2.data["access-token"]);
-            console.log("어스 로그");
+
+            console.log(cookies.load("Spring"));
+
             User.isLogin = true;
             setUser(User);
-            console.log(User);
-            console.log(user);
             navigate("/")
         }catch(err){
             console.log(err);
