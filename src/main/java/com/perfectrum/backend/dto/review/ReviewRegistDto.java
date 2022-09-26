@@ -16,6 +16,8 @@ public class ReviewRegistDto {
     private Integer idx;
     private String reviewImg;
     private Integer totalScore;
+    private Integer longevity;
+    private Integer sillageScore;
     private String content;
 
 }
