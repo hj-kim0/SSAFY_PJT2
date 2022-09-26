@@ -7,7 +7,7 @@ import navLogo from "@images/logo/logo.png";
 import { useRecoilState } from "recoil";
 
 import { Button } from "@material-ui/core";
-import { cookies } from "react-cookies";
+import  cookies  from "react-cookies";
 import { userState } from "../../atom";
 
 
