@@ -23,6 +23,7 @@ public class ReviewViewDto {
     private Integer longevity;
     private Integer sillageScore;
     private String content;
+    private Integer likeCount;
 
     private LocalDateTime time;
     private LocalDateTime updateTime;

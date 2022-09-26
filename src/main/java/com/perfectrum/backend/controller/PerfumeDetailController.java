@@ -69,6 +69,22 @@ public class PerfumeDetailController {
         return new ResponseEntity<>(resultMap,status);
     }
 
+    @GetMapping("/detail/accord/{idx}")
+    public ResponseEntity<?> getAccordMoreInfo(HttpServletRequest request, @PathVariable("idx") Integer accordIdx){
+        Map<String,Object> resultMap = new HashMap<>();
+        Map<String,Object> data = new HashMap<>();
+        try{
+            data = perfumeDetailService.getAcoordMoreInfo(accordIdx);
+            resultMap.put("accordMoreInfo",data.get("accordMoreInfo"));
+            resultMap.put("message",success);
+            status = HttpStatus.OK;
+        }catch(Exception e){
+            resultMap.put("message",fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<>(resultMap,status);
+    }
     @GetMapping("detail/wish/{idx}")
     public ResponseEntity<?> addWishList(HttpServletRequest request, @PathVariable("idx") Integer perfumeIdx){
         Map<String,Object> resultMap = new HashMap<>();
