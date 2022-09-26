@@ -11,7 +11,8 @@ const DivCenter = styled.div`
 const Img = styled.img`
 width:100%;
 height:600px;
-filter=grayscale(10);
+//filter : brightness(100%);
+//filter=grayscale(10);
 `
 
 

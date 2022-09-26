@@ -20,11 +20,12 @@
   }
 
   .maintheme {
-    font-family: LoveYaLikeASister;
+    font-family: KyoboHandwriting2020A;
     text-align: center;
     margin: 15px 15px 0px 0px;
     font-size: 48px;
     color: aliceblue;
+    /*color : black;*/
   }
 
   .subtheme {

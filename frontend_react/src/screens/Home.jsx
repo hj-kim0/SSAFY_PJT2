@@ -43,7 +43,7 @@ function Home (){
         {
             idx : 0,
             name: "first",
-            src: require("../assets/images/carousel/1.jpg"),
+            src: require("../assets/images/carousel/8.jpg"),
         },
         {
             idx: 1,
