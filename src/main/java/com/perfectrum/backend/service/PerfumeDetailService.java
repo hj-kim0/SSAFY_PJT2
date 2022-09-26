@@ -11,6 +11,7 @@ public interface PerfumeDetailService {
 
     Map<String,Object> getPerfumeDetail(String decodeId, Integer perfumeIdx, ReviewListDto reviewListDto);
 
+    Map<String,Object> getAcoordMoreInfo(Integer accordIdx);
     Map<String,Object> addWishList(String decodeId, Integer perfumeIdx);
 
     Map<String,Object> addHaveList(String decodeId,Integer perfumeIdx);
