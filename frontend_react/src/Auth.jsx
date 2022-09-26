@@ -50,7 +50,6 @@ function Auth() {
     const getToken2 = async () => {
 
         const AT = cookies.load("Kakao");
-        
         try{
             const response2 = await axios.get("http://j7c105.p.ssafy.io:8083/kakao",{
                 headers: {
@@ -60,8 +59,10 @@ function Auth() {
             });
 
             cookies.save("Spring", response2.data["access-token"]);
-            setUser({isLogin : true});
-            console.log(user.isLogin);
+            setUser(true);
+            console.log(user);  
+            setUser({isLogin: true});
+            console.log(user);
             navigate("/")
         }catch(err){
             console.log(err);
