@@ -23,9 +23,11 @@ function MainNavBar() {
 
   let barInfo;
   
+  console.log("메인네브");
   console.log(user);
+  console.log(User);
 
-  if(user.isLogin){
+  if(user.isLogin!==false){
     barInfo =  
     <nav className="right_nav notoReg">
       <Button variant="contained" color="white" onClick={handleLogoutClick()}>로그아웃</Button>
