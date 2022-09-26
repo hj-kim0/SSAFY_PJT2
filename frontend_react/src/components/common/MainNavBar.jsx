@@ -10,9 +10,6 @@ import { Button } from "@material-ui/core";
 import  cookies  from "react-cookies";
 import { userState } from "../../atom";
 
-
-
-
 function MainNavBar() {
   const [user, setUser] = useRecoilState(userState);
 
@@ -26,20 +23,6 @@ function MainNavBar() {
   };
 
   let barInfo;
-  
-  console.log("메인네브");
-  console.log(user);
-  console.log(User);
-
-  if(User.isLogin === "true"){
-    barInfo =  
-    <nav className="right_nav notoReg">
-      <Button variant="contained" color="white" onClick={handleLogoutClick()}>로그아웃</Button>
-    </nav>
-  }else{
-    barInfo = 
-    <NavLink className="right_nav__link fs-16" to="/login">로그인</NavLink>
-  }
 
   return (
 
@@ -56,7 +39,11 @@ function MainNavBar() {
             향수모음
           </NavLink>
         </nav>
-        {barInfo}
+        { User.isLogin && <nav className="right_nav notoReg">
+      <Button variant="contained" color="white" onClick={handleLogoutClick()}>로그아웃</Button>
+    </nav>}
+        { !User.isLogin &&
+    <NavLink className="right_nav__link fs-16" to="/login">로그인</NavLink>}
       </nav>
     </div>
   );
