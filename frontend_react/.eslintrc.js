@@ -35,10 +35,7 @@ module.exports = {
     ,"no-plusplus": "off"
     ,"prefer-template": "off"
     ,"jsx-a11y/alt-text": "off"
-<<<<<<< HEAD
-    ,"no-unused-vars" : "off"
     ,"spaced-comment" : "off"
-=======
     ,"default-param-last": "off"
     ,"no-unreachable": "off"
     ,"no-unused-vars": "off"
@@ -47,7 +44,6 @@ module.exports = {
     ,"no-lone-blocks": "off"
     ,"react/jsx-no-useless-fragment": "off"
     ,
->>>>>>> c2038c28d6b159fc6e30ece76f213e2274b566bd
   },
   settings: {
     "import/resolver": {
