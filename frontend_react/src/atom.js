@@ -3,20 +3,22 @@ import {recoilPersist} from "recoil-persist";
 
 const { persistAtom } = recoilPersist()
 
-export const pollAtom= atom({
+export const pollAtom = atom({
     key : "atom",
     default : {
-        gender : "",
-        season : "",
-        longevity : "",
-        accordDivide : "",
-        accordClass : "",
-    }
+        gender : '',
+        season : '',
+        longevity : '',
+        accordDivide : '',
+        accordClass : '',
+    },
+    effects_UNSTABLE : [persistAtom]
 })
 
 export const userState = atom({
-    key: 'userState',
+    key: "userState",
     default: {
-        isLogin : false,
-    }
+        isLogin : null,
+    },
+    effects_UNSTABLE: [persistAtom],
 });

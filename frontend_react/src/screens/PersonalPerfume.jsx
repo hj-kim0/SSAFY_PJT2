@@ -4,12 +4,12 @@ import Question from './Question';
 
 const Wrapper = styled.div`
     display: block;
-    padding: 100px 0px 0px 0px;
+    //padding: 100px 0px 0px 0px;
     height: auto;
 `;
 
 const DivCenter = styled.div`
-    margin: 30px 0px 30px 0px;
+    //margin: 30px 0px 30px 0px;
     text-align: center;
 `;
 

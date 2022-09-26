@@ -16,7 +16,6 @@ import { RecoilRoot } from "recoil";
 import Auth from "../Auth";
 import Token from "../Token";
 import PersonalPerfume from "../screens/PersonalPerfume";
-import PollGender from "../screens/poll/PollGender";
 import PollStart from "../screens/poll/PollStart";
 
 function Router() {

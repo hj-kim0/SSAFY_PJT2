@@ -35,6 +35,7 @@ module.exports = {
     "no-plusplus": "off",
     "prefer-template": "off",
     "jsx-a11y/alt-text": "off",
+    "spaced-comment": "off",
     "default-param-last": "off",
     "no-unreachable": "off",
     "no-unused-vars": "off",

@@ -104,3 +104,9 @@
     url("./fonts/LoveYaLikeASisterSolid.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: 'KyoboHandwriting2020A';
+  src: url('./fonts/KyoboHandwriting2020pdy.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

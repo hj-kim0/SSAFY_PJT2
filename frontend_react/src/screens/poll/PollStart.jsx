@@ -1,10 +1,12 @@
 import React from 'react';
+import {Box} from "@mui/material";
+
 
 const PollStart = () => {
     return (
-        <div>
+        <Box sx={{ display : 'flex' }}>
 
-        </div>
+        </Box>
     );
 };
 
