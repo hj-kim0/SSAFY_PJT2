@@ -15,8 +15,7 @@ function MainNavBar() {
   const [user, setUser] = useRecoilState(userState);
 
   const chgPage = () =>{{
-    console.log(user.isLogin);
-    if(user.isLogin === true){
+    if(user.isLogin){
     return <nav className="right_nav notoReg"><Button variant="contained" color="white" onClick={setUser({isLogin : true})}>로그아웃</Button></nav>
     }
     return <nav className="right_nav notoReg">
@@ -24,7 +23,6 @@ function MainNavBar() {
             로그인
           </NavLink>
         </nav>
-        
   }}
 
   return (
