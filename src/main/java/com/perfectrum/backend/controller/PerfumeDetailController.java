@@ -38,7 +38,7 @@ public class PerfumeDetailController {
         this.perfumeDetailService = perfumeDetailService;
     }
 
-    @GetMapping("/detail/{idx}")
+    @PostMapping("/detail/{idx}")
     public ResponseEntity<?> getPerfumeDetail(HttpServletRequest request, @PathVariable("idx") Integer perfumeIdx, @RequestBody ReviewListDto reviewListDto){
         Map<String,Object> resultMap = new HashMap<>();
         Map<String,Object> data = new HashMap<>();

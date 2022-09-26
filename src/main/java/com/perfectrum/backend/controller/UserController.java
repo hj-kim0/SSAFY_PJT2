@@ -133,7 +133,7 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @GetMapping("/user/reviews") // 내가 쓴 리뷰 조회
+    @PostMapping("/user/reviews") // 내가 쓴 리뷰 조회
     public ResponseEntity<?> viewMyReviews(HttpServletRequest request, @RequestBody MyReviewListDto myReviewListDto){
         Map<String, Object> resultMap = new HashMap<>();
         String decodeId = checkToken(request,resultMap);
