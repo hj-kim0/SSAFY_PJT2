@@ -14,7 +14,7 @@ function PerfumeDetail() {
   const [perfumeDetail, setPerfumeDetail] = useState();
   const detail = async () => {
     const body = {
-      type: null,
+      type: "최신순",
       lastIdx: null,
       lastTotalScore: null,
       lastLikeCount: null,
