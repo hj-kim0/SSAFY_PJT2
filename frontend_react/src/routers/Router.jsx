@@ -9,14 +9,19 @@ import PerfumeSearch from "@screens/perfume/PerfumeSearch";
 import PerfumeDetail from "@screens/perfume/PerfumeDetail";
 import TasteAnalysis from "@screens/perfume/TasteAnalysis";
 import Login from "@screens/Login";
+import Footer from "@components/common/Footer";
+import { RecoilRoot } from 'recoil';
+
 import Auth from "../Auth";
 import Token from "../Token";
-import Footer from "../components/common/Footer";
 import PersonalPerfume from "../screens/PersonalPerfume";
+import PollGender from "../screens/poll/PollGender";
+import PollStart from "../screens/poll/PollStart";
+
 
 function Router() {
   return (
-    <>
+    <RecoilRoot>
       <MainNavBar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -31,9 +36,10 @@ function Router() {
         <Route path="/oauth/kakao" element={<Auth/>} />
         <Route path="/oauth/token" element={<Token/>}/>
         <Route path="/personal" element={<PersonalPerfume />} />
+        <Route path="/poll" element={<PollStart/>} />
       </Routes>
       <Footer/>
-    </>
+      </RecoilRoot>
   );
 }
 export default Router;
