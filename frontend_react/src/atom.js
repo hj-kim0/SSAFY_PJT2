@@ -19,4 +19,6 @@ export const userState = atom({
     default: {
         isLogin : null,
     }
+    ,
+    effects_UNSTABLE: [persistAtom],
 });
