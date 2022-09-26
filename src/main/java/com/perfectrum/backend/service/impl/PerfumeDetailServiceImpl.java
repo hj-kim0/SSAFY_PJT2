@@ -1,6 +1,9 @@
 package com.perfectrum.backend.service.impl;
 
+import com.perfectrum.backend.dto.perfume.AccordInfoDto;
+import com.perfectrum.backend.dto.perfume.AccordMoreInfoDto;
 import com.perfectrum.backend.dto.perfume.PerfumeAccordsDto;
+import com.perfectrum.backend.dto.perfume.PerfumeViewDto;
 import com.perfectrum.backend.dto.review.ReviewListDto;
 import com.perfectrum.backend.dto.review.ReviewRegistDto;
 import com.perfectrum.backend.dto.review.ReviewViewDto;
@@ -35,11 +38,14 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
     private WishListRepository wishListRepository;
     private UserAccordClassRepository userAccordClassRepository;
 
+    private AccordRepository accordRepository;
+
     @Autowired
     PerfumeDetailServiceImpl(UserRepository userRepository, PerfumeRepository perfumeRepository,
-                             AccordClassRepository accordClassRepository,ReviewRepository reviewRepository,
+                             AccordClassRepository accordClassRepository, ReviewRepository reviewRepository,
                              UserDetailLogRepository userDetailLogRepository, UserAccordClassRepository userAccordClassRepository,
-                             HaveListRepository haveListRepository,WishListRepository wishListRepository) {
+                             HaveListRepository haveListRepository, WishListRepository wishListRepository,
+                             AccordRepository accordRepository) {
         this.userRepository = userRepository;
         this.perfumeRepository = perfumeRepository;
         this.accordClassRepository = accordClassRepository;
@@ -48,14 +54,16 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
         this.haveListRepository = haveListRepository;
         this.wishListRepository = wishListRepository;
         this.userAccordClassRepository = userAccordClassRepository;
+        this.accordRepository = accordRepository;
     }
 
     @Override
     public Map<String, Object> getPerfumeDetail(String decodeId, Integer perfumeIdx, ReviewListDto reviewListDto) {
         Map<String, Object> data = new HashMap<>();
+        Optional<UserEntity> user = userRepository.findByUserId(decodeId);
         List<ReviewViewDto> reviewList = new ArrayList<>();
         List<AccordEntity> accordList;
-        List<PerfumeAccordsDto> aList = new ArrayList<>();
+        List<AccordInfoDto> aList = new ArrayList<>();
         String type = reviewListDto.getType();
         Integer lastIdx = reviewListDto.getLastIdx();
         Integer lastTotalScore = reviewListDto.getLastTotalScore();
@@ -66,18 +74,51 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
 
         PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
         accordList = perfumeRepository.findByPerfume(perfume);
-        data.put("perfume", perfume);
+//
+        Integer haveCount = Long.valueOf(Optional.ofNullable(haveListRepository.countByPerfumeIdx(perfumeIdx)).orElse(0L)).intValue();
 
-        for(AccordEntity ae : accordList){
-            PerfumeAccordsDto pad = PerfumeAccordsDto.builder()
+        Integer wishCount = Long.valueOf(Optional.ofNullable(haveListRepository.countByPerfumeIdx(perfumeIdx)).orElse(0L)).intValue();
+//
+        PerfumeViewDto perfumeViewDto = PerfumeViewDto.builder()
+                .idx(perfumeIdx)
+                .brandName(perfume.getBrandName())
+                .perfumeName(perfume.getPerfumeName())
+                .concentration(perfume.getConcentration())
+                .gender(perfume.getGender())
+                .scent(perfume.getScent())
+                .topNotes(perfume.getTopNotes())
+                .middleNotes(perfume.getMiddleNotes())
+                .baseNotes(perfume.getBaseNotes())
+                .itemRating(perfume.getItemRating())
+                .perfumeImg(perfume.getPerfumeImg())
+                .description(perfume.getDescription())
+                .seasons(perfume.getSeasons())
+                .timezone(perfume.getTimezone())
+                .longevity(perfume.getLongevity())
+                .sillage(perfume.getSillage())
+                .wishCount(wishCount)
+                .haveCount(haveCount)
+                .build();
+
+        data.put("perfume", perfumeViewDto);
+
+//        for (AccordEntity ae : accordList) {
+//            PerfumeAccordsDto pad = PerfumeAccordsDto.builder()
+////                    .accordIdx(ae.getIdx())
+//                    .accordName(ae.getAccordName())
+//                    .build();
+//
+//            aList.add(pad);
+//        }
+
+        for(AccordEntity ae : accordList) {
+            AccordInfoDto aid = AccordInfoDto.builder()
+                    .accordIdx(ae.getIdx())
                     .accordName(ae.getAccordName())
-                    .accordDescription(ae.getAccordDescription())
-                    .accordImg(ae.getAccordImg())
                     .build();
-
-            aList.add(pad);
+            aList.add(aid);
         }
-        data.put("perfumeAccordList",aList);
+        data.put("perfumeAccordList", aList);
         Slice<ReviewEntity> reviews = reviewRepository.findByPerfume(perfume);
         if (!reviews.isEmpty()) {
             if (lastIdx == null) {
@@ -90,18 +131,18 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
             }
 
             if (type.equals("평점순")) {
-                reviews = reviewRepository.findByPerfumeOrderTotalScoreDescIdxDesc(perfume, lastIdx,lastTotalScore, pageable);
-            } else if(type.equals("공감순")){
-                reviews = reviewRepository.findByPerfumeOrderByLikeCountDescIdxDesc(perfume, lastIdx,lastLikeCount, pageable);
-            } else{ // 최신순 or null
+                reviews = reviewRepository.findByPerfumeOrderTotalScoreDescIdxDesc(perfume, lastIdx, lastTotalScore, pageable);
+            } else if (type.equals("최신순")) {
                 reviews = reviewRepository.findByPerfumeOrderByIdxDesc(perfume, lastIdx, pageable);
+            } else { // 공감순 or null
+                reviews = reviewRepository.findByPerfumeOrderByLikeCountDescIdxDesc(perfume, lastIdx, lastLikeCount, pageable);
 
             }
         }
         boolean hasNext = reviews.hasNext();
         data.put("hasNext", hasNext);
 
-        for(ReviewEntity re : reviews){
+        for (ReviewEntity re : reviews) {
             ReviewViewDto reviewViewDto = ReviewViewDto.builder()
                     .idx(re.getIdx())
                     .userNickname(null)
@@ -112,22 +153,46 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                     .longevity(re.getLongevity())
                     .sillageScore(re.getSillageScore())
                     .content(re.getContent())
+                    .likeCount(re.getLikeCount())
                     .time(re.getTime())
                     .updateTime(re.getUpdateTime())
                     .build();
             reviewList.add(reviewViewDto);
         }
-        data.put("reviewList",reviewList);
+        data.put("reviewList", reviewList);
+
+        if(user.isPresent()){
+            UserDetailLogEntity userDetailLogEntity = new UserDetailLogEntity().builder()
+                    .user(user.get())
+                    .perfume(perfume)
+                    .build();
+            userDetailLogRepository.save(userDetailLogEntity);
+        }
         return data;
     }
 
+    @Override
+    public Map<String,Object> getAcoordMoreInfo(Integer accordIdx){
+        Map<String,Object> data = new HashMap<>();
+        AccordEntity ae = accordRepository.findByIdx(accordIdx);
+
+        AccordMoreInfoDto accordMoreInfoDto = AccordMoreInfoDto.builder()
+                .accordImg(ae.getAccordImg())
+                .accordDescription(ae.getAccordDescription())
+                .build();
+
+        data.put("accordMoreInfo",accordMoreInfoDto);
+
+        return data;
+
+    }
 
     @Override
-    public Map<String,Object> addWishList(String decodeId, Integer perfumeIdx) {
+    public Map<String, Object> addWishList(String decodeId, Integer perfumeIdx) {
         Optional<UserEntity> userOptional = userRepository.findByUserId(decodeId);
         Map<String, Object> result = new HashMap<>();
 
-        if(userOptional.isPresent()) {
+        if (userOptional.isPresent()) {
             UserEntity user = userOptional.get();
             PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
 
@@ -142,20 +207,20 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                         .build();
                 wishListRepository.save(wishList);
                 List<AccordClassEntity> accordClassEntities = accordClassRepository.findByPerfumeAccordClass(perfume);
-                for(AccordClassEntity a : accordClassEntities){
+                for (AccordClassEntity a : accordClassEntities) {
                     Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user, a);
-                    if(userAccordClass.isPresent()){
+                    if (userAccordClass.isPresent()) {
                         UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
                                 .idx(userAccordClass.get().getIdx())
                                 .user(userAccordClass.get().getUser())
                                 .accordClass(userAccordClass.get().getAccordClass())
-                                .accordClassCount(userAccordClass.get().getAccordClassCount()-1)
+                                .accordClassCount(userAccordClass.get().getAccordClassCount() - 1)
                                 .build();
 
                         userAccordClassRepository.save(updateUserAccordClass);
                     }
                 }
-                result.put("isClicked","false");
+                result.put("isClicked", "false");
             } else { // 없음 -> db에 등록
                 WishListEntity wishList = WishListEntity.builder()
                         .user(user)
@@ -164,19 +229,19 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                 wishListRepository.save(wishList);
 
                 List<AccordClassEntity> accordClassEntity = accordClassRepository.findByPerfumeAccordClass(perfume);
-                for(AccordClassEntity a : accordClassEntity){
-                    Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user,a);
+                for (AccordClassEntity a : accordClassEntity) {
+                    Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user, a);
                     // DB 존재 -> cnt+1 수정
-                    if(userAccordClass.isPresent()){
+                    if (userAccordClass.isPresent()) {
                         UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
                                 .idx(userAccordClass.get().getIdx())
                                 .user(userAccordClass.get().getUser())
                                 .accordClass(userAccordClass.get().getAccordClass())
-                                .accordClassCount(userAccordClass.get().getAccordClassCount()+1)
+                                .accordClassCount(userAccordClass.get().getAccordClassCount() + 1)
                                 .build();
                         userAccordClassRepository.save(updateUserAccordClass);
 
-                    }else{ // DB에 삽입
+                    } else { // DB에 삽입
                         UserAccordClassEntity userAccordClassEntity = UserAccordClassEntity.builder()
                                 .user(user)
                                 .accordClass(a)
@@ -191,10 +256,10 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
     }
 
     @Override
-    public Map<String,Object> addHaveList(String decodeId, Integer perfumeIdx) {
+    public Map<String, Object> addHaveList(String decodeId, Integer perfumeIdx) {
         Map<String, Object> result = new HashMap<>();
         Optional<UserEntity> userOptional = userRepository.findByUserId(decodeId);
-        if(userOptional.isPresent()) {
+        if (userOptional.isPresent()) {
             UserEntity user = userOptional.get();
             PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
 
@@ -215,12 +280,12 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                         .perfume(perfume)
                         .build();
                 haveListRepository.save(haveList);
-                result.put("isWishClicked","false");
-                result.put("isClicked","true");
+                result.put("isWishClicked", "false");
+                result.put("isClicked", "true");
             } else { // 없음 -> 바로 DB 등록
                 Optional<HaveListEntity> haveListOptional = haveListRepository.findByUserAndPerfumeAndIsDelete(user, perfume, false);
 
-                if(haveListOptional.isPresent()){
+                if (haveListOptional.isPresent()) {
                     HaveListEntity haveList = HaveListEntity.builder()
                             .idx(haveListOptional.get().getIdx())
                             .user(user)
@@ -229,21 +294,21 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                             .build();
                     haveListRepository.save(haveList);
                     List<AccordClassEntity> accordClassEntities = accordClassRepository.findByPerfumeAccordClass(perfume);
-                    for(AccordClassEntity a : accordClassEntities){
+                    for (AccordClassEntity a : accordClassEntities) {
                         Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user, a);
-                        if(userAccordClass.isPresent()){
+                        if (userAccordClass.isPresent()) {
                             UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
                                     .idx(userAccordClass.get().getIdx())
                                     .user(userAccordClass.get().getUser())
                                     .accordClass(userAccordClass.get().getAccordClass())
-                                    .accordClassCount(userAccordClass.get().getAccordClassCount()-1)
+                                    .accordClassCount(userAccordClass.get().getAccordClassCount() - 1)
                                     .build();
 
                             userAccordClassRepository.save(updateUserAccordClass);
                         }
                     }
-                    result.put("isClicked","false");
-                }else{
+                    result.put("isClicked", "false");
+                } else {
                     HaveListEntity haveList = HaveListEntity.builder()
                             .user(user)
                             .perfume(perfume)
@@ -271,7 +336,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                             userAccordClassRepository.save(userAccordClassEntity);
                         }
                     }
-                    result.put("isClicked","true");
+                    result.put("isClicked", "true");
                 }
             }
         }
@@ -293,8 +358,8 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                     .perfume(perfume)
                     .reviewImg(reviewImg)
                     .totalScore(totalScore)
-                    .longevity(perfume.getLongevity())
-                    .sillageScore(perfume.getSillage())
+                    .longevity(reviewRegistDto.getLongevity())
+                    .sillageScore(reviewRegistDto.getSillageScore())
                     .content(content)
                     .likeCount(0)
                     .time(now)
@@ -322,8 +387,8 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                     .perfume(perfume)
                     .reviewImg(reviewImg)
                     .totalScore(totalScore)
-                    .longevity(perfume.getLongevity())
-                    .sillageScore(perfume.getSillage())
+                    .longevity(reviewRegistDto.getLongevity())
+                    .sillageScore(reviewRegistDto.getSillageScore())
                     .content(content)
                     .likeCount(originReview.getLikeCount())
                     .time(registTime)
