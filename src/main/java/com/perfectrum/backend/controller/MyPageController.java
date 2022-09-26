@@ -3,11 +3,9 @@ package com.perfectrum.backend.controller;
 import com.perfectrum.backend.domain.repository.UserAccordClassRepository;
 import com.perfectrum.backend.dto.MyPage.HaveListDto;
 import com.perfectrum.backend.dto.MyPage.UserAccordClassDto;
+import com.perfectrum.backend.dto.MyPage.ViewAccordClassDto;
 import com.perfectrum.backend.dto.MyPage.WishListDto;
-import com.perfectrum.backend.service.HaveListService;
-import com.perfectrum.backend.service.JwtService;
-import com.perfectrum.backend.service.UserAccordClassService;
-import com.perfectrum.backend.service.WishListService;
+import com.perfectrum.backend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,15 +27,17 @@ public class MyPageController {
     private WishListService wishListService;
     private HaveListService haveListService;
     private UserAccordClassService userAccordClassService;
+    private AccordClassService accordClassService;
 
     @Autowired
-    MyPageController(JwtService jwtService, WishListService wishListService,
+    MyPageController(JwtService jwtService, WishListService wishListService,AccordClassService accordClassService,
                      HaveListService haveListService, UserAccordClassService userAccordClassService) {
 
         this.jwtService = jwtService;
         this.wishListService = wishListService;
         this.haveListService = haveListService;
         this.userAccordClassService = userAccordClassService;
+        this.accordClassService = accordClassService;
     }
 
     @GetMapping("/my-page/analysis")
@@ -63,6 +63,24 @@ public class MyPageController {
 
         return new ResponseEntity<>(resultMap, status);
     }
+
+    @GetMapping("/my-page/analysis/{accord_class_idx}")
+    public ResponseEntity<?> viewAccordClass(HttpServletRequest request, @PathVariable("accord_class_idx") Integer idx){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        try{
+            ViewAccordClassDto dto = accordClassService.viewAccordClass(idx);
+            resultMap.put("accordClass", dto);
+            resultMap.put("message", success);
+            status = HttpStatus.OK;
+        }catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
+
     @GetMapping("/my-page/wish") // wishList 조회
     public ResponseEntity<?> viewWishList(HttpServletRequest request){
         Map<String, Object> resultMap = new HashMap<>();
