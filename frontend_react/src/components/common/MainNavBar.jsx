@@ -32,19 +32,6 @@ function MainNavBar() {
     <NavLink className="right_nav__link fs-16" to="/login">로그인</NavLink>
   }
 
-  // const chgPage = () =>{{
-  //   if(userdata.isLogin){
-  //   return <nav className="right_nav notoReg">
-  //     <Button variant="contained" color="white" onClick={setUser({isLogin : true})}>로그아웃</Button>
-  //     </nav>
-  //   }
-  //   return <nav className="right_nav notoReg">
-  //         <NavLink className="right_nav__link fs-16" to="/login">
-  //           로그인
-  //         </NavLink>
-  //       </nav>
-  // }}
-
   return (
 
     <div className="wrapper flex align-center">
