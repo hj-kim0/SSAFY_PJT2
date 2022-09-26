@@ -26,7 +26,7 @@ public class JwtServiceImpl implements JwtService {
     // 토큰 발급 메서드를 활용한 access-token 생성
     @Override
     public <T> String createAccessToken(String key, T data) {
-        return create(key, data, "access-token", EXPRITE_MINUTES);
+        return create(key, data, "access-token", EXPRITE_MINUTES*12);
     }
 
     // 토큰 발급 메서드를 활용한 refresh-token 생성
