@@ -31,7 +31,7 @@ function MainNavBar() {
   console.log(user);
   console.log(User);
 
-  if(User.isLogin){
+  if(User.isLogin === "true"){
     barInfo =  
     <nav className="right_nav notoReg">
       <Button variant="contained" color="white" onClick={handleLogoutClick()}>로그아웃</Button>
