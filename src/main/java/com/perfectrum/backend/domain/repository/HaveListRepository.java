@@ -20,5 +20,7 @@ public interface HaveListRepository extends JpaRepository<HaveListEntity,Integer
 
     Long countByuserIdx(Integer userIdx);
 
+    Long countByPerfumeIdx(Integer perfumeIdx);
+
     Optional<HaveListEntity> findByUserAndPerfumeAndIsDelete(UserEntity user, PerfumeEntity perfume, boolean b);
 }
