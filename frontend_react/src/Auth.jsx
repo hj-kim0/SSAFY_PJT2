@@ -2,15 +2,23 @@ import { useEffect } from "react";
 import axios from "axios";
 import qs from "qs";
 import { useNavigate } from 'react-router-dom';
+
+import { useRecoilState } from "recoil";
+
 import cookies from "react-cookies";
+
+import { userState } from "./atom";
 
 const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
 // const REDIRECT_URI = 'http://localhost:3000/oauth/kakao';
 const REDIRECT_URI = 'http://j7c105.p.ssafy.io/oauth/kakao';
+
 function Auth() {
     const coder = new URL(window.location.href).searchParams.get("code");
 
     let accessToken = '';
+
+    const [user, setUser] = useRecoilState(userState);
 
     const navigate = useNavigate();
     const getToken = async () => {
@@ -52,6 +60,7 @@ function Auth() {
             });
 
             cookies.save("Spring", response2.data["access-token"]);
+            setUser({isLogin : true});
             navigate("/")
         }catch(err){
             console.log(err);

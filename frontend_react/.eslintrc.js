@@ -39,6 +39,9 @@ module.exports = {
     ,"no-unreachable": "off"
     ,"no-unused-vars": "off"
     ,"operator-assignment": "off"
+    ,"import/prefer-default-export": "off"
+    ,"no-lone-blocks": "off"
+    ,"react/jsx-no-useless-fragment": "off"
   },
   settings: {
     "import/resolver": {

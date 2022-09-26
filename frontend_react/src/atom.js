@@ -13,3 +13,10 @@ export const pollAtom= atom({
         accordClass : "",
     }
 })
+
+export const userState = atom({
+    key: 'userState',
+    default: {
+        isLogin : false,
+    }
+});
