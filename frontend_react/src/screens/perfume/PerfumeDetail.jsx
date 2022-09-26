@@ -13,7 +13,14 @@ function PerfumeDetail() {
   const { id } = useParams();
   const [perfumeDetail, setPerfumeDetail] = useState();
   const detail = async () => {
-    const res = await getDetail(id);
+    const body = {
+      type: null,
+      lastIdx: null,
+      lastTotalScore: null,
+      lastLikeCount: null,
+      pageSize: 4
+    };
+    const res = await getDetail(id, body);
     setPerfumeDetail(res);
     console.log(perfumeDetail);
   };
