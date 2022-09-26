@@ -61,6 +61,7 @@ function Auth() {
 
             cookies.save("Spring", response2.data["access-token"]);
             setUser({isLogin : true});
+            console.log(user.isLogin);
             navigate("/")
         }catch(err){
             console.log(err);
