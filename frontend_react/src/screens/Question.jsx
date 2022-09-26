@@ -2,13 +2,24 @@ import React from 'react';
 
 import styled from 'styled-components';
 
+import {Box} from "@mui/material";
 import history from '../utils/history';
 
-const Content = styled.p`
+const Content = styled.div`
     font-family: LoveYaLikeASister;
     text-align: center;
-    margin: 15px 15px 0px 0px;
+    padding: 100px 0px 0px 0px;
+    //margin: 15px 15px 0px 0px;
     font-size: 64px;
+    //position: absolute;
+`;
+
+const BackgroundWrap = styled.div`
+    background-image: url('https://www.10wallpaper.com/wallpaper/medium/1402/Nina-Brand_perfume_wallpaper_medium.jpg');
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+    padding: 0px;
 `;
 
 const SubContent = styled.p`
@@ -21,7 +32,7 @@ const SubContent = styled.p`
 const StyledButton = styled.button`
     width:360px;
     height:72px;
-    margin-top: 30%;
+    margin-top: 15%;
     color: white;
     background-color: black;
     border-radius: 8px;
@@ -80,13 +91,15 @@ const Question = (props) => {
         }
 
         console.log(list);
-
         return (
-            <div>
-                <Content>{content}</Content>
-                <SubContent>{questions[id].question}</SubContent>
-                {list}
-            </div>
+            <Box>
+                {/*<img style={{ width : '100%' }} src="https://static.overlay-tech.com/assets/38a95fc7-fb7d-4c9a-8f8b-acde86a3f47f.svg" />*/}
+                <BackgroundWrap>
+                    <Content>{content}</Content>
+                    <SubContent>{questions[id].question}</SubContent>
+                     {list}
+                </BackgroundWrap>
+            </Box>
         );
     };
 

@@ -35,6 +35,8 @@ module.exports = {
     ,"no-plusplus": "off"
     ,"prefer-template": "off"
     ,"jsx-a11y/alt-text": "off"
+    ,"no-unused-vars" : "off"
+    ,"spaced-comment" : "off"
   },
   settings: {
     "import/resolver": {
