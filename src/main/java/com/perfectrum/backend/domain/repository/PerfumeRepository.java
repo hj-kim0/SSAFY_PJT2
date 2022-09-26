@@ -22,7 +22,8 @@ public interface PerfumeRepository extends JpaRepository<PerfumeEntity, Integer>
 
     List<PerfumeEntity> findAllByGenderAndLongevity(String gender,Integer longevity);
 
-    @Query(value = "SELECT p FROM PerfumeEntity AS p WHERE p.gender = :gender AND p.seasons like %:season% and " +
+    @Query(value =
+            "SELECT p FROM PerfumeEntity AS p WHERE p.gender = :gender AND p.seasons like %:season% and " +
             "p.idx in (SELECT pa.perfume FROM PerfumeAccordsEntity AS pa " +
             "WHERE pa.accord IN (SELECT a.idx from AccordEntity AS a WHERE a.accordClass = :accordClassEntity)) " +
             "ORDER BY p.itemRating DESC")
