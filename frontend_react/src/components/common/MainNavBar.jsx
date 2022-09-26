@@ -20,8 +20,8 @@ function MainNavBar() {
 
   function handleLogoutClick() {
     User.isLogin = false;
-    cookies.delete("Kakao");
-    cookies.delete("Spring");
+    cookies.remove("Kakao",[]);
+    cookies.remove("Spring",[]);
     setUser(User);
   };
 
