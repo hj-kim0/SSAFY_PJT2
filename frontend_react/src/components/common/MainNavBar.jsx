@@ -14,15 +14,18 @@ import { userState } from "../../atom";
 function MainNavBar() {
   const [user, setUser] = useRecoilState(userState);
 
-  const isLogged = user.isLogin;
+  const User = user;
 
   function handleLogoutClick() {
-    setUser({isLogin: false});
+    User.isLogin = false;
+    setUser(User);
   };
 
   let barInfo;
   
-  if(isLogged){
+  console.log(user);
+
+  if(user.isLogin){
     barInfo =  
     <nav className="right_nav notoReg">
       <Button variant="contained" color="white" onClick={handleLogoutClick()}>로그아웃</Button>
