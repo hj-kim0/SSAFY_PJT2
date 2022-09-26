@@ -15,6 +15,8 @@ import { RecoilRoot } from 'recoil';
 import Auth from "../Auth";
 import Token from "../Token";
 import PersonalPerfume from "../screens/PersonalPerfume";
+import PollGender from "../screens/poll/PollGender";
+import PollStart from "../screens/poll/PollStart";
 
 
 function Router() {
@@ -34,6 +36,7 @@ function Router() {
         <Route path="/oauth/kakao" element={<Auth/>} />
         <Route path="/oauth/token" element={<Token/>}/>
         <Route path="/personal" element={<PersonalPerfume />} />
+        <Route path="/poll" element={<PollStart/>} />
       </Routes>
       <Footer/>
       </RecoilRoot>
