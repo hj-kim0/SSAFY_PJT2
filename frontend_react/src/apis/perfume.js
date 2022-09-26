@@ -6,8 +6,8 @@ export const getMain = async () => {
   // console.log(res.data);
   return res.data;
 };
-export const getDetail = async perfumeId => {
-  const res = await API.get(`/detail/${perfumeId}`);
+export const getDetail = async (perfumeId, body) => {
+  const res = await API.post(`/detail/${perfumeId}`, body);
   console.log(res);
   return res.data;
 };
