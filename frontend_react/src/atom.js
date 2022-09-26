@@ -17,6 +17,6 @@ export const pollAtom= atom({
 export const userState = atom({
     key: "userState",
     default: {
-        isLogin : false,
+        isLogin : null,
     }
 });
