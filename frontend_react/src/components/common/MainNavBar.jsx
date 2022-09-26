@@ -7,7 +7,9 @@ import navLogo from "@images/logo/logo.png";
 import { useRecoilState } from "recoil";
 
 import { Button } from "@material-ui/core";
+import { cookies } from "react-cookies";
 import { userState } from "../../atom";
+
 
 
 
@@ -18,6 +20,8 @@ function MainNavBar() {
 
   function handleLogoutClick() {
     User.isLogin = false;
+    cookies.delete("Kakao");
+    cookies.delete("Spring");
     setUser(User);
   };
 
@@ -27,7 +31,7 @@ function MainNavBar() {
   console.log(user);
   console.log(User);
 
-  if(user.isLogin!==false){
+  if(User.isLogin){
     barInfo =  
     <nav className="right_nav notoReg">
       <Button variant="contained" color="white" onClick={handleLogoutClick()}>로그아웃</Button>
