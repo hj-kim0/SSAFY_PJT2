@@ -20,6 +20,9 @@ function Auth() {
 
     const [user, setUser] = useRecoilState(userState);
 
+
+    const User = user;
+
     const navigate = useNavigate();
     const getToken = async () => {
         const payload = qs.stringify({
@@ -59,9 +62,9 @@ function Auth() {
             });
 
             cookies.save("Spring", response2.data["access-token"]);
-            setUser(true);
-            console.log(user);  
-            setUser({isLogin: true});
+            User.isLogin = true;
+            setUser(User);
+            console.log(User);
             console.log(user);
             navigate("/")
         }catch(err){
