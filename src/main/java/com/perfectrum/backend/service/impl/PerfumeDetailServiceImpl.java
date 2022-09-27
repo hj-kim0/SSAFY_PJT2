@@ -130,6 +130,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                 lastLikeCount = reviewRepository.findTop1ByPerfumeOrderByIdxDesc(perfume).getIdx();
             }
 
+            if(type==null) type="공감순";
             if (type.equals("평점순")) {
                 reviews = reviewRepository.findByPerfumeOrderTotalScoreDescIdxDesc(perfume, lastIdx, lastTotalScore, pageable);
             } else if (type.equals("최신순")) {
