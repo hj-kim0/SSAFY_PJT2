@@ -11,7 +11,7 @@ import "./PerfumeDetail.scss";
 
 function PerfumeDetail() {
   const { id } = useParams();
-  const [perfumeDetail, setPerfumeDetail] = useState();
+  const [perfumeDetail, setPerfumeDetail] = useState({});
   const detail = async () => {
     const body = {
       type: "최신순",
@@ -21,9 +21,10 @@ function PerfumeDetail() {
       pageSize: 4
     };
     const res = await getDetail(id, body);
-    setPerfumeDetail(res);
-    console.log(perfumeDetail);
+    setPerfumeDetail(res.perfume);
   };
+  console.log(perfumeDetail);
+
   useEffect(() => {
     detail();
   }, []);
@@ -32,16 +33,16 @@ function PerfumeDetail() {
       <div id="perfumeDetail" className="perfumeDetail">
         <div id="perfumeDetail1" className="perfumeDetail1 flex">
           <div className="perfumeDetail1_img">
-            <img src={dummyImg} alt="Perfume_Img" />
+            <img src={perfumeDetail.perfumeImg} alt="Perfume_Img" />
           </div>
           <div className="perfumeDetail1_contents flex justify-center align-center notoBold fs-16">
-            <p>향수에 대한 상세 내용이 작성된 부분</p>
+            <p>{perfumeDetail.description}</p>
           </div>
         </div>
         <div id="perfumeDetail2" className="perfumeDetail2 flex">
           <div className="perfumeDetail2_title flex">
             <div className="perfumeDetail2_title_name notoBold fs-20">
-              향수 이름
+              {perfumeDetail.perfumeName}
             </div>
             <div className="perfumeDetail2_title_like flex">
               <div className="perfumeDetail2_title_like_img">
@@ -53,8 +54,8 @@ function PerfumeDetail() {
             </div>
           </div>
           <div className="perfumeDetail2_info flex align-center notoBold fs-18">
-            <div className="perfumeDetail2_info_season">계절</div>
-            <div className="perfumeDetail2_info_time">날씨</div>
+            <div className="perfumeDetail2_info_season">{perfumeDetail.seasons}</div>
+            <div className="perfumeDetail2_info_time">{perfumeDetail.timezone}</div>
           </div>
         </div>
         <div className="divide1" />

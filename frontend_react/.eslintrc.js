@@ -42,7 +42,13 @@ module.exports = {
     "operator-assignment": "off",
     "import/prefer-default-export": "off",
     "no-lone-blocks": "off",
-    "react/jsx-no-useless-fragment": "off"
+    "react/jsx-no-useless-fragment": "off",
+    "no-shadow": "off",
+    "react/no-unescaped-entities" : "off",
+    "import/no-duplicates" : "off",
+    "jsx-a11y/click-events-have-key-events" : "off",
+    "jsx-a11y/no-static-element-interactions" : "off",
+    "import/order" : "off",
   },
   settings: {
     "import/resolver": {
