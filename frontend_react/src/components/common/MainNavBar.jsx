@@ -7,7 +7,6 @@ import navLogo from "@images/logo/logo.png";
 import { useRecoilState } from "recoil";
 
 import { Button } from "@material-ui/core";
-import  cookies  from "react-cookies";
 import { userState } from "../../atom";
 
 function MainNavBar() {
@@ -17,12 +16,10 @@ function MainNavBar() {
 
   function handleLogoutClick() {
     User.isLogin = false;
-    cookies.remove("Kakao",[]);
-    cookies.remove("Spring",[]);
+    User.sToken = '';
+    User.kToken = '';
     setUser(User);
   };
-
-  let barInfo;
 
   return (
 

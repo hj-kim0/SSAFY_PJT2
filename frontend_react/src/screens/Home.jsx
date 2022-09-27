@@ -5,6 +5,7 @@ import Carousel from 'react-material-ui-carousel';
 import CarouselSlider from 'react-carousel-slider';
 import ImgItem from '../components/items/ImgItem';
 
+
 const Wrapper = styled.div`
     display: block;
     height: auto;
@@ -43,7 +44,7 @@ function Home (){
         {
             idx : 0,
             name: "first",
-            src: require("../assets/images/carousel/1.jpg"),
+            src: require("../assets/images/carousel/8.jpg"),
         },
         {
             idx: 1,
