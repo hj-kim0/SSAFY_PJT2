@@ -14,14 +14,20 @@
   width: 100%;
   align-items: center;
   flex-direction: column;
+
+
+  &_imginput {
+    display: none;
+  }
   &_title {
     color: $GRAY-40;
     margin: (100px) 0 (40px);
   }
-  img {
+  &_profileimg {
+    margin: 50px 40px;
     height: (100px);
     width: (100px);
-    border-radius: 70%;
+    border-radius: 50%;
   }
   &_btn {
     color: $GRAY-67;
@@ -29,10 +35,7 @@
     text-decoration: underline;
   }
 }
-.infoedit2,
-.infoedit3,
-.infoedit4,
-.infoedit5 {
+.infoedit2 {
   width: (300px);
   margin: (25px);
   align-items: center;
@@ -41,8 +44,19 @@
     color: $GRAY-67;
     margin: (12px) 0 (12px) 0;
   }
-}
-.infoedit2 {
+  &_btn {
+    width: (300px);
+    height: (42px);
+    color: $WHITE;
+    background-color: $GRAY-DB;
+    border-radius: (6px);
+    margin: (18px) 0 (5px);
+  }
+  &_btn:hover {
+    color: $WHITE;
+    background-color: $GRAY-67;
+    box-shadow: 0 0 (5px) $BLACK;
+  }
   input {
     width: (300px);
     height: (44px);
@@ -54,6 +68,18 @@
   input:focus {
     border: 1px solid $BLACK;
     box-shadow: 0 0 5px $GRAY-DB;
+  }
+}
+.infoedit3,
+.infoedit4,
+.infoedit5 {
+  width: (300px);
+  margin: (25px);
+  align-items: center;
+  flex-direction: column;
+  &_title {
+    color: $GRAY-67;
+    margin: (12px) 0 (12px) 0;
   }
 }
 .infoedit6 {
@@ -77,245 +103,5 @@
     margin-top: (12px);
     color: $GRAY-DB;
     text-decoration: underline;
-  }
-}
-@media screen and (max-width: $DESKTOP-VW) {
-  .infoedit {
-    width: vw(350px);
-  }
-  .divide {
-    width: 100%;
-    height: vw(1px);
-    background-color: $GRAY-F3;
-    margin-top: vw(38px);
-  }
-  .infoedit1 {
-    width: 100%;
-    align-items: center;
-    flex-direction: column;
-    &_title {
-      color: $GRAY-40;
-      margin: vw(100px) 0 vw(40px);
-    }
-    img {
-      height: vw(100px);
-      width: vw(100px);
-      border-radius: 70%;
-    }
-    &_btn {
-      color: $GRAY-67;
-      margin-top: vw(24px);
-      text-decoration: underline;
-    }
-  }
-  .infoedit2,
-  .infoedit3,
-  .infoedit4,
-  .infoedit5 {
-    width: vw(300px);
-    margin: 0 vw(25px) 0 vw(25px);
-    align-items: center;
-    flex-direction: column;
-    &_title {
-      color: $GRAY-67;
-      margin: vw(12px) 0 vw(12px) 0;
-    }
-  }
-  .infoedit2 {
-    input {
-      width: vw(300px);
-      height: vw(44px);
-      border-radius: vw(6px);
-      padding-left: vw(16px);
-      border: vw(1px) solid $GRAY-67;
-      color: $GRAY-40;
-    }
-    input:focus {
-      border: vw(1px) solid $BLACK;
-      box-shadow: 0 0 vw(5px) $GRAY-DB;
-    }
-  }
-  .infoedit6 {
-    width: 100%;
-    align-items: center;
-    flex-direction: column;
-    &_btn {
-      width: vw(300px);
-      height: vw(52px);
-      color: $WHITE;
-      background-color: $GRAY-DB;
-      border-radius: vw(6px);
-      margin: vw(36px) 0 vw(5px);
-    }
-    &_btn:hover {
-      color: $WHITE;
-      background-color: $MAIN;
-      box-shadow: 0 0 vw(5px) $MAIN;
-    }
-    &_drop {
-      margin-top: vw(12px);
-      color: $GRAY-DB;
-      text-decoration: underline;
-    }
-  }
-}
-@media screen and (max-width: $TABLET-VW) {
-  .infoedit {
-    width: vw-t(350px);
-  }
-  .divide {
-    width: 100%;
-    height: vw-t(1px);
-    background-color: $GRAY-F3;
-    margin-top: vw-t(38px);
-  }
-  .infoedit1 {
-    width: 100%;
-    align-items: center;
-    flex-direction: column;
-    &_title {
-      color: $GRAY-40;
-      margin: vw-t(100px) 0 vw-t(40px);
-    }
-    img {
-      height: vw-t(100px);
-      width: vw-t(100px);
-      border-radius: 70%;
-    }
-    &_btn {
-      color: $GRAY-67;
-      margin-top: vw-t(24px);
-      text-decoration: underline;
-    }
-  }
-  .infoedit2,
-  .infoedit3,
-  .infoedit4,
-  .infoedit5 {
-    width: vw-t(300px);
-    margin: 0 vw-t(25px) 0 vw-t(25px);
-    align-items: center;
-    flex-direction: column;
-    &_title {
-      color: $GRAY-67;
-      margin: vw-t(12px) 0 vw-t(12px) 0;
-    }
-  }
-  .infoedit2 {
-    input {
-      width: vw-t(300px);
-      height: vw-t(44px);
-      border-radius: vw-t(6px);
-      padding-left: vw-t(16px);
-      border: vw-t(1px) solid $GRAY-67;
-      color: $GRAY-40;
-    }
-    input:focus {
-      border: vw-t(1px) solid $BLACK;
-      box-shadow: 0 0 vw-t(5px) $GRAY-DB;
-    }
-  }
-  .infoedit6 {
-    width: 100%;
-    align-items: center;
-    flex-direction: column;
-    &_btn {
-      width: vw-t(300px);
-      height: vw-t(52px);
-      color: $WHITE;
-      background-color: $GRAY-DB;
-      border-radius: vw-t(6px);
-      margin: vw-t(36px) 0 vw-t(5px);
-    }
-    &_btn:hover {
-      color: $WHITE;
-      background-color: $MAIN;
-      box-shadow: 0 0 vw-t(5px) $MAIN;
-    }
-    &_drop {
-      margin-top: vw-t(12px);
-      color: $GRAY-DB;
-      text-decoration: underline;
-    }
-  }
-}
-@media screen and (max-width: $PHONE-VW) {
-  .infoedit {
-    width: vw-p(350px);
-  }
-  .divide {
-    width: 100%;
-    height: vw-p(1px);
-    background-color: $GRAY-F3;
-    margin-top: vw-p(38px);
-  }
-  .infoedit1 {
-    width: 100%;
-    align-items: center;
-    flex-direction: column;
-    &_title {
-      color: $GRAY-40;
-      margin: vw-p(100px) 0 vw-p(40px);
-    }
-    img {
-      height: vw-p(100px);
-      width: vw-p(100px);
-      border-radius: 70%;
-    }
-    &_btn {
-      color: $GRAY-67;
-      margin-top: vw-p(24px);
-      text-decoration: underline;
-    }
-  }
-  .infoedit2,
-  .infoedit3,
-  .infoedit4,
-  .infoedit5 {
-    width: vw-p(300px);
-    margin: 0 vw-p(25px) 0 vw-p(25px);
-    align-items: center;
-    flex-direction: column;
-    &_title {
-      color: $GRAY-67;
-      margin: vw-p(12px) 0 vw-p(12px) 0;
-    }
-  }
-  .infoedit2 {
-    input {
-      width: vw-p(300px);
-      height: vw-p(44px);
-      border-radius: vw-p(6px);
-      padding-left: vw-p(16px);
-      border: vw-p(1px) solid $GRAY-67;
-      color: $GRAY-40;
-    }
-    input:focus {
-      border: vw-p(1px) solid $BLACK;
-      box-shadow: 0 0 vw-p(5px) $GRAY-DB;
-    }
-  }
-  .infoedit6 {
-    width: 100%;
-    align-items: center;
-    flex-direction: column;
-    &_btn {
-      width: vw-p(300px);
-      height: vw-p(52px);
-      color: $WHITE;
-      background-color: $GRAY-DB;
-      border-radius: vw-p(6px);
-      margin: vw-p(36px) 0 vw-p(5px);
-    }
-    &_btn:hover {
-      color: $WHITE;
-      background-color: $MAIN;
-      box-shadow: 0 0 vw-p(5px) $MAIN;
-    }
-    &_drop {
-      margin-top: vw-p(12px);
-      color: $GRAY-DB;
-      text-decoration: underline;
-    }
   }
 }
