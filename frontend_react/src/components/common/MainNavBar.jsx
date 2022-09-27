@@ -40,7 +40,7 @@ function MainNavBar() {
             향수모음
           </NavLink>
         </nav>
-        {User.isLogin ? 
+        {user.isLogin ? 
         <nav className="right_nav notoReg">
           <Button variant="contained" color="white" onClick={handleLogoutClick}>로그아웃</Button>
         </nav> : 
