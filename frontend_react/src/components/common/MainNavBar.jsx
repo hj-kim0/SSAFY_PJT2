@@ -22,7 +22,7 @@ function MainNavBar() {
     User.kToken = '';
     setUser(User);
     console.log(user);
-    window.location.reload();
+    navigate("/");
   };
 
   return (
