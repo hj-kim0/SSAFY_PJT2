@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String,Object> viewMyReviews(String decodeId, MyReviewListDto myReviewListDto) {
+    public Map<String,Object> viewMyReviews(String nickname, MyReviewListDto myReviewListDto) {
         Map<String, Object> data = new HashMap<>();
 
         String type = myReviewListDto.getType();
@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
 
         Pageable pageable = Pageable.ofSize(pageSize);
 
-        Optional<UserEntity> userEntityOptional = userRepository.findByUserId(decodeId);
+        Optional<UserEntity> userEntityOptional = userRepository.findByNickname(nickname);
         if(userEntityOptional.isPresent()){
             UserEntity userEntity = userEntityOptional.get();
             Slice<ReviewEntity> reviews = reviewRepository.findByUser(userEntity);
@@ -162,8 +162,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object getTotalReviews(String decodeId) {
-        Optional<UserEntity> userEntityOptional = userRepository.findByUserId(decodeId);
+    public Object getTotalReviews(String nickname) {
+        Optional<UserEntity> userEntityOptional = userRepository.findByNickname(nickname);
         Integer count = 0;
 
         if(userEntityOptional.isPresent()){
@@ -174,8 +174,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object getAvgReviews(String decodeId) {
-        Optional<UserEntity> userEntityOptional = userRepository.findByUserId(decodeId);
+    public Object getAvgReviews(String nickname) {
+        Optional<UserEntity> userEntityOptional = userRepository.findByNickname(nickname);
         double avg_score = 0;
         if(userEntityOptional.isPresent()){
             UserEntity userEntity = userEntityOptional.get();
