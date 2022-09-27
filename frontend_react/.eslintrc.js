@@ -42,7 +42,8 @@ module.exports = {
     "operator-assignment": "off",
     "import/prefer-default-export": "off",
     "no-lone-blocks": "off",
-    "react/jsx-no-useless-fragment": "off"
+    "react/jsx-no-useless-fragment": "off",
+    "prefer-const" : "off"
   },
   settings: {
     "import/resolver": {

@@ -11,6 +11,7 @@ import TasteAnalysis from "@screens/perfume/TasteAnalysis";
 import TasteInfo from "@screens/perfume/TasteInfo";
 import Login from "@screens/Login";
 import Footer from "@components/common/Footer";
+import Rec from "@components/common/Rec";
 import { RecoilRoot } from "recoil";
 
 import Auth from "../Auth";
@@ -37,6 +38,7 @@ function Router() {
         <Route path="/oauth/token" element={<Token />} />
         <Route path="/personal" element={<PersonalPerfume />} />
         <Route path="/poll" element={<PollStart />} />
+        <Route path="/getRec" element={<Rec></Rec>}></Route>
       </Routes>
       <Footer />
     </RecoilRoot>
