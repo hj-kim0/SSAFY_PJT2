@@ -196,31 +196,65 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
             UserEntity user = userOptional.get();
             PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
 
-            Optional<WishListEntity> wishListOptional = wishListRepository.findByUserAndPerfumeAndIsDelete(user, perfume, false);
-
+            Optional<WishListEntity> wishListOptional = wishListRepository.findByUserAndPerfume(user, perfume);
             if (wishListOptional.isPresent()) {
-                WishListEntity wishList = WishListEntity.builder()
-                        .idx(wishListOptional.get().getIdx())
-                        .user(user)
-                        .perfume(perfume)
-                        .isDelete(true)
-                        .build();
-                wishListRepository.save(wishList);
-                List<AccordClassEntity> accordClassEntities = accordClassRepository.findByPerfumeAccordClass(perfume);
-                for (AccordClassEntity a : accordClassEntities) {
-                    Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user, a);
-                    if (userAccordClass.isPresent()) {
-                        UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
-                                .idx(userAccordClass.get().getIdx())
-                                .user(userAccordClass.get().getUser())
-                                .accordClass(userAccordClass.get().getAccordClass())
-                                .accordClassCount(userAccordClass.get().getAccordClassCount() - 1)
-                                .build();
+                WishListEntity wishList = wishListOptional.get();
+                if(wishList.getIsDelete()==false){
+                    WishListEntity wishListEntity = WishListEntity.builder()
+                            .idx(wishList.getIdx())
+                            .user(user)
+                            .perfume(perfume)
+                            .isDelete(true)
+                            .build();
+                    wishListRepository.save(wishListEntity);
 
-                        userAccordClassRepository.save(updateUserAccordClass);
+                    List<AccordClassEntity> accordClassEntities = accordClassRepository.findByPerfumeAccordClass(perfume);
+                    for (AccordClassEntity a : accordClassEntities) {
+                        Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user, a);
+                        if (userAccordClass.isPresent()) {
+                            UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
+                                    .idx(userAccordClass.get().getIdx())
+                                    .user(userAccordClass.get().getUser())
+                                    .accordClass(userAccordClass.get().getAccordClass())
+                                    .accordClassCount(userAccordClass.get().getAccordClassCount() - 1)
+                                    .build();
+
+                            userAccordClassRepository.save(updateUserAccordClass);
+                        }
                     }
+                    result.put("isClicked", "false");
+                }else{
+                    WishListEntity wishListEntity = WishListEntity.builder()
+                            .idx(wishList.getIdx())
+                            .user(user)
+                            .perfume(perfume)
+                            .isDelete(false)
+                            .build();
+                    wishListRepository.save(wishListEntity);
+                    List<AccordClassEntity> accordClassEntity = accordClassRepository.findByPerfumeAccordClass(perfume);
+                    for (AccordClassEntity a : accordClassEntity) {
+                        Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user, a);
+                        // DB 존재 -> cnt+1 수정
+                        if (userAccordClass.isPresent()) {
+                            UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
+                                    .idx(userAccordClass.get().getIdx())
+                                    .user(userAccordClass.get().getUser())
+                                    .accordClass(userAccordClass.get().getAccordClass())
+                                    .accordClassCount(userAccordClass.get().getAccordClassCount() + 1)
+                                    .build();
+                            userAccordClassRepository.save(updateUserAccordClass);
+
+                        } else { // DB에 삽입
+                            UserAccordClassEntity userAccordClassEntity = UserAccordClassEntity.builder()
+                                    .user(user)
+                                    .accordClass(a)
+                                    .build();
+                            userAccordClassRepository.save(userAccordClassEntity);
+                        }
+                    }
+                    result.put("isClicked", "true");
                 }
-                result.put("isClicked", "false");
+
             } else { // 없음 -> db에 등록
                 WishListEntity wishList = WishListEntity.builder()
                         .user(user)
@@ -283,31 +317,63 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                 result.put("isWishClicked", "false");
                 result.put("isClicked", "true");
             } else { // 없음 -> 바로 DB 등록
-                Optional<HaveListEntity> haveListOptional = haveListRepository.findByUserAndPerfumeAndIsDelete(user, perfume, false);
+                Optional<HaveListEntity> haveListOptional = haveListRepository.findByUserAndPerfume(user, perfume);
 
                 if (haveListOptional.isPresent()) {
-                    HaveListEntity haveList = HaveListEntity.builder()
-                            .idx(haveListOptional.get().getIdx())
-                            .user(user)
-                            .perfume(perfume)
-                            .isDelete(true)
-                            .build();
-                    haveListRepository.save(haveList);
-                    List<AccordClassEntity> accordClassEntities = accordClassRepository.findByPerfumeAccordClass(perfume);
-                    for (AccordClassEntity a : accordClassEntities) {
-                        Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user, a);
-                        if (userAccordClass.isPresent()) {
-                            UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
-                                    .idx(userAccordClass.get().getIdx())
-                                    .user(userAccordClass.get().getUser())
-                                    .accordClass(userAccordClass.get().getAccordClass())
-                                    .accordClassCount(userAccordClass.get().getAccordClassCount() - 1)
-                                    .build();
+                    if(haveListOptional.get().getIsDelete()==false){
+                        HaveListEntity haveList = HaveListEntity.builder()
+                                .idx(haveListOptional.get().getIdx())
+                                .user(user)
+                                .perfume(perfume)
+                                .isDelete(true)
+                                .build();
+                        haveListRepository.save(haveList);
+                        List<AccordClassEntity> accordClassEntities = accordClassRepository.findByPerfumeAccordClass(perfume);
+                        for (AccordClassEntity a : accordClassEntities) {
+                            Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user, a);
+                            if (userAccordClass.isPresent()) {
+                                UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
+                                        .idx(userAccordClass.get().getIdx())
+                                        .user(userAccordClass.get().getUser())
+                                        .accordClass(userAccordClass.get().getAccordClass())
+                                        .accordClassCount(userAccordClass.get().getAccordClassCount() - 1)
+                                        .build();
 
-                            userAccordClassRepository.save(updateUserAccordClass);
+                                userAccordClassRepository.save(updateUserAccordClass);
+                            }
                         }
+                        result.put("isClicked", "false");
+                    }else{
+                        HaveListEntity haveList = HaveListEntity.builder()
+                                .idx(haveListOptional.get().getIdx())
+                                .user(user)
+                                .perfume(perfume)
+                                .isDelete(false)
+                                .build();
+                        haveListRepository.save(haveList);
+                        List<AccordClassEntity> accordClassEntity = accordClassRepository.findByPerfumeAccordClass(perfume);
+                        for (AccordClassEntity a : accordClassEntity) {
+                            Optional<UserAccordClassEntity> userAccordClass = userAccordClassRepository.findByUserAndAccordClass(user, a);
+                            // DB 존재 -> cnt+1 수정
+                            if (userAccordClass.isPresent()) {
+                                UserAccordClassEntity updateUserAccordClass = UserAccordClassEntity.builder()
+                                        .idx(userAccordClass.get().getIdx())
+                                        .user(userAccordClass.get().getUser())
+                                        .accordClass(userAccordClass.get().getAccordClass())
+                                        .accordClassCount(userAccordClass.get().getAccordClassCount() + 1)
+                                        .build();
+                                userAccordClassRepository.save(updateUserAccordClass);
+
+                            } else { // DB에 삽입
+                                UserAccordClassEntity userAccordClassEntity = UserAccordClassEntity.builder()
+                                        .user(user)
+                                        .accordClass(a)
+                                        .build();
+                                userAccordClassRepository.save(userAccordClassEntity);
+                            }
+                        }
+                        result.put("isClicked", "true");
                     }
-                    result.put("isClicked", "false");
                 } else {
                     HaveListEntity haveList = HaveListEntity.builder()
                             .user(user)
