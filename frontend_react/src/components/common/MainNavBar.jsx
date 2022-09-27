@@ -9,20 +9,13 @@ import { Button } from "@material-ui/core";
 import { userState } from "../../atom";
 
 function MainNavBar() {
-  const [user, setUser] = useRecoilState(userState);
-
-  const User = user;
+  const user = useRecoilState(userState);
 
   const handleLogoutClick = (e) => {
     e.preventDefault();
-    console.log("로그아웃 수행");
-    User.isLogin = false;
-    User.sToken = '';
-    User.kToken = '';
-    setUser(User);
-    console.log(user);
-    navigate("/");
-  };
+    window.localStorage.removeItem('recoil-persist');
+    window.location.replace("/");
+    };
 
   return (
 

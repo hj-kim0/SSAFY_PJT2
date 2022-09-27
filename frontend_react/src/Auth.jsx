@@ -54,7 +54,7 @@ function Auth() {
             User.kToken = kToken;
             setUser(User);
 
-            navigate("/");
+            window.location.replace("/");
         }catch(err){
             console.log(err);
         }
