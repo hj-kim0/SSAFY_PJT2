@@ -1,7 +1,9 @@
 package com.perfectrum.backend.controller;
 
 import com.perfectrum.backend.domain.entity.PerfumeEntity;
+import com.perfectrum.backend.dto.perfume.AccordMoreInfoDto;
 import com.perfectrum.backend.dto.perfume.PerfumeViewDto;
+import com.perfectrum.backend.service.AccordService;
 import com.perfectrum.backend.service.JwtService;
 import com.perfectrum.backend.service.PerfumeService;
 import com.perfectrum.backend.service.UserService;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,13 +29,15 @@ public class MainController {
     private UserService userService;
     private JwtService jwtService;
     private PerfumeService perfumeService;
+    private AccordService accordService;
 
 
     @Autowired
-    MainController(UserService userService, JwtService jwtService, PerfumeService perfumeService ){
+    MainController(UserService userService, JwtService jwtService, PerfumeService perfumeService, AccordService accordService){
         this.jwtService = jwtService;
         this.userService = userService;
         this.perfumeService = perfumeService;
+        this.accordService = accordService;
     }
 
 
@@ -65,6 +70,22 @@ public class MainController {
         return new ResponseEntity<>(resultMap, status);
     }
 
+    @GetMapping("/main/docs/{accord_class_idx}") // 향수도감 api
+    public ResponseEntity<?> viewAccordDocs(@PathVariable("accord_class_idx") Integer idx){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        try{
+            List<AccordMoreInfoDto> accordList = accordService.viewAccordDocs(idx);
+            resultMap.put("accordList", accordList);
+            resultMap.put("message",success);
+            status = HttpStatus.OK;
+        }catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+
+        return new ResponseEntity<>(resultMap, status);
+    }
     public String checkToken(HttpServletRequest request, Map<String, Object> resultMap){
         String accessToken = request.getHeader("Authorization");
         String decodeId = jwtService.decodeToken(accessToken);
