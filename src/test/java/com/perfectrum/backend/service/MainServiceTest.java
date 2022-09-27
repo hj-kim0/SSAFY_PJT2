@@ -1,11 +1,14 @@
 package com.perfectrum.backend.service;
 
 import com.perfectrum.backend.domain.entity.AccordClassEntity;
+import com.perfectrum.backend.domain.entity.AccordEntity;
 import com.perfectrum.backend.domain.entity.PerfumeEntity;
 import com.perfectrum.backend.domain.entity.UserEntity;
 import com.perfectrum.backend.domain.repository.AccordClassRepository;
+import com.perfectrum.backend.domain.repository.AccordRepository;
 import com.perfectrum.backend.domain.repository.PerfumeRepository;
 import com.perfectrum.backend.domain.repository.UserRepository;
+import com.perfectrum.backend.dto.perfume.AccordMoreInfoDto;
 import com.perfectrum.backend.dto.perfume.PerfumeViewDto;
 import com.perfectrum.backend.mapper.PerfumeViewMapper;
 import org.junit.jupiter.api.Test;
@@ -36,18 +39,46 @@ public class MainServiceTest {
     private AccordClassRepository accordClassRepository;
 
     private JwtService jwtService;
+    private AccordRepository accordRepository;
 
 
     @Autowired
     MainServiceTest(UserRepository userRepository, PerfumeRepository perfumeRepository, PerfumeViewMapper perfumeViewMapper, JwtService jwtService,
-                    AccordClassRepository accordClassRepository){
+                    AccordClassRepository accordClassRepository, AccordRepository accordRepository){
         this.userRepository = userRepository;
         this.perfumeRepository = perfumeRepository;
         this.perfumeViewMapper = perfumeViewMapper;
         this.accordClassRepository = accordClassRepository;
         this.jwtService = jwtService;
+        this.accordRepository = accordRepository;
     }
 
+    @Test
+    public void 클래스별_향소개_테스트(){
+        // given
+        Integer idx = 1;
+
+        // when
+        List<AccordMoreInfoDto> dto = new ArrayList<>();
+        AccordClassEntity accordClassEntity = accordClassRepository.findByIdx(idx);
+        List<AccordEntity> entityList = accordRepository.findByAccordClass(accordClassEntity);
+
+        if(!entityList.isEmpty()){
+            for(AccordEntity ac : entityList){
+                AccordMoreInfoDto accord = AccordMoreInfoDto.builder()
+                        .accordName(ac.getAccordName())
+                        .accordImg(ac.getAccordImg())
+                        .accordDescription(ac.getAccordDescription())
+                        .build();
+
+                dto.add(accord);
+            }
+        }
+
+        for(AccordMoreInfoDto a : dto){
+            System.out.println(a.toString());
+        }
+    }
     @Test
     public void 베스트_향수_top6_조회() {
         // given
