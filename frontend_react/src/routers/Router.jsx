@@ -8,15 +8,15 @@ import UserReview from "@screens/user/UserReview";
 import PerfumeSearch from "@screens/perfume/PerfumeSearch";
 import PerfumeDetail from "@screens/perfume/PerfumeDetail";
 import TasteAnalysis from "@screens/perfume/TasteAnalysis";
+import TasteInfo from "@screens/perfume/TasteInfo";
 import Login from "@screens/Login";
 import Footer from "@components/common/Footer";
-import { RecoilRoot } from 'recoil';
+import { RecoilRoot } from "recoil";
 
 import Auth from "../Auth";
 import Token from "../Token";
 import PersonalPerfume from "../screens/PersonalPerfume";
 import PollStart from "../screens/poll/PollStart";
-
 
 function Router() {
   return (
@@ -29,16 +29,17 @@ function Router() {
         <Route path="/userreview" element={<UserReview />} />
         {/* perfume */}
         <Route path="/perfumesearch" element={<PerfumeSearch />} />
+        <Route path="/tasteInfo" element={<TasteInfo />} />
         <Route path="/detail/:id" element={<PerfumeDetail />} />
         <Route path="/tasteanalysis" element={<TasteAnalysis />} />
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/oauth/kakao" element={<Auth/>} />
-        <Route path="/oauth/token" element={<Token/>}/>
+        <Route path="/login" element={<Login />} />
+        <Route path="/oauth/kakao" element={<Auth />} />
+        <Route path="/oauth/token" element={<Token />} />
         <Route path="/personal" element={<PersonalPerfume />} />
-        <Route path="/poll" element={<PollStart/>} />
+        <Route path="/poll" element={<PollStart />} />
       </Routes>
-      <Footer/>
-      </RecoilRoot>
+      <Footer />
+    </RecoilRoot>
   );
 }
 export default Router;
