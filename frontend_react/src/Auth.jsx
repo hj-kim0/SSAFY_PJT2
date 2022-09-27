@@ -16,6 +16,12 @@ function Auth() {
 
     let accessToken = '';
 
+    let kToken;
+
+    let sToken;
+
+    let isLogin;
+
     const [user, setUser] = useRecoilState(userState);
 
     const User = user;
@@ -38,12 +44,16 @@ function Auth() {
             });
 
             console.log("스프링 엑세스토큰 저장");
-            User.sToken = response2.data["access-token"];
-            console.log(User.sToken);
+            sToken = response2.data["access-token"];
+            console.log(sToken);
             console.log("스프링 엑세스토큰 저장");
-            User.isLogin = true;
-            console.log(User.isLogin);
+            isLogin = true;
+            console.log(isLogin);
+            User.sToken = sToken;
+            User.isLogin = isLogin;
+            User.kToken = kToken;
             setUser(User);
+
             navigate("/")
         }catch(err){
             console.log(err);
@@ -63,10 +73,10 @@ function Auth() {
             accessToken = response.data.access_token;   
             
             //카카오 엑세스토큰 저장
-            User.kToken = accessToken;
+            kToken = accessToken;
             console.log("카카오 엑세스토큰 저장");
-            console.log(User.kToken);
-            setUser(User);
+            console.log(kToken);
+
 
             getToken2();
         }catch(err){
