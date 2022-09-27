@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class AccordMoreInfoDto {
-
+    String accordName;
     String accordImg;
     String accordDescription;
 }
