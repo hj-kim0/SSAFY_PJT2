@@ -16,7 +16,7 @@ function MainNavBar() {
 
   const handleLogoutClick = (e) => {
     e.preventDefault();
-    console.log("로그아웃 수행")
+    console.log("로그아웃 수행");
     User.isLogin = false;
     User.sToken = '';
     User.kToken = '';
