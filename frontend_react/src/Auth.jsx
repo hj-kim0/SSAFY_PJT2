@@ -29,7 +29,7 @@ function Auth() {
     const navigate = useNavigate();
 
     const getToken2 = async () => {
-        const AT = User.kToken;
+        const AT = kToken;
         
         
         console.log("카카오 엑세스토큰 불러오기");
