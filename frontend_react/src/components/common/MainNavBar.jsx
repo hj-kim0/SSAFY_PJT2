@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./MainNavBar.scss";
 import navLogo from "@images/logo/logo.png";
 
@@ -33,7 +33,7 @@ function MainNavBar() {
           </NavLink>
         </nav>
         {
-        user.isLogin ? 
+        user[0].isLogin ? 
         <nav className="right_nav notoReg">
           <Button variant="contained" color="white" onClick={handleLogoutClick}>로그아웃</Button>
         </nav> : 
@@ -41,10 +41,6 @@ function MainNavBar() {
           로그인
         </NavLink>
     }
-    <Button variant="contained" color="white" onClick={handleLogoutClick}>로그아웃</Button>
-    <NavLink className="right_nav__link fs-16" to="/login">
-          로그인
-        </NavLink>
       </nav>
     </div>
   );
