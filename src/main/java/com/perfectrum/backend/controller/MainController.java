@@ -1,12 +1,10 @@
 package com.perfectrum.backend.controller;
 
 import com.perfectrum.backend.domain.entity.PerfumeEntity;
+import com.perfectrum.backend.dto.MyPage.ViewAccordClassDto;
 import com.perfectrum.backend.dto.perfume.AccordMoreInfoDto;
 import com.perfectrum.backend.dto.perfume.PerfumeViewDto;
-import com.perfectrum.backend.service.AccordService;
-import com.perfectrum.backend.service.JwtService;
-import com.perfectrum.backend.service.PerfumeService;
-import com.perfectrum.backend.service.UserService;
+import com.perfectrum.backend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,14 +28,16 @@ public class MainController {
     private JwtService jwtService;
     private PerfumeService perfumeService;
     private AccordService accordService;
+    private AccordClassService accordClassService;
 
 
     @Autowired
-    MainController(UserService userService, JwtService jwtService, PerfumeService perfumeService, AccordService accordService){
+    MainController(UserService userService, JwtService jwtService, PerfumeService perfumeService, AccordService accordService, AccordClassService accordClassService){
         this.jwtService = jwtService;
         this.userService = userService;
         this.perfumeService = perfumeService;
         this.accordService = accordService;
+        this.accordClassService = accordClassService;
     }
 
 
@@ -76,6 +76,8 @@ public class MainController {
 
         try{
             List<AccordMoreInfoDto> accordList = accordService.viewAccordDocs(idx);
+            ViewAccordClassDto dto = accordClassService.viewAccordClass(idx);
+            resultMap.put("accordClass", dto);
             resultMap.put("accordList", accordList);
             resultMap.put("message",success);
             status = HttpStatus.OK;
