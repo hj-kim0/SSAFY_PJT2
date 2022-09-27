@@ -43,15 +43,11 @@ public class SurveyController {
     @PostMapping("/survey")
     public ResponseEntity<?> surveyResult(HttpServletRequest request, @RequestBody SurveyDto surveyDto){
         Map<String, Object> resultMap = new HashMap<>();
-        PerfumeEntity perfume;
+        Map<String, Object> data = new HashMap<>();
         String decodeId = checkToken(request,resultMap);
         try{
-            System.out.println("향수 IDX 찾기");
-            perfume = surveyService.surveyResult(decodeId,surveyDto);
-            System.out.println("향수 IDX");
-            System.out.println(perfume.getIdx());
-            resultMap.put("perfumeName",perfume.getPerfumeName());
-            resultMap.put("perfumeImg",perfume.getPerfumeImg());
+            data = surveyService.surveyResult(decodeId,surveyDto);
+            resultMap.put("perfume",data.get("perfume"));
             resultMap.put("message",success);
             status = HttpStatus.OK;
         }catch(Exception e){
