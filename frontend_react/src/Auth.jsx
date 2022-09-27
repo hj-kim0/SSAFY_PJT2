@@ -49,11 +49,13 @@ function Auth() {
     const getToken2 = async () => {
 
         const AT = User.kToken;
+        console.log("카카오 엑세스토큰 불러오기");
+        console.log(AT);
         try{
             const response2 = await axios.get("http://j7c105.p.ssafy.io:8083/kakao",{
                 headers: {
-                    "Context-Type": "application/json",
-                    "authToken": AT,
+                    'Context-Type': 'application/json',
+                    'authToken': AT,
                 }
             });
 
