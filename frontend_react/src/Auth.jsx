@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { useRecoilState } from "recoil";
 
-import cookies from "react-cookies";
-
 import { userState } from "./atom";
 
 const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
@@ -36,12 +34,12 @@ function Auth() {
                 "https://kauth.kakao.com/oauth/token", payload
             );
             accessToken = response.data.access_token;   
-            const expires = new Date();
-            expires.setMinutes(1);
-
-            cookies.save("Kakao", accessToken);
-
-            console.log(cookies.load("Kakao"));
+            
+            //카카오 엑세스토큰 저장
+            User.kToken = accessToken;
+            console.log("카카오 엑세스토큰 저장");
+            console.log(User.kToken);
+            setUser(User);
 
         }catch(err){
             console.log(err);
@@ -50,7 +48,7 @@ function Auth() {
 
     const getToken2 = async () => {
 
-        const AT = cookies.load("Kakao");
+        const AT = User.kToken;
         try{
             const response2 = await axios.get("http://j7c105.p.ssafy.io:8083/kakao",{
                 headers: {
@@ -59,11 +57,12 @@ function Auth() {
                 }
             });
 
-            cookies.save("Spring", response2.data["access-token"]);
-
-            console.log(cookies.load("Spring"));
-
+            console.log("스프링 엑세스토큰 저장");
+            User.sToken = response2.data["access-token"];
+            console.log(User.sToken);
+            console.log("스프링 엑세스토큰 저장");
             User.isLogin = true;
+            console.log(User.isLogin);
             setUser(User);
             navigate("/")
         }catch(err){
