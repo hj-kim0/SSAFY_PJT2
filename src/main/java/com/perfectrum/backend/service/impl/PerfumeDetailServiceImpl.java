@@ -77,7 +77,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
 //
         Integer haveCount = Long.valueOf(Optional.ofNullable(haveListRepository.countByPerfumeIdx(perfumeIdx)).orElse(0L)).intValue();
 
-        Integer wishCount = Long.valueOf(Optional.ofNullable(haveListRepository.countByPerfumeIdx(perfumeIdx)).orElse(0L)).intValue();
+        Integer wishCount = Long.valueOf(Optional.ofNullable(wishListRepository.countByPerfumeIdx(perfumeIdx)).orElse(0L)).intValue();
 //
         PerfumeViewDto perfumeViewDto = PerfumeViewDto.builder()
                 .idx(perfumeIdx)
