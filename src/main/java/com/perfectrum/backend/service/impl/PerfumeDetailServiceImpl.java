@@ -145,8 +145,8 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
         for (ReviewEntity re : reviews) {
             ReviewViewDto reviewViewDto = ReviewViewDto.builder()
                     .idx(re.getIdx())
-                    .userNickname(null)
-                    .userProfileimg(null)
+                    .userNickname(user.get().getNickname())
+                    .userProfileimg(user.get().getProfileImg())
                     .perfumeName(re.getPerfume().getPerfumeName())
                     .reviewImg(re.getReviewImg())
                     .totalScore(re.getTotalScore())
