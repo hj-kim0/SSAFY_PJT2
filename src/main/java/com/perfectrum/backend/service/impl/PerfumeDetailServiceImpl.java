@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -135,9 +136,8 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                 reviews = reviewRepository.findByPerfumeOrderTotalScoreDescIdxDesc(perfume, lastIdx, lastTotalScore, pageable);
             } else if (type.equals("최신순")) {
                 reviews = reviewRepository.findByPerfumeOrderByIdxDesc(perfume, lastIdx, pageable);
-            } else { // 공감순 or null
+            } else {
                 reviews = reviewRepository.findByPerfumeOrderByLikeCountDescIdxDesc(perfume, lastIdx, lastLikeCount, pageable);
-
             }
         }
         boolean hasNext = reviews.hasNext();
@@ -417,7 +417,6 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
         String reviewImg = reviewRegistDto.getReviewImg();
         Integer totalScore = reviewRegistDto.getTotalScore();
         String content = reviewRegistDto.getContent();
-        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
         if (user.isPresent()) {
             ReviewEntity reviewEntity = ReviewEntity.builder()
@@ -428,11 +427,8 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                     .longevity(reviewRegistDto.getLongevity())
                     .sillageScore(reviewRegistDto.getSillageScore())
                     .content(content)
-                    .likeCount(0)
-                    .time(now)
                     .updateTime(null)
                     .build();
-
             reviewRepository.save(reviewEntity);
         }
     }
@@ -445,7 +441,6 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
         String reviewImg = reviewRegistDto.getReviewImg();
         Integer totalScore = reviewRegistDto.getTotalScore();
         String content = reviewRegistDto.getContent();
-        LocalDateTime registTime = LocalDateTime.from(originReview.getTime());
         LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
         if (user.isPresent()) {
             ReviewEntity reviewEntity = ReviewEntity.builder()
@@ -458,7 +453,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                     .sillageScore(reviewRegistDto.getSillageScore())
                     .content(content)
                     .likeCount(originReview.getLikeCount())
-                    .time(registTime)
+                    .time(originReview.getTime())
                     .updateTime(now)
                     .build();
 
