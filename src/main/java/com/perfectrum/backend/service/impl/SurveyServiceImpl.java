@@ -3,9 +3,11 @@ package com.perfectrum.backend.service.impl;
 import com.perfectrum.backend.domain.entity.AccordEntity;
 import com.perfectrum.backend.domain.entity.PerfumeEntity;
 import com.perfectrum.backend.domain.entity.UserEntity;
+import com.perfectrum.backend.domain.repository.HaveListRepository;
 import com.perfectrum.backend.domain.repository.PerfumeRepository;
 import com.perfectrum.backend.domain.repository.UserRepository;
 import com.perfectrum.backend.domain.repository.WishListRepository;
+import com.perfectrum.backend.dto.perfume.PerfumeViewDto;
 import com.perfectrum.backend.dto.survey.SurveyDto;
 import com.perfectrum.backend.service.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +21,21 @@ public class SurveyServiceImpl implements SurveyService {
     private PerfumeRepository perfumeRepository;
     private UserRepository userRepository;
 
+    private HaveListRepository haveListRepository;
     private WishListRepository wishListRepository;
     @Autowired
-    SurveyServiceImpl(PerfumeRepository perfumeRepository,UserRepository userRepository,WishListRepository wishListRepository){
+    SurveyServiceImpl(PerfumeRepository perfumeRepository,UserRepository userRepository,WishListRepository wishListRepository,
+                      HaveListRepository haveListRepository){
         this.perfumeRepository = perfumeRepository;
         this.userRepository = userRepository;
         this.wishListRepository = wishListRepository;
+        this.haveListRepository = haveListRepository;
     }
     @Override
-    public PerfumeEntity surveyResult(String decodeId, SurveyDto surveyDto) {
+    public Map<String, Object> surveyResult(String decodeId, SurveyDto surveyDto) {
         Optional<UserEntity> user = userRepository.findByUserId(decodeId);
+        Map<String,Object> data = new HashMap<>();
+        PerfumeEntity perfume;
         Random random = new Random();
         String gender = surveyDto.getGender();
         String season = surveyDto.getSeason();
@@ -78,30 +85,47 @@ public class SurveyServiceImpl implements SurveyService {
                     cnt++;
                 }
             }
-            System.out.println(i +": i " + "max = "+max +"cnt = " +cnt);
 
             if(max < cnt){
                 max = cnt;
                 resultList.clear();
-                System.out.println("max = "+max +"cnt = " +cnt + "list clear " + i);
                 resultList.add(perfumeList.get(i));
             }else if(max == cnt){
                 resultList.add(perfumeList.get(i));
             }
             list.add(cnt);
-            System.out.println("max "+max);
-        }
-        System.out.println(list.size());
-        System.out.println("최대 포함 개수" + max);
-        System.out.println("최종개수" + resultList.size());
-        for(PerfumeEntity pe : resultList){
-            System.out.println("최종 리스트 : " + pe.getIdx() + ": "+ pe.getPerfumeName());
         }
 
         if(resultList.size() != 1){
-            return resultList.get(random.nextInt(resultList.size()));
+            perfume = resultList.get(random.nextInt(resultList.size()));
+        ;
         }else {
-            return resultList.get(0);
+            perfume = resultList.get(0);
         }
+        Integer haveCount = Long.valueOf(Optional.ofNullable(haveListRepository.countByPerfumeIdx(perfume.getIdx())).orElse(0L)).intValue();
+
+        Integer wishCount = Long.valueOf(Optional.ofNullable(wishListRepository.countByPerfumeIdx(perfume.getIdx())).orElse(0L)).intValue();
+        PerfumeViewDto perfumeViewDto = PerfumeViewDto.builder()
+                .idx(perfume.getIdx())
+                .brandName(perfume.getBrandName())
+                .perfumeName(perfume.getPerfumeName())
+                .concentration(perfume.getConcentration())
+                .gender(perfume.getGender())
+                .scent(perfume.getScent())
+                .topNotes(perfume.getTopNotes())
+                .middleNotes(perfume.getMiddleNotes())
+                .baseNotes(perfume.getBaseNotes())
+                .itemRating(perfume.getItemRating())
+                .perfumeImg(perfume.getPerfumeImg())
+                .description(perfume.getDescription())
+                .seasons(perfume.getSeasons())
+                .timezone(perfume.getTimezone())
+                .longevity(perfume.getLongevity())
+                .sillage(perfume.getSillage())
+                .wishCount(wishCount)
+                .haveCount(haveCount)
+                .build();
+        data.put("perfume",perfumeViewDto);
+        return data;
     }
 }
