@@ -28,8 +28,8 @@ function Auth() {
 
     const getToken2 = async () => {
         const AT = kToken;
-
-
+        
+        
         console.log("카카오 엑세스토큰 불러오기");
         console.log(AT);
 

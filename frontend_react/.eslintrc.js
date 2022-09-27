@@ -49,6 +49,7 @@ module.exports = {
     "jsx-a11y/click-events-have-key-events" : "off",
     "jsx-a11y/no-static-element-interactions" : "off",
     "import/order" : "off",
+    "prefer-const" : "off"
   },
   settings: {
     "import/resolver": {

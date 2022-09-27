@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-
 import "./MainNavBar.scss";
 import navLogo from "@images/logo/logo.png";
 
@@ -8,21 +7,16 @@ import { useRecoilState } from "recoil";
 
 import { Button } from "@material-ui/core";
 import { userState } from "../../atom";
+import Rec from "./Rec";
 
 function MainNavBar() {
-  const [user, setUser] = useRecoilState(userState);
-
-  const User = user;
+  const user = useRecoilState(userState);
 
   const handleLogoutClick = (e) => {
     e.preventDefault();
-    console.log("로그아웃 수행")
-    User.isLogin = false;
-    User.sToken = '';
-    User.kToken = '';
-    setUser(User);
-    console.log(user);
-  };
+    window.localStorage.removeItem('recoil-persist');
+    window.location.replace("/");
+    };
 
   return (
 
@@ -39,11 +33,22 @@ function MainNavBar() {
             향수모음
           </NavLink>
         </nav>
-        { !(!User.isLogin) && <nav className="right_nav notoReg">
-      <Button variant="contained" color="white" onClick={handleLogoutClick}>로그아웃</Button>
-    </nav>}
-        { !(User.isLogin) &&
-    <NavLink className="right_nav__link fs-16" to="/login">로그인</NavLink>}
+        {
+        user[0].isLogin ? 
+        <nav className="right_nav notoReg">
+          <Button variant="contained" color="white" onClick={handleLogoutClick}>로그아웃</Button>
+        </nav> : 
+        <NavLink className="right_nav__link fs-16" to="/login">
+          로그인
+        </NavLink>
+        }
+        <NavLink
+            className=""
+            to="/getRec"
+          >
+            rec
+          </NavLink>
+    
       </nav>
     </div>
   );
