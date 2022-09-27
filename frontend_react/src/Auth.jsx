@@ -74,14 +74,9 @@ function Auth() {
         }
     };     
 
-
     useEffect(() => {
         getToken();
     },[]);
-
-    // useEffect(() => {
-    //     getToken2();
-    // },[]);
     
 };
 export default Auth;
