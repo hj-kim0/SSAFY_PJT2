@@ -14,11 +14,14 @@ function MainNavBar() {
 
   const User = user;
 
-  function handleLogoutClick() {
+  const handleLogoutClick = (e) => {
+    e.preventDefault();
+    console.log("로그아웃 수행")
     User.isLogin = false;
     User.sToken = '';
     User.kToken = '';
     setUser(User);
+    console.log(user);
   };
 
   return (
@@ -37,7 +40,7 @@ function MainNavBar() {
           </NavLink>
         </nav>
         { !(!User.isLogin) && <nav className="right_nav notoReg">
-      <Button variant="contained" color="white" onClick={handleLogoutClick()}>로그아웃</Button>
+      <Button variant="contained" color="white" onClick={handleLogoutClick}>로그아웃</Button>
     </nav>}
         { !(User.isLogin) &&
     <NavLink className="right_nav__link fs-16" to="/login">로그인</NavLink>}
