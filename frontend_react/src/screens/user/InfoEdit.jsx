@@ -19,13 +19,13 @@ const season = [
   { value: "winter", name: "겨울" }
 ];
 const likeScent = [
-  { value: "citrus", name: "상큼한 향" },
+  { value: "citrus", name: "톡쏘는 향" },
   { value: "floral", name: "꽃 향" },
-  { value: "herbal", name: "허브 향" },
+  { value: "herbal", name: "풀 향기" },
   { value: "fruity", name: "과일 향" },
-  { value: "spicy", name: "강렬한 향" },
+  { value: "spicy", name: "매운 향" },
   { value: "animalic", name: "야성적인 향" },
-  { value: "synthetic", name: "합성 향" },
+  { value: "synthetic", name: "인공적인 향" },
   { value: "sweet", name: "달콤한 향" }
 ];
 

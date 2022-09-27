@@ -17,6 +17,7 @@ import Auth from "../Auth";
 import Token from "../Token";
 import PersonalPerfume from "../screens/PersonalPerfume";
 import PollStart from "../screens/poll/PollStart";
+import Survey from "../screens/user/Survey";
 
 function Router() {
   return (
@@ -37,6 +38,7 @@ function Router() {
         <Route path="/oauth/token" element={<Token />} />
         <Route path="/personal" element={<PersonalPerfume />} />
         <Route path="/poll" element={<PollStart />} />
+        <Route path="/survey" element={<Survey />} />
       </Routes>
       <Footer />
     </RecoilRoot>

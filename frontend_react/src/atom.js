@@ -38,3 +38,31 @@ export const userProfileState = atom({
     },
     effects_UNSTABLE: [persistAtom],
 });
+export const surveyState = atom({
+    key: "surveyState",
+    default: {
+        "ptr": 1,
+        "data": [
+                { "step" : 1,
+                "sentence": ["성별을 알려주세요."],
+                },
+                { "step" : 2,
+                "sentence": ["남자", "유니섹스", "여자"],
+                },
+                { "step" : 3,
+                "sentence": ["선호하는 계절을 알려주세요."],
+                },
+                { "step" : 4,
+                "sentence": ["봄", "여름", "가을", "겨울"],
+                },
+                { "step" : 5,
+                "sentence": ["다음중 좋아하는 향을 선택해주세요"],
+                },
+                { "step" : 6,
+                "sentence": ["매운 향", "톡쏘는 향","야성적인 향","인공적인 향",
+                "꽃 향기", "풀 향기", "과일 향", "달콤한 향"],
+                },                                        
+            ],
+               
+    }
+});
