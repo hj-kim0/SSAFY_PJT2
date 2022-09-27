@@ -133,28 +133,47 @@ public class UserController {
         return new ResponseEntity<>(resultMap, status);
     }
 
-    @PostMapping("/user/reviews") // 내가 쓴 리뷰 조회
-    public ResponseEntity<?> viewMyReviews(HttpServletRequest request, @RequestBody MyReviewListDto myReviewListDto){
-        Map<String, Object> resultMap = new HashMap<>();
-        String decodeId = checkToken(request,resultMap);
+//    @PostMapping("/user/reviews") // 사용자가 작성한 리뷰 조회
+//    public ResponseEntity<?> viewMyReviews(HttpServletRequest request, @RequestBody MyReviewListDto myReviewListDto){
+//        Map<String, Object> resultMap = new HashMap<>();
+//        String decodeId = checkToken(request,resultMap);
+//
+//        if(decodeId != null){
+//            try{
+//                Map<String, Object> data = userService.viewMyReviews(decodeId, myReviewListDto);
+//                resultMap.put("totalReviews", userService.getTotalReviews(decodeId));
+//                resultMap.put("avgReviews", userService.getAvgReviews(decodeId));
+//                resultMap.put("hasNext", data.get("hasNext"));
+//                resultMap.put("myReviewList", data.get("myReviewList"));
+//                resultMap.put("message", success);
+//                status = HttpStatus.OK;
+//            }catch (Exception e){
+//                resultMap.put("message", fail);
+//                status = HttpStatus.INTERNAL_SERVER_ERROR;
+//            }
+//        }
+//        return new ResponseEntity<>(resultMap, status);
+//    }
 
-        if(decodeId != null){
-            try{
-                Map<String, Object> data = userService.viewMyReviews(decodeId, myReviewListDto);
-                resultMap.put("totalReviews", userService.getTotalReviews(decodeId));
-                resultMap.put("avgReviews", userService.getAvgReviews(decodeId));
-                resultMap.put("hasNext", data.get("hasNext"));
-                resultMap.put("myReviewList", data.get("myReviewList"));
-                resultMap.put("message", success);
-                status = HttpStatus.OK;
-            }catch (Exception e){
-                resultMap.put("message", fail);
-                status = HttpStatus.INTERNAL_SERVER_ERROR;
-            }
+    @PostMapping("/user/reviews/{nickname}") // 사용자가 작성한 리뷰 조회
+    public ResponseEntity<?> viewMyReviews(@PathVariable("nickname") String nickname, @RequestBody MyReviewListDto myReviewListDto){
+        Map<String, Object> resultMap = new HashMap<>();
+
+        try{
+            Map<String, Object> data = userService.viewMyReviews(nickname, myReviewListDto);
+            resultMap.put("totalReviews", userService.getTotalReviews(nickname));
+            resultMap.put("avgReviews", userService.getAvgReviews(nickname));
+            resultMap.put("hasNext", data.get("hasNext"));
+            resultMap.put("myReviewList", data.get("myReviewList"));
+            resultMap.put("message", success);
+            status = HttpStatus.OK;
+        }catch (Exception e){
+            resultMap.put("message", fail);
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
+
         return new ResponseEntity<>(resultMap, status);
     }
-
     @GetMapping("/user/logout")
     public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response){
         Map<String, Object> resultMap = new HashMap<>();
