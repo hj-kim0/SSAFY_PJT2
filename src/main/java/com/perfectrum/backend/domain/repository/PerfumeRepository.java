@@ -59,13 +59,13 @@ public interface PerfumeRepository extends JpaRepository<PerfumeEntity, Integer>
     List<PerfumeEntity> findByGenderAndSeasonAndStrongLongevityAndAccordClass(String gender, String season, AccordClassEntity accordClass);
 
     @Query(value = "select p from PerfumeEntity p " +
-            "where :gender like concat('%',p.gender,'%')\n" +
+            "where p.gender in (:gender)" +
             "and p.longevity in (:longevity) " +
             "and p.idx IN(select pa.perfume from PerfumeAccordsEntity as pa " +
             "where pa.accord in (select a.idx from AccordEntity a " +
             "where a.accordClass in(:accordclass))) and p.idx < :lastIdx " +
             "order by p.itemRating desc, p.idx desc")
-    Slice<PerfumeEntity> findAllByGenderAndLongevityAndAccordClass(String gender, List<Integer> longevity, List<AccordClassEntity> accordclass, Integer lastIdx, Pageable pageable);
+    Slice<PerfumeEntity> findAllByGenderAndLongevityAndAccordClass(List<String> gender, List<Integer> longevity, List<AccordClassEntity> accordclass, Integer lastIdx, Pageable pageable);
 
     PerfumeEntity findTop1ByOrderByIdxDesc();
 
