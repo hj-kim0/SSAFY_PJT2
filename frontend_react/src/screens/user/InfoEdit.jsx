@@ -1,14 +1,21 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { React, useState, useRef }  from "react";
+
+import axios from "axios";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage"
+import uuid from "react-uuid"
 import dummyProfile from "@images/icon/dummyIcon.png";
 import "./InfoEdit.scss";
 // import SelectItem from "@components/user/SelectItem";
 import Select from "@components/user/SelectItem";
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userProfileState, userState } from "../../atom";
+import { storage } from "../../firebase"
+import {useRecoilState} from "recoil";
 
 const sex = [
-  { value: "unisex", name: "성별 무관" },
-  { value: "men", name: "남성" },
-  { value: "women", name: "여성" }
+  { value: "Unisex", name: "성별 무관" },
+  { value: "Men", name: "남성" },
+  { value: "Women", name: "여성" }
 ];
 const season = [
   { value: "spring", name: "봄" },
@@ -17,55 +24,172 @@ const season = [
   { value: "winter", name: "겨울" }
 ];
 const likeScent = [
-  { value: 1, name: "1" },
-  { value: 2, name: "2" },
-  { value: 3, name: "3" },
-  { value: 4, name: "4" },
-  { value: 5, name: "5" },
-  { value: 6, name: "6" },
-  { value: 7, name: "7" },
-  { value: 8, name: "8" }
+  { value: "citrus", name: "톡쏘는 향" },
+  { value: "floral", name: "꽃 향" },
+  { value: "herbal", name: "풀 향기" },
+  { value: "fruity", name: "과일 향" },
+  { value: "spicy", name: "매운 향" },
+  { value: "animalic", name: "야성적인 향" },
+  { value: "synthetic", name: "인공적인 향" },
+  { value: "sweet", name: "달콤한 향" }
 ];
+const LUT = {
+  "citrus" : 1,
+  "floral" : 2,
+  "herbal" : 3,
+  "fruity" : 4,
+  "spicy" : 5,
+  "animalic" : 6,
+  "synthetic" : 7,
+  "sweet" : 8,
 
+}
 function InfoEdit() {
-  const infoEdit = () => {
-    window.location.href = "/infoedit";
+  const [userProfile, setUserProfile] = useRecoilState(userProfileState);
+  const userLoginState = useRecoilValue(userState);
+  const [isChecked, setIsChecked] = useState(0);
+  const [image, setImage] = useState({
+    image_file: "",
+    preview_URL: `${userProfile.profileImg}`,
+  });
+  const [imageUrl, setImageUrl] = useState("");
+  // let inputRef;
+  const inputRef = useRef();
+  const nicknameRef = useRef();
+  const genderRef = useRef();
+  const seasonsRef = useRef();
+  const accordClassRef = useRef();
+
+
+  const completeEdit = () => {
+    if (isChecked) {
+      const accord = accordClassRef.current.value
+      axios({
+        method: "put",
+        url : "http://j7c105.p.ssafy.io:8083/user/",
+        headers : {
+          Authorization : userLoginState.sToken
+        },
+        data : {
+          "nickname" : nicknameRef.current.value,
+          // "profileImg" : userProfile.profileImg,
+          "profileImg" : "test",
+          "gender" : genderRef.current.value,
+          "seasons" : seasonsRef.current.value,
+          "accordClass" : LUT.accord
+        }
+      })
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
+      // window.location.href = "/userreview";
+    } else {
+      alert("닉네임 중복 체크를 해주세요")
+    }
   };
+
+
+  const editImg = (e) => {
+    e.preventDefault();
+    inputRef.current.click();
+  };
+
+
+  const handleChangeFile = (e) => {
+    e.preventDefault()
+    console.log(e.target.files[0])
+    if(e.target.files[0]){
+        URL.revokeObjectURL(image.preview_URL);
+        const preview_URL = URL.createObjectURL(e.target.files[0])
+        console.log(preview_URL)
+        setImage(() => (
+            {
+              image_file: e.target.files[0],
+              preview_URL: preview_URL
+            }
+        ))
+      console.log(image)
+      const storageRef = storage.ref("userProfile/test/")
+      const imageRef = storageRef.child(e.target.files[0].name)
+      const upLoadTask = imageRef.put(e.target.files[0])
+      upLoadTask.on(
+          "state_changed",
+          (snapshot) => {
+            console.log("snapshot", snapshot);
+            const percent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log(percent + "% done");
+          },
+          (error) => {
+            console.log("err", error);
+          },
+          () => {
+            upLoadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+              console.log("File available at", downloadURL);
+              setImageUrl(downloadURL);
+              console.log(downloadURL)
+              // const res = ChangeProfileImage(downloadURL)
+              //     .then((res) => {
+              //       console.log(res)
+              //     })
+            });
+          }
+      )
+    }
+  };
+
+  const checkNickname = () => {
+    axios({
+      method: 'get',
+      url: `http://j7c105.p.ssafy.io:8083/user/check/${nicknameRef.current.value}`,
+    })
+    .then(res => {
+       if (res.data.message === "FAIL") {
+        alert("닉네임이 중복되었습니다.")
+       } else if (res.data.message === "SUCCESS") {
+        setIsChecked(1);
+        alert("닉네임이 중복되지 않았습니다. 계속 진행하세요.")
+       }
+    })
+    .catch(err => {alert("관리자에게 문의 하세요")});
+  };
+
   return (
     <div className="container flex justify-center">
       <div id="infoedit" className="infoedit">
         <div id="infoedit1" className="infoedit1 flex justify-center">
           <div className="infoedit1_title notoBold fs-28">개인정보 수정</div>
-          <img
+          { !userProfile.profileImg && <img
             src={dummyProfile}
             alt="Profile_Image"
-            className="infoedit1_img"
-          />
-          <button className="infoedit1_btn notoBold fs-15" type="button">
-            프로필 사진 변경
+            className="infoedit1_profileimg"
+          />}
+          { !!userProfile.profileImg && <img
+            src={userProfile.profileImg}
+            alt="Profile_Image"
+            className="infoedit1_profileimg"
+          />}
+          <input type="file" className="infoedit1_imginput" name="imgFile" id="imgFile" ref={inputRef} onChange={handleChangeFile}/>
+          <button className="infoedit_top_btn notoBold fs-15" type="button" onClick={editImg} >
+            프로필 이미지 변경
           </button>
           <div className="divide" />
         </div>
         <div id="infoedit2" className="infoedit2">
-          <div className="infoedit2_title notoBold fs-15">닉네임</div>
+          <div className="infoedit2_title notoBold fs-15">닉네임 변경</div>
           <input
-            type="text"
+            type="text" 
             className="infoedit3_input notoMid fs-14"
             placeholder="2~8자리의 문자로 입력해주세요"
+            ref={nicknameRef}
           />
+          <button className="infoedit2_btn notoBold fs-15" type="button" onClick={checkNickname}>중복 체크</button>
         </div>
         <div id="infoedit3" className="infoedit3">
           <div className="infoedit3_title notoBold fs-15">성별</div>
-          {/* <input
-            type="text"
-            className="infoedit3_input notoMid fs-14"
-            placeholder="2~8자리의 문자로 입력해주세요"
-          /> */}
-          {/* <SelectItem options={sex} /> */}
-          <Select className="infoedit3_input notoMid fs-14">
+
+          <Select className="infoedit3_input notoMid fs-14" ref={genderRef}>
             <option value="default" disabled>성별을 선택해주세요</option>
             {sex.map((item) => (
-              <option key={item.value} value={item.value}>
+              <option key={uuid()} value={item.value}>
                 {item.name}
               </option>
             ))}
@@ -73,16 +197,10 @@ function InfoEdit() {
         </div>
         <div id="infoedit4" className="infoedit4">
           <div className="infoedit4_title notoBold fs-15">선호하는 계절</div>
-          {/* <input
-            type="number"
-            className="infoedit4_input notoMid fs-14"
-            placeholder="10~11자리의 숫자로 입력해주세요"
-          /> */}
-          {/* <SelectItem options={season} /> */}
-          <Select className="infoedit4_input notoMid fs-14">
+          <Select className="infoedit4_input notoMid fs-14" ref={seasonsRef}>
             <option value="default" disabled>좋아하는 계절을 선택해주세요</option>
             {season.map((item) => (
-              <option key={item.value} value={item.value}>
+              <option key={uuid()} value={item.value}>
                 {item.name}
               </option>
             ))}
@@ -90,17 +208,10 @@ function InfoEdit() {
         </div>
         <div id="infoedit5" className="infoedit5">
           <div className="infoedit5_title notoBold fs-15">선호하는 향기</div>
-          {/* <input
-            type="text"
-            className="infoedit5_input notoMid fs-14"
-            value="카카오톡"
-            readOnly
-          /> */}
-          {/* <SelectItem options={likeScent} /> */}
-          <Select className="infoedit5_input notoMid fs-14">
+          <Select className="infoedit5_input notoMid fs-14" ref={accordClassRef}>
             <option value="default" disabled>좋아하는 향을 선택해주세요</option>
             {likeScent.map((item) => (
-              <option key={item.value} value={item.value}>
+              <option key={uuid()} value={item.value}>
                 {item.name}
               </option>
             ))}
@@ -110,13 +221,13 @@ function InfoEdit() {
           <button
             className="infoedit6_btn notoBold fs-18"
             type="button"
-            onClick={infoEdit}
+            onClick={completeEdit}
           >
             수정 완료
           </button>
-          <div className="infoedit6_drop notnoMid fs-12">
+          {/* <div className="infoedit6_drop notnoMid fs-12">
             <Link to="/drop">탈퇴하기</Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
