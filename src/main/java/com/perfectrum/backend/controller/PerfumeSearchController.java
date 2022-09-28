@@ -55,8 +55,12 @@ public class PerfumeSearchController {
         if(decodeId != null){
             try{
                 data = perfumeSearchService.searchPerfume(decodeId,perfumeSearchDto);
-                resultMap.put("searchList",data.get("perfumeList"));
-                resultMap.put("hasNext", data.get("hasNext"));
+                if(data.get("perfumeList")!=null){
+                    resultMap.put("searchList", data.get("perfumeList"));
+                    resultMap.put("hasNext", data.get("hasNext"));
+                }else{
+                    
+                }
                 resultMap.put("message",success);
                 status = HttpStatus.OK;
             }catch(Exception e){

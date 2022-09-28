@@ -25,21 +25,22 @@ public class PerfumeSearchServiceImpl implements SearchService {
 
     private HaveListRepository haveListRepository;
     private WishListRepository wishListRepository;
+    private UserSearchLogRepository userSearchLogRepository;
 
     @Autowired
     PerfumeSearchServiceImpl(PerfumeRepository perfumeRepository,UserRepository userRepository,AccordClassRepository accordClassRepository,
-                             HaveListRepository haveListRepository,WishListRepository wishListRepository){
+                             HaveListRepository haveListRepository,WishListRepository wishListRepository, UserSearchLogRepository userSearchLogRepository){
         this.perfumeRepository = perfumeRepository;
         this.userRepository = userRepository;
         this.accordClassRepository = accordClassRepository;
         this.haveListRepository = haveListRepository;
         this.wishListRepository = wishListRepository;
+        this.userSearchLogRepository = userSearchLogRepository;
     }
 
 
     @Override
     public Map<String, Object> searchPerfume(String decodeId, PerfumeSearchDto perfumeSearchDto) {
-        Optional<UserEntity> user = userRepository.findByUserId(decodeId);
         Map<String,Object> data = new HashMap<>();
 
         List<String> gender = perfumeSearchDto.getGender();
@@ -89,6 +90,32 @@ public class PerfumeSearchServiceImpl implements SearchService {
                 resultList.add(perfumeViewDto);
             }
             data.put("perfumeList",resultList);
+
+        }else{
+            data.put("perfumeList", null);
+            // 결과 없을 때 베스트 향수 6개만 추천
+            List<PerfumeViewDto> bestPerfume = new ArrayList<>();
+            data.put("bestPerfumeList", bestPerfume);
+        }
+
+        Optional<UserEntity> userEntityOptional = userRepository.findByUserId(decodeId);
+        if(userEntityOptional.isPresent()){
+            UserEntity user = userEntityOptional.get();
+            for(int i=0; i<gender.size(); i++){
+                for(int j=0; j<durationList.size(); j++){
+                    for(int k=0; k<accordClassList.size(); k++){
+
+                        UserSearchLogEntity userSearchLogEntity = UserSearchLogEntity.builder()
+                                .user(user)
+                                .gender(gender.get(i))
+                                .duration(durationList.get(j))
+                                .accordClass(accordClassList.get(k))
+                                .build();
+
+                        userSearchLogRepository.save(userSearchLogEntity);
+                    }
+                }
+            }
         }
         return data;
     }
