@@ -30,21 +30,7 @@ function Home (){
     const [position, setPosition] = useState(0);
     const [todayPerfume, setTodayPerfume] = useState([{perfumeImg:"https://fimgs.net/mdimg/perfume/375x500.19642.jpg"},{perfumeImg:"https://fimgs.net/mdimg/perfume/375x500.19642.jpg"},{perfumeImg:"https://fimgs.net/mdimg/perfume/375x500.19642.jpg"}])
     const [bestPerfume, setBestPerfume] = useState([])
-    const [todayData, setTodayData] = useState([{
-      imgSrc:
-        ``,
-      idx : 0
-    },
-      {
-        imgSrc:
-          ``,
-        idx : 1
-      },
-      {
-        imgSrc:
-          ``,
-        idx : 2
-      }])
+
     console.log(bestPerfume)
     console.log(todayPerfume)
     console.log(todayPerfume[0].perfumeImg)
@@ -94,7 +80,7 @@ function Home (){
         setCindex(cur);
         console.log(cur,prev);
     }
-    setTodayData([
+    const todayData = ([
       {
         imgSrc:
           `${todayPerfume[0].perfumeImg}`,
@@ -111,23 +97,7 @@ function Home (){
         idx : `${todayPerfume[2].idx}`
       }
     ])
-    // const todayData = [
-    //     {
-    //       imgSrc:
-    //         `${todayPerfume[0].perfumeImg}`,
-    //       idx : `${todayPerfume[0].idx}`
-    //     },
-    //     {
-    //       imgSrc:
-    //       `${todayPerfume[1].perfumeImg}`,
-    //       idx : `${todayPerfume[1].idx}`
-    //     },
-    //     {
-    //       imgSrc:
-    //       `${todayPerfume[2].perfumeImg}`,
-    //       idx : `${todayPerfume[2].idx}`
-    //     }
-    //   ];
+
 
     // const aaa = JSON.parse(JSON.stringify(todayData));
     console.log(todayData)

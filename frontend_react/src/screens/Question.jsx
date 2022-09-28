@@ -62,7 +62,7 @@ const Question = (props) => {
         const questions = [
             {question: '', ans: '', img: 'https://www.10wallpaper.com/wallpaper/medium/1402/Nina-Brand_perfume_wallpaper_medium.jpg'},
             {question: '🌻 선호하는 계절을 알려주세요.🍁', ans: ['봄', '여름', '가을', '겨울'], img: "https://p4.wallpaperbetter.com/wallpaper/661/716/948/four-seasons-1920x1076-nature-seasons-hd-art-wallpaper-preview.jpg"},
-            {question: '성별을 알려주세요.', ans: ['남자', '유니섹스', '여자'], img: "https://www.dictionary.com/e/wp-content/uploads/2019/02/1000x700-gender-vs-sex.jpg"},
+            {question: '성별을 알려주세요.', ans: ['남자', '상관없음', '여자'], img: "https://www.dictionary.com/e/wp-content/uploads/2019/02/1000x700-gender-vs-sex.jpg"},
             {question: '향이 오래갔으면 좋겠나요?', ans: ['네', '아니오'], img: "https://assets.greentechmedia.com/assets/content/cache/made/assets/content/cache/remote/https_assets.greentechmedia.com/content/images/articles/Wrist_Watch_Time_XL_Shutterstock_721_420_80_s_c1.jpg"},
             {question: '향의 느낌을 선택해주세요', ans: ['강렬함', '부드러운'], img: "https://mblogthumb-phinf.pstatic.net/MjAyMDA0MDFfNTQg/MDAxNTg1NzExNjc3MjQ0.nM656EDNJqDWDagshH9jaaf4s0axpJPFis-yXQ2Nxd0g.ctQHDl7ux3G0NLfrQ0H9QCZziYq_ttjs4VxvMXlKer0g.JPEG.ssskdhwk/1585711675995.jpg?type=w800"},
             {question: '다음중 좋아하는 향을 선택해주세요', ans: ['매운 향', '톡쏘는 향','야성적인 향','인공적인 향'], img: "https://www.osmoz.com/Public/Files/article/best_spicy_perfumes_48c81ae21d.jpg"},
@@ -96,10 +96,11 @@ const Question = (props) => {
                 .then((res) => {res.json().then((res) => {
                     console.log(res)
                     setResultPerfume({
-                        idx : res.idx,
-                        perfume_name : res.perfume_name,
-                        brand_name : res.brand_name,
-                        perfume_img : res.perfume_img
+                        idx : res.perfume.idx,
+                        perfume_name : res.perfume.perfumeName,
+                        brand_name : res.perfume.brandName,
+                        perfume_img : res.perfume.perfumeImg,
+                        description : res.perfume.description
                     })
                     navigator('/pollresult')
                 })})

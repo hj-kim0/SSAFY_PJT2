@@ -32,5 +32,7 @@ export const surveyPerfume = atom({
         perfume_name : "",
         brand_name : "",
         perfume_img : "",
-    }
+        description : ""
+    },
+    effects_UNSTABLE: [persistAtom],
 })
