@@ -4,6 +4,7 @@ import com.perfectrum.backend.domain.entity.AccordClassEntity;
 import com.perfectrum.backend.domain.entity.AccordEntity;
 import com.perfectrum.backend.domain.entity.PerfumeEntity;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -56,4 +57,12 @@ public interface PerfumeRepository extends JpaRepository<PerfumeEntity, Integer>
             "AND p.idx IN (SELECT pa.perfume FROM PerfumeAccordsEntity AS pa " +
             "WHERE pa.accord IN (SELECT a.idx FROM AccordEntity AS a WHERE a.accordClass = :accordClass))")
     List<PerfumeEntity> findByGenderAndSeasonAndStrongLongevityAndAccordClass(String gender, String season, AccordClassEntity accordClass);
+
+    @Query(value = "select p from PerfumeEntity p " +
+            "where :gender like concat('%',p.gender,'%')\n" +
+            "and p.longevity in (:longevity) " +
+            "and p.idx IN(select pa.perfume from PerfumeAccordsEntity as pa " +
+            "where pa.accord in (select a.idx from AccordEntity a " +
+            "where a.accordClass in(:accordclass)))")
+    Slice<PerfumeEntity> findAllByGenderAndLongevityAndAccordClass(String gender, List<Integer> longevity, List<AccordClassEntity> accordclass, Pageable pageable);
 }
