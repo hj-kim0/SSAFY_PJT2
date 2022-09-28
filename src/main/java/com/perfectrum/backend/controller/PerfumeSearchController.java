@@ -59,7 +59,8 @@ public class PerfumeSearchController {
                     resultMap.put("searchList", data.get("perfumeList"));
                     resultMap.put("hasNext", data.get("hasNext"));
                 }else{
-                    
+                    resultMap.put("bestPerfumeList",data.get("bestPerfumeList"));
+                    resultMap.put("isSearched","false");
                 }
                 resultMap.put("message",success);
                 status = HttpStatus.OK;
