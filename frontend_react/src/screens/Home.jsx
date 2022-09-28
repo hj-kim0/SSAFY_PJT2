@@ -60,17 +60,17 @@ function Home (){
         {
             idx : 0,
             name: "first",
-            src: require("../assets/images/carousel/8.jpg"),
+            src: require("../assets/images/carousel/10.jpg"),
         },
         {
             idx: 1,
             name: "second",
-            src: require("../assets/images/carousel/2.jpg"),
+            src: require("../assets/images/carousel/9.jpg"),
         },
         {
             idx: 2,
             name: "third",
-            src: require("../assets/images/carousel/3.jpg"),
+            src: require("../assets/images/carousel/11.jpg"),
         },
     ]
 
