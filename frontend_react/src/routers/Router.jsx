@@ -12,6 +12,7 @@ import TasteInfo from "@screens/perfume/TasteInfo";
 import Login from "@screens/Login";
 import Footer from "@components/common/Footer";
 import Rec from "@components/common/Rec";
+import StickyButton from "@components/common/StickyButton";
 import { RecoilRoot } from "recoil";
 
 import Auth from "../Auth";
@@ -45,6 +46,7 @@ function Router() {
         <Route path="/survey" element={<Survey />} />
       </Routes>
       <Footer />
+      <StickyButton />
     </RecoilRoot>
   );
 }
