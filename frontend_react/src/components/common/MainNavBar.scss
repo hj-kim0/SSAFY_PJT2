@@ -19,9 +19,9 @@
   }
 
   .left_nav {
-    &__link + .left_nav__link {
+    &_home, &_personal, &_search {
       // align-items: center;
-      margin-right: vw(40px);
+      margin-right: (60px);
     }
 
     .btn--active {
@@ -53,9 +53,9 @@
     }
 
     .left_nav {
-      &__link + .left_nav__link {
+      &_home, &_personal, &_search {
         //   align-items: center;
-        margin-right: vw(40px);
+        margin-right: vw(60px);
       }
     }
 
@@ -79,9 +79,9 @@
     }
 
     .left_nav {
-      &__link + .left_nav__link {
+      &_home, &_personal, &_search {
         //   align-items: center;
-        margin-right: vw-t(40px);
+        margin-right: vw-t(60px);
       }
     }
 
@@ -105,9 +105,9 @@
     }
 
     .left_nav {
-      &__link + .left_nav__link {
+      &_home, &_personal, &_search {
         //   align-items: center;
-        margin-right: vw-p(40px);
+        margin-right: vw-p(60px);
       }
     }
   }
