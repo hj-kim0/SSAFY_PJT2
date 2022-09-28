@@ -1,7 +1,7 @@
 import { React, useState, useRef }  from "react";
 
 import axios from "axios";
-import { ref, getDownloadURL, uploadBytes } from "firebase/storage"
+
 import uuid from "react-uuid"
 import dummyProfile from "@images/icon/dummyIcon.png";
 import "./InfoEdit.scss";
@@ -72,14 +72,13 @@ function InfoEdit() {
         },
         data : {
           "nickname" : nicknameRef.current.value,
-          // "profileImg" : userProfile.profileImg,
-          "profileImg" : "test",
+          "profileImg" : userProfile.profileImg,
           "gender" : genderRef.current.value,
           "seasons" : seasonsRef.current.value,
           "accordClass" : LUT.accord
         }
       })
-      .then(res => console.log(res))
+      .then(res => console.log("엑시오스", res))
       .catch(err => console.log(err))
       // window.location.href = "/userreview";
     } else {
@@ -126,6 +125,9 @@ function InfoEdit() {
               console.log("File available at", downloadURL);
               setImageUrl(downloadURL);
               console.log(downloadURL)
+              const copy = JSON.parse(JSON.stringify(userProfile));
+              copy.profileImg = downloadURL;
+              setUserProfile(copy)
               // const res = ChangeProfileImage(downloadURL)
               //     .then((res) => {
               //       console.log(res)
