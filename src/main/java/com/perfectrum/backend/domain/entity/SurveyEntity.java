@@ -36,4 +36,17 @@ public class SurveyEntity{
     @Column(name="like_accord_class")
     private Integer likeAccordClass;
 
+    @Override
+    public String toString() {
+        return "SurveyEntity{" +
+                "idx=" + idx +
+                ", user=" + user +
+                ", perfume=" + perfume +
+                ", likeSeasons='" + likeSeasons + '\'' +
+                ", likeGender='" + likeGender + '\'' +
+                ", likeLongevity=" + likeLongevity +
+                ", likeTimezone='" + likeTimezone + '\'' +
+                ", likeAccordClass=" + likeAccordClass +
+                '}';
+    }
 }

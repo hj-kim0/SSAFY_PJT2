@@ -61,10 +61,9 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
     @Override
     public Map<String, Object> getPerfumeDetail(String decodeId, Integer perfumeIdx, ReviewListDto reviewListDto) {
         Map<String, Object> data = new HashMap<>();
-        Optional<UserEntity> user = userRepository.findByUserId(decodeId);
-        List<ReviewViewDto> reviewList = new ArrayList<>();
+
         List<AccordEntity> accordList;
-        List<AccordInfoDto> aList = new ArrayList<>();
+        
         String type = reviewListDto.getType();
         Integer lastIdx = reviewListDto.getLastIdx();
         Integer lastTotalScore = reviewListDto.getLastTotalScore();
@@ -75,11 +74,10 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
 
         PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
         accordList = perfumeRepository.findByPerfume(perfume);
-//
-        Integer haveCount = Long.valueOf(Optional.ofNullable(haveListRepository.countByPerfumeIdx(perfumeIdx)).orElse(0L)).intValue();
 
+        Integer haveCount = Long.valueOf(Optional.ofNullable(haveListRepository.countByPerfumeIdx(perfumeIdx)).orElse(0L)).intValue();
         Integer wishCount = Long.valueOf(Optional.ofNullable(wishListRepository.countByPerfumeIdx(perfumeIdx)).orElse(0L)).intValue();
-//
+
         PerfumeViewDto perfumeViewDto = PerfumeViewDto.builder()
                 .idx(perfumeIdx)
                 .brandName(perfume.getBrandName())
@@ -100,18 +98,9 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                 .wishCount(wishCount)
                 .haveCount(haveCount)
                 .build();
-
         data.put("perfume", perfumeViewDto);
 
-//        for (AccordEntity ae : accordList) {
-//            PerfumeAccordsDto pad = PerfumeAccordsDto.builder()
-////                    .accordIdx(ae.getIdx())
-//                    .accordName(ae.getAccordName())
-//                    .build();
-//
-//            aList.add(pad);
-//        }
-
+        List<AccordInfoDto> aList = new ArrayList<>();
         for(AccordEntity ae : accordList) {
             AccordInfoDto aid = AccordInfoDto.builder()
                     .accordIdx(ae.getIdx())
@@ -120,15 +109,13 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
             aList.add(aid);
         }
         data.put("perfumeAccordList", aList);
+        
         Slice<ReviewEntity> reviews = reviewRepository.findByPerfume(perfume);
         if (!reviews.isEmpty()) {
             if (lastIdx == null) {
-                // 현재까지 화면에 표시된 리뷰중 마지막 리뷰의 idx를 가져와서
-                // 그 다음 리뷰를 추가로 가져오는데 처음 화면을 표시할 경우 idx를
-                // 알 수 없으므로 현재 등록된 리뷰 중 가장 큰 idx값을 기본으로 설정함
                 lastIdx = reviewRepository.findTop1ByPerfumeOrderByIdxDesc(perfume).getIdx() + 1;
-                lastTotalScore = reviewRepository.findTop1ByPerfumeOrderByIdxDesc(perfume).getIdx();
-                lastLikeCount = reviewRepository.findTop1ByPerfumeOrderByIdxDesc(perfume).getIdx();
+                lastTotalScore = reviewRepository.findTop1ByPerfumeOrderByIdxDesc(perfume).getIdx() + 1;
+                lastLikeCount = reviewRepository.findTop1ByPerfumeOrderByIdxDesc(perfume).getIdx() + 1;
             }
 
             if(type==null) type= "최신순";
@@ -136,13 +123,14 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                 reviews = reviewRepository.findByPerfumeOrderTotalScoreDescIdxDesc(perfume, lastIdx, lastTotalScore, pageable);
             } else if (type.equals("최신순")) {
                 reviews = reviewRepository.findByPerfumeOrderByIdxDesc(perfume, lastIdx, pageable);
-            } else {
+            } else { // 공감순
                 reviews = reviewRepository.findByPerfumeOrderByLikeCountDescIdxDesc(perfume, lastIdx, lastLikeCount, pageable);
             }
         }
         boolean hasNext = reviews.hasNext();
         data.put("hasNext", hasNext);
 
+        List<ReviewViewDto> reviewList = new ArrayList<>();
         for (ReviewEntity re : reviews) {
             ReviewViewDto reviewViewDto = ReviewViewDto.builder()
                     .idx(re.getIdx())
@@ -162,6 +150,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
         }
         data.put("reviewList", reviewList);
 
+        Optional<UserEntity> user = userRepository.findByUserId(decodeId);
         if(user.isPresent()){
             UserDetailLogEntity userDetailLogEntity = new UserDetailLogEntity().builder()
                     .user(user.get())

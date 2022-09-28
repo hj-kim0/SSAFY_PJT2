@@ -1,12 +1,10 @@
 package com.perfectrum.backend.service.impl;
 
+import com.perfectrum.backend.domain.entity.AccordClassEntity;
 import com.perfectrum.backend.domain.entity.AccordEntity;
 import com.perfectrum.backend.domain.entity.PerfumeEntity;
 import com.perfectrum.backend.domain.entity.UserEntity;
-import com.perfectrum.backend.domain.repository.HaveListRepository;
-import com.perfectrum.backend.domain.repository.PerfumeRepository;
-import com.perfectrum.backend.domain.repository.UserRepository;
-import com.perfectrum.backend.domain.repository.WishListRepository;
+import com.perfectrum.backend.domain.repository.*;
 import com.perfectrum.backend.dto.perfume.PerfumeViewDto;
 import com.perfectrum.backend.dto.survey.SurveyDto;
 import com.perfectrum.backend.service.SurveyService;
@@ -23,31 +21,46 @@ public class SurveyServiceImpl implements SurveyService {
 
     private HaveListRepository haveListRepository;
     private WishListRepository wishListRepository;
+    private AccordClassRepository accordClassRepository;
+    private AccordRepository accordRepository;
     @Autowired
     SurveyServiceImpl(PerfumeRepository perfumeRepository,UserRepository userRepository,WishListRepository wishListRepository,
-                      HaveListRepository haveListRepository){
+                      HaveListRepository haveListRepository, AccordClassRepository accordClassRepository, AccordRepository accordRepository){
         this.perfumeRepository = perfumeRepository;
         this.userRepository = userRepository;
         this.wishListRepository = wishListRepository;
         this.haveListRepository = haveListRepository;
+        this.accordClassRepository = accordClassRepository;
+        this.accordRepository = accordRepository;
     }
     @Override
-    public Map<String, Object> surveyResult(String decodeId, SurveyDto surveyDto) {
-        Optional<UserEntity> user = userRepository.findByUserId(decodeId);
+    public Map<String, Object> surveyResult(SurveyDto surveyDto) {
         Map<String,Object> data = new HashMap<>();
-        PerfumeEntity perfume;
         Random random = new Random();
-        String gender = "Men";
-        if(surveyDto.getGender().equals("남자")){
+
+        String gender = surveyDto.getGender();
+        if(gender.equals("남자")){
             gender = "Men";
-        }else if(surveyDto.getGender().equals("여자")){
+        }else if(gender.equals("여자")){
             gender = "Women";
         }else{
-            gender = "Unisex";
+            gender = null;
         }
-        String season = "spring";
-        season = surveyDto.getSeason();
-        Integer longevity = surveyDto.getLongevity();
+        String season = surveyDto.getSeason();
+        switch (season){
+            case "봄":
+                season = "spring";
+                break;
+            case "여름":
+                season = "summer";
+                break;
+            case "가을":
+                season = "fall";
+                break;
+            case "겨울":
+                season = "winter";
+                break;
+        }
         String accordClass_s = surveyDto.getAccordClass();
         Integer accordClass = 0;
 
@@ -77,50 +90,42 @@ public class SurveyServiceImpl implements SurveyService {
                 accordClass = 7;
                 break;
         }
+        AccordClassEntity accordClassEntity = accordClassRepository.findByIdx(accordClass);
 
-        List<PerfumeEntity> perfumeList = null;
-        List<Integer> sList = new ArrayList<>();
-        List<Integer> wList = new ArrayList<>();
-        for(int i=0;i<3;i++){
-            sList.add(i+1);
+        List<PerfumeEntity> surveyList = new ArrayList<>();
+        Integer duration = surveyDto.getLongevity();
+        if(duration==0){
+            if(gender==null){
+                surveyList = perfumeRepository.findBySeasonAndWeakLongevityAndAccordClass(season, accordClassEntity);
+            }else{
+                surveyList = perfumeRepository.findByGenderAndSeasonAndWeakLongevityAndAccordClass(gender, season, accordClassEntity);
+            }
+        }else{
+            if(gender==null){
+                surveyList = perfumeRepository.findBySeasonAndStrongLongevityAndAccordClass(season, accordClassEntity);
+            }else{
+                surveyList = perfumeRepository.findByGenderAndSeasonAndStrongLongevityAndAccordClass(gender, season, accordClassEntity);
+            }
         }
-        wList.add(4);
-        wList.add(5);
-//        if(longevity == 1){
-//            perfumeList = perfumeRepository.findByGenderAndSeasonsAndSListLongevityAndAccordClass(gender,season,sList,accordClass);
-//        }else if(longevity == 0){
-//            perfumeList = perfumeRepository.findByGenderAndSeasonsAndwListLongevityAndAccordClass(gender,season,wList,accordClass);
-//        }
-        System.out.println(perfumeList.size());
-        System.out.println("웨얼두");
-        List<AccordEntity> accordList;
-        List<Integer> list = new ArrayList<>();
+
         List<PerfumeEntity> resultList = new ArrayList<>();
         Integer max = 0,cnt = 0;
-        for(int i=0;i<perfumeList.size();i++){
+        for(int i=0;i<surveyList.size();i++){
 
-            cnt = 0;
-            accordList = perfumeRepository.findByPerfume(perfumeList.get(i));
-            for(int j=0;j<accordList.size();j++){
-                if(accordList.get(j).getAccordClass().getIdx() == accordClass){
-                    cnt++;
-                }
-            }
+            cnt = accordRepository.countByAccordClass(surveyList.get(i), accordClassEntity);
 
             if(max < cnt){
                 max = cnt;
                 resultList.clear();
-                resultList.add(perfumeList.get(i));
+                resultList.add(surveyList.get(i));
             }else if(max == cnt){
-                resultList.add(perfumeList.get(i));
+                resultList.add(surveyList.get(i));
             }
-            list.add(cnt);
         }
 
-
+        PerfumeEntity perfume;
         if(resultList.size() != 1){
             perfume = resultList.get(random.nextInt(resultList.size()));
-            ;
         }else {
             perfume = resultList.get(0);
         }
@@ -148,7 +153,6 @@ public class SurveyServiceImpl implements SurveyService {
                 .haveCount(haveCount)
                 .build();
 
-        System.out.println("idx " + perfumeViewDto.getIdx());
         data.put("perfume",perfumeViewDto);
         return data;
     }
