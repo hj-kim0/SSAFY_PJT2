@@ -7,6 +7,7 @@ import { useRecoilState } from "recoil";
 
 import { Button } from "@material-ui/core";
 import { userState } from "../../atom";
+import Rec from "./Rec";
 
 function MainNavBar() {
   const user = useRecoilState(userState);
@@ -40,7 +41,14 @@ function MainNavBar() {
         <NavLink className="right_nav__link fs-16" to="/login">
           로그인
         </NavLink>
-    }
+        }
+        <NavLink
+            className=""
+            to="/getRec"
+          >
+            rec
+          </NavLink>
+    
       </nav>
     </div>
   );

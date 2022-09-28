@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Carousel from 'react-material-ui-carousel';
 import CarouselSlider from 'react-carousel-slider';
 import ImgItem from '../components/items/ImgItem';
+import { fetchMainPerfume } from "../apis/perfumeAPI";
 
 
 const Wrapper = styled.div`
@@ -27,10 +28,25 @@ const DivCenter = styled.div`
 function Home (){
 
     const [position, setPosition] = useState(0);
+    const [todayPerfume, setTodayPerfume] = useState([{perfumeImg:"https://fimgs.net/mdimg/perfume/375x500.19642.jpg"},{perfumeImg:"https://fimgs.net/mdimg/perfume/375x500.19642.jpg"},{perfumeImg:"https://fimgs.net/mdimg/perfume/375x500.19642.jpg"}])
+    const [bestPerfume, setBestPerfume] = useState([])
+
+    console.log(bestPerfume)
+    console.log(todayPerfume)
+    console.log(todayPerfume[0].perfumeImg)
 
     function onScroll(){
       setPosition(window.scrollY);
     }
+
+    useEffect(() => {
+      fetchMainPerfume()
+        .then((res) => {res.json().then((res) => {
+            console.log(res)
+            setBestPerfume(res.BestPerfumeList)
+            setTodayPerfume(res.todayPerfumeList)
+        })})
+    },[])
 
     useEffect(()=>{
       window.addEventListener("scroll", onScroll);
@@ -64,23 +80,27 @@ function Home (){
         setCindex(cur);
         console.log(cur,prev);
     }
+    const todayData = ([
+      {
+        imgSrc:
+          `${todayPerfume[0].perfumeImg}`,
+        idx : `${todayPerfume[0].idx}`
+      },
+      {
+        imgSrc:
+          `${todayPerfume[1].perfumeImg}`,
+        idx : `${todayPerfume[1].idx}`
+      },
+      {
+        imgSrc:
+          `${todayPerfume[2].perfumeImg}`,
+        idx : `${todayPerfume[2].idx}`
+      }
+    ])
 
-    const data = [
-        {
-          imgSrc:
-            require("../assets/images/carousel/dummy.jpg"),
 
-        },
-        {
-          imgSrc:
-          require("../assets/images/carousel/dummy.jpg"),
-        },
-        {
-          imgSrc:
-          require("../assets/images/carousel/dummy.jpg"),
-        }
-      ];
-
+    // const aaa = JSON.parse(JSON.stringify(todayData));
+    console.log(todayData)
   const SubContent = styled.p`
     font-family: NotoSansMedium;
     text-align: center;
@@ -123,12 +143,13 @@ function Home (){
         }
       };
 
-    const customSlideCpnts = data.map((item, index) => (
-        <Link to={"/detail/" + index} key={index}>
+  const customSlideCpnts = todayData.map((item) => (
+        <Link to={"/detail/" + item.idx} key={item.idx}>
             <img src={item.imgSrc}/>
         </Link>
         ));
-
+    console.log(customSlideCpnts[0].props.children)
+    console.log(customSlideCpnts[1].props.children)
     return (
         <><Wrapper>
             <Carousel

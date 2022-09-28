@@ -24,3 +24,15 @@ export const userState = atom({
     },
     effects_UNSTABLE: [persistAtom],
 });
+
+export const surveyPerfume = atom({
+    key : "surveyPerfume",
+    default : {
+        idx : "",
+        perfume_name : "",
+        brand_name : "",
+        perfume_img : "",
+        description : ""
+    },
+    effects_UNSTABLE: [persistAtom],
+})
