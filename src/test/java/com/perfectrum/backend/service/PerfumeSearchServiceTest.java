@@ -1,33 +1,29 @@
-package com.perfectrum.backend.service.impl;
+package com.perfectrum.backend.service;
 
 import com.perfectrum.backend.domain.entity.AccordClassEntity;
 import com.perfectrum.backend.domain.entity.PerfumeEntity;
-import com.perfectrum.backend.domain.entity.UserEntity;
 import com.perfectrum.backend.domain.repository.*;
-import com.perfectrum.backend.dto.Search.PerfumeSearchDto;
 import com.perfectrum.backend.dto.perfume.PerfumeViewDto;
-import com.perfectrum.backend.service.SearchService;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.stereotype.Service;
+
 
 import java.util.*;
 
-@Service
-public class PerfumeSearchServiceImpl implements SearchService {
-
+@SpringBootTest
+public class PerfumeSearchServiceTest {
     private PerfumeRepository perfumeRepository;
     private UserRepository userRepository;
     private AccordClassRepository accordClassRepository;
-
     private HaveListRepository haveListRepository;
     private WishListRepository wishListRepository;
 
     @Autowired
-    PerfumeSearchServiceImpl(PerfumeRepository perfumeRepository,UserRepository userRepository,AccordClassRepository accordClassRepository,
-                             HaveListRepository haveListRepository,WishListRepository wishListRepository){
+    PerfumeSearchServiceTest(PerfumeRepository perfumeRepository, UserRepository userRepository, AccordClassRepository accordClassRepository,
+                             HaveListRepository haveListRepository, WishListRepository wishListRepository){
         this.perfumeRepository = perfumeRepository;
         this.userRepository = userRepository;
         this.accordClassRepository = accordClassRepository;
@@ -35,34 +31,34 @@ public class PerfumeSearchServiceImpl implements SearchService {
         this.wishListRepository = wishListRepository;
     }
 
+    @Test
+    public void 향수_상세_검색(){
+        Map<String, Object> data = new HashMap<>();
 
-    @Override
-    public Map<String, Object> searchPerfume(String decodeId, PerfumeSearchDto perfumeSearchDto) {
-        Optional<UserEntity> user = userRepository.findByUserId(decodeId);
-        Map<String,Object> data = new HashMap<>();
+        // given
+        Integer lastIdx = 712;
+        Float lastItemRating = null;
+        Integer pageSize = 6;
 
-        String gender = perfumeSearchDto.getGender();
-        String durationList = perfumeSearchDto.getDuration();
-        String accordClassList = perfumeSearchDto.getAccordClass();
+        String genderList = "Men,Women,Unisex";
+        String durationList = "1,3,5";
+        String accordClassList = "3,4,5,6,7,8";
 
-        Integer lastIdx = perfumeSearchDto.getLastIdx();
-        Integer pageSize = perfumeSearchDto.getPageSize();
-        Pageable pageable = Pageable.ofSize(pageSize);
 
         List<Integer> longevity = new ArrayList<>();
         if(durationList != null){
-            String str = perfumeSearchDto.getDuration().replaceAll("[^0-9]", "");
+            String str = durationList.replaceAll("[^0-9]","");
             char[] ch = str.toCharArray();
-            for(int i=0;i<ch.length;i++){
+            for(int i=0; i<ch.length; i++){
                 longevity.add(ch[i]-'0');
             }
         }
 
         List<AccordClassEntity> accordClass = new ArrayList<>();
         if(accordClassList != null){
-            String str = perfumeSearchDto.getAccordClass().replaceAll("[^0-9]", "");
+            String str = accordClassList.replaceAll("[^0-9]","");
             char[] ch = str.toCharArray();
-            for(int i=0;i<ch.length;i++){
+            for(int i=0; i<ch.length; i++){
                 accordClass.add(accordClassRepository.findByIdx(ch[i]-'0'));
             }
         }
@@ -71,11 +67,19 @@ public class PerfumeSearchServiceImpl implements SearchService {
             lastIdx = perfumeRepository.findTop1ByOrderByIdxDesc().getIdx() + 1;
         }
 
-        Slice<PerfumeEntity> searchList = perfumeRepository.findAllByGenderAndLongevityAndAccordClass(gender, longevity, accordClass, lastIdx, pageable);
-        List<PerfumeViewDto> resultList = new ArrayList<>();
+        if(lastItemRating == null){
+            lastItemRating = perfumeRepository.findTop1ByOrderByItemRatingDescIdxDesc().getItemRating() + 1;
+        }
+
+
+        Pageable pageable = Pageable.ofSize(pageSize);
+        Slice<PerfumeEntity> searchList = perfumeRepository.findAllByGenderAndLongevityAndAccordClass(genderList, longevity, accordClass, lastIdx, pageable);
+
+        List<PerfumeViewDto> result = new ArrayList<>();
         if(!searchList.isEmpty()){
             boolean hasNext = searchList.hasNext();
-            data.put("hasNext",hasNext);
+            data.put("hasNext", hasNext);
+
             for(PerfumeEntity pe : searchList){
                 PerfumeViewDto perfumeViewDto = PerfumeViewDto.builder()
                         .idx(pe.getIdx())
@@ -98,10 +102,15 @@ public class PerfumeSearchServiceImpl implements SearchService {
                         .haveCount(Long.valueOf(Optional.ofNullable(wishListRepository.countByPerfumeIdx(pe.getIdx())).orElse(0L)).intValue())
                         .build();
 
-                resultList.add(perfumeViewDto);
+                result.add(perfumeViewDto);
             }
-            data.put("perfumeList",resultList);
+
+            data.put("searchList", result);
         }
-        return data;
+
+        for(PerfumeViewDto d : result){
+            System.out.println(d.toString());
+        }
+
     }
 }
