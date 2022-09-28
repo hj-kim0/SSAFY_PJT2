@@ -1,5 +1,6 @@
 import { React, useState, useRef, useEffect}  from "react";
 import { Link } from "react-router-dom";
+import uuid from "react-uuid"
 import dummyProfile from "@images/icon/dummyIcon.png";
 import "./InfoEdit.scss";
 // import SelectItem from "@components/user/SelectItem";
@@ -118,7 +119,7 @@ function InfoEdit() {
           <Select className="infoedit3_input notoMid fs-14" ref={genderRef}>
             <option value="default" disabled>성별을 선택해주세요</option>
             {sex.map((item) => (
-              <option key={item.value} value={item.value}>
+              <option key={uuid()} value={item.value}>
                 {item.name}
               </option>
             ))}
@@ -129,7 +130,7 @@ function InfoEdit() {
           <Select className="infoedit4_input notoMid fs-14" ref={seasonsRef}>
             <option value="default" disabled>좋아하는 계절을 선택해주세요</option>
             {season.map((item) => (
-              <option key={item.value} value={item.value}>
+              <option key={uuid()} value={item.value}>
                 {item.name}
               </option>
             ))}
@@ -140,7 +141,7 @@ function InfoEdit() {
           <Select className="infoedit5_input notoMid fs-14" ref={accordClassRef}>
             <option value="default" disabled>좋아하는 향을 선택해주세요</option>
             {likeScent.map((item) => (
-              <option key={item.value} value={item.value}>
+              <option key={uuid()} value={item.value}>
                 {item.name}
               </option>
             ))}
