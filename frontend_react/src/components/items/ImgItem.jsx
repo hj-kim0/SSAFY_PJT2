@@ -10,7 +10,7 @@ const DivCenter = styled.div`
 
 const Img = styled.img`
 width:100%;
-height:600px;
+height:690px;
 //filter : brightness(100%);
 //filter=grayscale(10);
 `
@@ -29,6 +29,12 @@ const ImgItem = (props) => {
         maintheme = "PERSOANL PERFUME";
         subtheme = "당신의 가치를 빛내줄 퍼스널 향수 추천";
         // vis = true;
+    }else if(idxSrc === 1) {
+        maintheme = "RECOMMEND FOR 'YOU'"
+        subtheme = "당신을 위한 맞춤 향수 추천"
+    }else{
+        maintheme = "BE ELEGANCE"
+        subtheme ="당신의 품격을 더해줄 향수"
     }
     
     return(
