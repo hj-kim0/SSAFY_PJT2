@@ -434,6 +434,9 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
         PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
         ReviewEntity originReview = reviewRepository.findByIdx(reviewIdx);
         String reviewImg = reviewRegistDto.getReviewImg();
+        if(reviewImg==null){
+            reviewImg = perfumeRepository.findByIdx(perfumeIdx).getPerfumeImg();
+        }
         Integer totalScore = reviewRegistDto.getTotalScore();
         String content = reviewRegistDto.getContent();
         LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
