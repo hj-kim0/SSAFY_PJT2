@@ -13,9 +13,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @SpringBootTest
+@Transactional
 public class PerfumeSearchServiceTest {
     private PerfumeRepository perfumeRepository;
     private UserRepository userRepository;
