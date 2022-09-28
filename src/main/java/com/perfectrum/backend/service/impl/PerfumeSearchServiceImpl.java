@@ -3,6 +3,7 @@ package com.perfectrum.backend.service.impl;
 import com.perfectrum.backend.domain.entity.AccordClassEntity;
 import com.perfectrum.backend.domain.entity.PerfumeEntity;
 import com.perfectrum.backend.domain.entity.UserEntity;
+import com.perfectrum.backend.domain.entity.UserSearchLogEntity;
 import com.perfectrum.backend.domain.repository.*;
 import com.perfectrum.backend.dto.Search.PerfumeSearchDto;
 import com.perfectrum.backend.dto.perfume.PerfumeViewDto;
@@ -41,37 +42,24 @@ public class PerfumeSearchServiceImpl implements SearchService {
         Optional<UserEntity> user = userRepository.findByUserId(decodeId);
         Map<String,Object> data = new HashMap<>();
 
-        String gender = perfumeSearchDto.getGender();
-        String durationList = perfumeSearchDto.getDuration();
-        String accordClassList = perfumeSearchDto.getAccordClass();
+        List<String> gender = perfumeSearchDto.getGender();
+        List<Integer> durationList = perfumeSearchDto.getDuration();
+        List<AccordClassEntity> accordClassList = new ArrayList<>();
+        List<Integer> accords = perfumeSearchDto.getAccordClass();
+        for(Integer accord : accords){
+            accordClassList.add(accordClassRepository.findByIdx(accord));
+        }
 
         Integer lastIdx = perfumeSearchDto.getLastIdx();
         Integer pageSize = perfumeSearchDto.getPageSize();
         Pageable pageable = Pageable.ofSize(pageSize);
 
-        List<Integer> longevity = new ArrayList<>();
-        if(durationList != null){
-            String str = perfumeSearchDto.getDuration().replaceAll("[^0-9]", "");
-            char[] ch = str.toCharArray();
-            for(int i=0;i<ch.length;i++){
-                longevity.add(ch[i]-'0');
-            }
-        }
-
-        List<AccordClassEntity> accordClass = new ArrayList<>();
-        if(accordClassList != null){
-            String str = perfumeSearchDto.getAccordClass().replaceAll("[^0-9]", "");
-            char[] ch = str.toCharArray();
-            for(int i=0;i<ch.length;i++){
-                accordClass.add(accordClassRepository.findByIdx(ch[i]-'0'));
-            }
-        }
 
         if(lastIdx == null){
             lastIdx = perfumeRepository.findTop1ByOrderByIdxDesc().getIdx() + 1;
         }
 
-        Slice<PerfumeEntity> searchList = perfumeRepository.findAllByGenderAndLongevityAndAccordClass(gender, longevity, accordClass, lastIdx, pageable);
+        Slice<PerfumeEntity> searchList = perfumeRepository.findAllByGenderAndLongevityAndAccordClass(gender, durationList, accordClassList, lastIdx, pageable);
         List<PerfumeViewDto> resultList = new ArrayList<>();
         if(!searchList.isEmpty()){
             boolean hasNext = searchList.hasNext();
