@@ -157,6 +157,62 @@ public class PerfumeDetailController {
 
         return new ResponseEntity<>(resultMap,status);
     }
+
+    @PutMapping("detail/{idx}/review/delete/{review_idx}")
+    public ResponseEntity<?> deleteReview(HttpServletRequest request, @PathVariable("idx")Integer perfumeIdx,@PathVariable("review_idx")Integer reviewIdx){
+        Map<String,Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request,resultMap);
+        if(decodeId != null){
+            try{
+                perfumeDetailService.deleteReview(decodeId,perfumeIdx,reviewIdx);
+                resultMap.put("message",success);
+                status = HttpStatus.OK;
+            }catch (Exception e){
+                resultMap.put("message",fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }
+
+        return new ResponseEntity<>(resultMap,status);
+    }
+
+    @GetMapping("detail/{idx}/review/like/{review_idx}")
+    public ResponseEntity<?> clickLike(HttpServletRequest request, @PathVariable("idx")Integer perfumeIdx, @PathVariable("review_idx")Integer reviewIdx){
+        Map<String,Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request,resultMap);
+        if(decodeId != null){
+            try{
+                perfumeDetailService.clickLike(decodeId,perfumeIdx,reviewIdx);
+                resultMap.put("isCliked","true");
+                resultMap.put("message",success);
+                status = HttpStatus.OK;
+            }catch (Exception e){
+                resultMap.put("message",fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }
+
+        return new ResponseEntity<>(resultMap,status);
+    }
+
+    @GetMapping("detail/{idx}/review/unlike/{review_idx}")
+    public ResponseEntity<?> unclickLike(HttpServletRequest request, @PathVariable("idx")Integer perfumeIdx, @PathVariable("review_idx")Integer reviewIdx){
+        Map<String,Object> resultMap = new HashMap<>();
+        String decodeId = checkToken(request,resultMap);
+        if(decodeId != null){
+            try{
+                perfumeDetailService.unclickLike(decodeId,perfumeIdx,reviewIdx);
+                resultMap.put("isCliked","false");
+                resultMap.put("message",success);
+                status = HttpStatus.OK;
+            }catch (Exception e){
+                resultMap.put("message",fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }
+
+        return new ResponseEntity<>(resultMap,status);
+    }
     public String checkToken(HttpServletRequest request, Map<String, Object> resultMap){
         String accessToken = request.getHeader("Authorization");
         String decodeId = jwtService.decodeToken(accessToken);
