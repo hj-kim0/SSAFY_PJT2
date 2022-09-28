@@ -25,3 +25,15 @@ export const surveyResult = async (season,gender,longevity,accordClass) => {
     })
     return response
 }
+
+export const fetchMainPerfume = async () => {
+    const URL = `${SERVER_URL}/main`
+
+    const response = await fetch(URL,{
+        method : "GET",
+        headers : {
+            "Content-type": "application/json",
+        }
+    })
+    return response
+}
