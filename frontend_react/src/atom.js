@@ -60,7 +60,7 @@ export const surveyState = atom({
                 "sentence": ["성별을 알려주세요."],
                 },
                 { "step" : 2,
-                "sentence": ["남자", "유니섹스", "여자"],
+                "sentence": ["남성", "유니섹스", "여성"],
                 },
                 { "step" : 3,
                 "sentence": ["선호하는 계절을 알려주세요."],

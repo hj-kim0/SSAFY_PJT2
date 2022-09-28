@@ -21,6 +21,7 @@ import PersonalPerfume from "../screens/PersonalPerfume";
 import PollStart from "../screens/poll/PollStart";
 import PollResult from "../screens/poll/PollResult";
 import Survey from "../screens/user/Survey";
+import PreCheck from "../screens/user/PreCheck";
 
 function Router() {
   return (
@@ -44,6 +45,7 @@ function Router() {
         <Route path="/pollresult" element={<PollResult />} />
         <Route path="/getRec" element={<Rec></Rec>}></Route>
         <Route path="/survey" element={<Survey />} />
+        <Route path="/preCheck" element={<PreCheck />} />
       </Routes>
       <Footer />
       <StickyButton />
