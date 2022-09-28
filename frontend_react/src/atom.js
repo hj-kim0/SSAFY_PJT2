@@ -56,7 +56,7 @@ export const surveyState = atom({
                 "sentence": ["봄", "여름", "가을", "겨울"],
                 },
                 { "step" : 5,
-                "sentence": ["다음중 좋아하는 향을 선택해주세요"],
+                "sentence": ["다음중 좋아하는 향을 선택해주세요."],
                 },
                 { "step" : 6,
                 "sentence": ["매운 향", "톡쏘는 향","야성적인 향","인공적인 향",

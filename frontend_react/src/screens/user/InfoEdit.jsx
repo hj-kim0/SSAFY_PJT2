@@ -1,17 +1,20 @@
-import { React, useState, useRef, useEffect}  from "react";
-import { Link } from "react-router-dom";
+import { React, useState, useRef }  from "react";
+
+import axios from "axios";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage"
 import uuid from "react-uuid"
 import dummyProfile from "@images/icon/dummyIcon.png";
 import "./InfoEdit.scss";
 // import SelectItem from "@components/user/SelectItem";
 import Select from "@components/user/SelectItem";
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { userProfileState } from "../../atom";
+import { userProfileState, userState } from "../../atom";
+import { storage } from "../../firebase"
 
 const sex = [
-  { value: "unisex", name: "성별 무관" },
-  { value: "men", name: "남성" },
-  { value: "women", name: "여성" }
+  { value: "Unisex", name: "성별 무관" },
+  { value: "Men", name: "남성" },
+  { value: "Women", name: "여성" }
 ];
 const season = [
   { value: "spring", name: "봄" },
@@ -29,9 +32,20 @@ const likeScent = [
   { value: "synthetic", name: "인공적인 향" },
   { value: "sweet", name: "달콤한 향" }
 ];
+const LUT = {
+  "citrus" : 1,
+  "floral" : 2,
+  "herbal" : 3,
+  "fruity" : 4,
+  "spicy" : 5,
+  "animalic" : 6,
+  "synthetic" : 7,
+  "sweet" : 8,
 
+}
 function InfoEdit() {
   const userProfile = useRecoilValue(userProfileState);
+  const userLoginState = useRecoilValue(userState);
   const setUserProfile = useSetRecoilState(userProfileState);
   const [isChecked, setIsChecked] = useState(0);
   const inputRef = useRef();
@@ -43,12 +57,24 @@ function InfoEdit() {
 
   const completeEdit = () => {
     if (isChecked) {
-
-      // 백엔드 보내서 로직 진행
-      console.log(userProfile.profileImg);
-      console.log(genderRef.current.value);
-      console.log(seasonsRef.current.value);
-      console.log(accordClassRef.current.value);
+      const accord = accordClassRef.current.value
+      axios({
+        method: "put",
+        url : "http://j7c105.p.ssafy.io:8083/user/",
+        headers : {
+          Authorization : userLoginState.sToken
+        },
+        data : {
+          "nickname" : nicknameRef.current.value,
+          // "profileImg" : userProfile.profileImg,
+          "profileImg" : "test",
+          "gender" : genderRef.current.value,
+          "seasons" : seasonsRef.current.value,
+          "accordClass" : LUT.accord
+        }
+      })
+      .then(res => console.log(res))
+      .catch(err => console.log(err))
       // window.location.href = "/userreview";
     } else {
       alert("닉네임 중복 체크를 해주세요")
@@ -64,7 +90,20 @@ function InfoEdit() {
 
   const handleChangeFile = async (event) => {
     const imgFile = event.target.files[0];
-  
+    console.log(imgFile)
+    console.log(storage)
+    
+    const storageRef = ref(storage, `files/${imgFile.name}`)
+    console.log(storageRef)
+    const uploadTask = uploadBytes(storageRef, imgFile);
+    console.log(uploadTask)
+    
+    uploadTask.then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((downloadURL) => {
+        console.log(downloadURL)
+      })
+    })
+    // storage
     // (동기) 파이어베이스 이미지 전송 로직
     // 
     // const changedProfile = {...userProfile};
@@ -76,11 +115,20 @@ function InfoEdit() {
 
 
   const checkNickname = () => {
-
-    console.log(nicknameRef.current.value);
-    // 닉네임 중복 체크
-    setIsChecked(1);
-  }
+    axios({
+      method: 'get',
+      url: `http://j7c105.p.ssafy.io:8083/user/check/${nicknameRef.current.value}`,
+    })
+    .then(res => {
+       if (res.data.message === "FAIL") {
+        alert("닉네임이 중복되었습니다.")
+       } else if (res.data.message === "SUCCESS") {
+        setIsChecked(1);
+        alert("닉네임이 중복되지 않았습니다. 계속 진행하세요.")
+       }
+    })
+    .catch(err => {alert("관리자에게 문의 하세요")});
+  };
 
   return (
     <div className="container flex justify-center">
@@ -106,7 +154,7 @@ function InfoEdit() {
         <div id="infoedit2" className="infoedit2">
           <div className="infoedit2_title notoBold fs-15">닉네임 변경</div>
           <input
-            type="text"
+            type="text" 
             className="infoedit3_input notoMid fs-14"
             placeholder="2~8자리의 문자로 입력해주세요"
             ref={nicknameRef}

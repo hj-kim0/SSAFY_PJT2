@@ -1,7 +1,5 @@
 .surveytitle {
   width: 100%;
-  align-items: center;
-  flex-direction: column;
  
   &_main {
     background-color: aqua;
@@ -9,21 +7,11 @@
     flex-direction: row;
   }
   &_window {
+    border-radius: 2%;
     width: 600px;
-    height: 600px;
+    height: 750px;
     margin-top: 100px;
-    background-color: green;
-    flex-direction: row; 
-    &_question {
-      background-color: rgb(49, 49, 190);
-      flex-direction: row;    
-    }
-    &_selector {
-      background-color: red;
-      flex-direction: row;
-     
-  }
-
+    background-color: $GRAY-40;;
   }
   &_button {
     margin: 50px 50px;
