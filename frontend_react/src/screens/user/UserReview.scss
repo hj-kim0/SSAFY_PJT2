@@ -22,14 +22,33 @@
   //   color: $GRAY-40;
   //   margin: (100px) 0 (40px);
   // }
-  img {
+  &_editbutton {
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    width: 30px;
+    bottom: 40px;
+    left: 60px;
+    position: relative;
+  }
+  &_gear {
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+    width: 20px;
+ 
+    position: relative;
+  }
+  &_profileimg {
     margin: (100px) 0 (24px);
     height: (100px);
     width: (100px);
-    border-radius: 70%;
+    border-radius: 50%;
   }
   &_nickname {
     color: $GRAY-40;
+    bottom: 30px;
+    position: relative;
   }
 }
 .userReview2 {
