@@ -11,6 +11,7 @@ import TasteAnalysis from "@screens/perfume/TasteAnalysis";
 import TasteInfo from "@screens/perfume/TasteInfo";
 import Login from "@screens/Login";
 import Footer from "@components/common/Footer";
+import Rec from "@components/common/Rec";
 import StickyButton from "@components/common/StickyButton";
 import { RecoilRoot } from "recoil";
 
@@ -18,6 +19,7 @@ import Auth from "../Auth";
 import Token from "../Token";
 import PersonalPerfume from "../screens/PersonalPerfume";
 import PollStart from "../screens/poll/PollStart";
+import PollResult from "../screens/poll/PollResult";
 
 function Router() {
   return (
@@ -38,6 +40,8 @@ function Router() {
         <Route path="/oauth/token" element={<Token />} />
         <Route path="/personal" element={<PersonalPerfume />} />
         <Route path="/poll" element={<PollStart />} />
+        <Route path="/pollresult" element={<PollResult />} />
+        <Route path="/getRec" element={<Rec></Rec>}></Route>
       </Routes>
       <Footer />
       <StickyButton />
