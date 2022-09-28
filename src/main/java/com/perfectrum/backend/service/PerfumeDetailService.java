@@ -19,5 +19,11 @@ public interface PerfumeDetailService {
     void registReview(String decodeId,Integer perfumeIdx, ReviewRegistDto reviewRegistDto);
 
     void updateReview(String decodeId,Integer perfumeIdx, Integer reviewIdx, ReviewRegistDto reviewRegistDto);
+
+    void deleteReview(String decodeId, Integer perfumeIdx, Integer reviewIdx);
+
+    void clickLike(String decodeId, Integer perfumeIdx, Integer reviewIdx );
+
+    void unclickLike(String decodeId, Integer perfumeIdx, Integer reviewIdx );
 }
 

@@ -145,6 +145,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                     .likeCount(re.getLikeCount())
                     .time(re.getTime())
                     .updateTime(re.getUpdateTime())
+                    .isDelete(false)
                     .build();
             reviewList.add(reviewViewDto);
         }
@@ -403,7 +404,11 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
     public void registReview(String decodeId, Integer perfumeIdx, ReviewRegistDto reviewRegistDto) {
         Optional<UserEntity> user = userRepository.findByUserId(decodeId);
         PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
-        String reviewImg = reviewRegistDto.getReviewImg();
+        String reviewImg;
+        if(reviewRegistDto.getReviewImg()==null){
+            reviewImg = perfumeRepository.findByIdx(perfumeIdx).getPerfumeImg();
+        }else
+            reviewImg = reviewRegistDto.getReviewImg();
         Integer totalScore = reviewRegistDto.getTotalScore();
         String content = reviewRegistDto.getContent();
 
@@ -417,6 +422,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                     .sillageScore(reviewRegistDto.getSillageScore())
                     .content(content)
                     .updateTime(null)
+                    .isDelete(false)
                     .build();
             reviewRepository.save(reviewEntity);
         }
@@ -428,6 +434,9 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
         PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
         ReviewEntity originReview = reviewRepository.findByIdx(reviewIdx);
         String reviewImg = reviewRegistDto.getReviewImg();
+        if(reviewImg==null){
+            reviewImg = perfumeRepository.findByIdx(perfumeIdx).getPerfumeImg();
+        }
         Integer totalScore = reviewRegistDto.getTotalScore();
         String content = reviewRegistDto.getContent();
         LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
@@ -444,6 +453,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                     .likeCount(originReview.getLikeCount())
                     .time(originReview.getTime())
                     .updateTime(now)
+                    .isDelete(false)
                     .build();
 
             reviewRepository.save(reviewEntity);
@@ -451,4 +461,82 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
 
     }
 
+    @Override
+    public void deleteReview(String decodeId,Integer perfumeIdx,Integer reviewIdx){
+        Optional<UserEntity> user = userRepository.findByUserId(decodeId);
+        PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
+        ReviewEntity review = reviewRepository.findByIdx(reviewIdx);
+        if(user.isPresent()){
+            ReviewEntity reviewEntity = ReviewEntity.builder()
+                    .idx(review.getIdx())
+                    .user(user.get())
+                    .perfume(perfume)
+                    .reviewImg(review.getReviewImg())
+                    .totalScore(review.getTotalScore())
+                    .longevity(review.getLongevity())
+                    .sillageScore(review.getSillageScore())
+                    .content(review.getContent())
+                    .likeCount(review.getLikeCount())
+                    .time(review.getTime())
+                    .updateTime(review.getUpdateTime())
+                    .isDelete(true)
+                    .build();
+
+            reviewRepository.save(reviewEntity);
+        }
+    }
+
+    @Override
+    public void clickLike(String decodeId,Integer perfumeIdx,Integer reviewIdx){
+        Optional<UserEntity> user = userRepository.findByUserId(decodeId);
+        PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
+        ReviewEntity review = reviewRepository.findByIdx(reviewIdx);
+        if(!review.isDelete()) {
+            if (user.isPresent()) {
+                ReviewEntity reviewEntity = ReviewEntity.builder()
+                        .idx(review.getIdx())
+                        .user(user.get())
+                        .perfume(perfume)
+                        .reviewImg(review.getReviewImg())
+                        .totalScore(review.getTotalScore())
+                        .longevity(review.getLongevity())
+                        .sillageScore(review.getSillageScore())
+                        .content(review.getContent())
+                        .likeCount(review.getLikeCount() + 1)
+                        .time(review.getTime())
+                        .updateTime(review.getUpdateTime())
+                        .isDelete(true)
+                        .build();
+
+                reviewRepository.save(reviewEntity);
+            }
+        }
+    }
+
+    @Override
+    public void unclickLike(String decodeId,Integer perfumeIdx,Integer reviewIdx){
+        Optional<UserEntity> user = userRepository.findByUserId(decodeId);
+        PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
+        ReviewEntity review = reviewRepository.findByIdx(reviewIdx);
+        if(!review.isDelete()) {
+            if (user.isPresent()) {
+                ReviewEntity reviewEntity = ReviewEntity.builder()
+                        .idx(review.getIdx())
+                        .user(user.get())
+                        .perfume(perfume)
+                        .reviewImg(review.getReviewImg())
+                        .totalScore(review.getTotalScore())
+                        .longevity(review.getLongevity())
+                        .sillageScore(review.getSillageScore())
+                        .content(review.getContent())
+                        .likeCount(review.getLikeCount() - 1)
+                        .time(review.getTime())
+                        .updateTime(review.getUpdateTime())
+                        .isDelete(true)
+                        .build();
+
+                reviewRepository.save(reviewEntity);
+            }
+        }
+    }
 }
