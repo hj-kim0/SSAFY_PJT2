@@ -53,8 +53,17 @@ function Auth() {
                 "kToken":kToken
             }
             setUser(User);
-
-            window.location.replace("/");
+            const response3 = await axios.get("http://j7c105.p.ssafy.io:8083/user",{
+                headers: {
+                    'Authorization': sToken,
+                }
+            });
+            console.log("디버깅", response3.data.data);
+            if (response3.data.data.gender === "") {
+                window.location.replace("/preCheck");
+            } else {
+                window.location.replace("/");                
+            }
         }catch(err){
             console.log(err);
         }
