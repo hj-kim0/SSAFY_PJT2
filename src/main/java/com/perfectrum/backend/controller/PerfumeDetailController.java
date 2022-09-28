@@ -49,10 +49,7 @@ public class PerfumeDetailController {
 
         if(decodeId != null){
             try{
-                Map<String, Object> data = new HashMap<>();
-                System.out.println("컨트롤러 진입");
-                data = perfumeDetailService.getPerfumeDetail(decodeId,perfumeIdx,reviewListDto);
-//                resultMap.putAll(perfumeDetailService.getPerfumeDetail(decodeId,perfumeIdx,reviewListDto));
+                Map<String, Object> data = perfumeDetailService.getPerfumeDetail(decodeId,perfumeIdx,reviewListDto);
                 resultMap.put("perfume",data.get("perfume"));
                 resultMap.put("hasNext",data.get("hasNext"));
                 resultMap.put("reviewList",data.get("reviewList"));
