@@ -15,12 +15,12 @@ function StickyButton() {
   const [perBar, setPerBar] = useState(false);
   const [extraBar, setExtraBar] = useState(false);
   const [accordClass, setAccordClass] = useState({});
-  const getAccord = async () => {
-    const res = await getAccordClass(3);
+  const getAccord = async accordId => {
+    const res = await getAccordClass(accordId);
     setAccordClass(res.accordClass.classDescription);
   };
   useEffect(() => {
-    getAccord();
+    getAccord(1);
   }, []);
   const openMenuOpt = () => {
     setOpenMenu(!openMenu);
@@ -103,7 +103,10 @@ function StickyButton() {
                   type="button"
                   onClick={openWordOpt}
                 >
-                  용어를 알아보자
+                  {openWord && (
+                    <span style={{ fontWeight: "bold" }}>용어를 알아보자</span>
+                  )}
+                  {!openWord && <span>용어를 알아보자</span>}
                 </button>
               </div>
               <div className="book_title_tag_scent">
@@ -112,7 +115,10 @@ function StickyButton() {
                   type="button"
                   onClick={openScentOpt}
                 >
-                  향을 알아보자
+                  {openScent && (
+                    <span style={{ fontWeight: "bold" }}>향을 알아보자</span>
+                  )}
+                  {!openScent && <span>향을 알아보자</span>}
                 </button>
               </div>
             </div>
@@ -134,7 +140,10 @@ function StickyButton() {
                       type="button"
                       onClick={openNoteBar}
                     >
-                      노트
+                      {noteBar && (
+                        <span style={{ fontWeight: "bold" }}>노트</span>
+                      )}
+                      {!noteBar && <span>노트</span>}
                     </button>
                   </div>
                   <div className="book_content_word_tags_tag">
@@ -143,7 +152,10 @@ function StickyButton() {
                       type="button"
                       onClick={openPerBar}
                     >
-                      원액 비율
+                      {perBar && (
+                        <span style={{ fontWeight: "bold" }}>원액 비율</span>
+                      )}
+                      {!perBar && <span>원액 비율</span>}
                     </button>
                   </div>
                   <div className="book_content_word_tags_tag">
@@ -152,7 +164,10 @@ function StickyButton() {
                       type="button"
                       onClick={openExtraBar}
                     >
-                      기타
+                      {extraBar && (
+                        <span style={{ fontWeight: "bold" }}>기타</span>
+                      )}
+                      {!extraBar && <span>기타</span>}
                     </button>
                   </div>
                 </div>
@@ -326,6 +341,7 @@ function StickyButton() {
                     <button
                       className="book_content_scent_tags_tag_citrus kyobo fs-22"
                       type="button"
+                      // onClick={getAccord}
                     >
                       시트러스 <br /> (Citrus)
                     </button>
