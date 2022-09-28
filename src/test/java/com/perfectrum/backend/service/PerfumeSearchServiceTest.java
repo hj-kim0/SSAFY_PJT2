@@ -2,6 +2,8 @@ package com.perfectrum.backend.service;
 
 import com.perfectrum.backend.domain.entity.AccordClassEntity;
 import com.perfectrum.backend.domain.entity.PerfumeEntity;
+import com.perfectrum.backend.domain.entity.UserEntity;
+import com.perfectrum.backend.domain.entity.UserSearchLogEntity;
 import com.perfectrum.backend.domain.repository.*;
 import com.perfectrum.backend.dto.perfume.PerfumeViewDto;
 import org.junit.jupiter.api.Test;
@@ -20,15 +22,17 @@ public class PerfumeSearchServiceTest {
     private AccordClassRepository accordClassRepository;
     private HaveListRepository haveListRepository;
     private WishListRepository wishListRepository;
+    private UserSearchLogRepository userSearchLogRepository;
 
     @Autowired
     PerfumeSearchServiceTest(PerfumeRepository perfumeRepository, UserRepository userRepository, AccordClassRepository accordClassRepository,
-                             HaveListRepository haveListRepository, WishListRepository wishListRepository){
+                             HaveListRepository haveListRepository, WishListRepository wishListRepository, UserSearchLogRepository userSearchLogRepository){
         this.perfumeRepository = perfumeRepository;
         this.userRepository = userRepository;
         this.accordClassRepository = accordClassRepository;
         this.haveListRepository = haveListRepository;
         this.wishListRepository = wishListRepository;
+        this.userSearchLogRepository = userSearchLogRepository;
     }
 
     @Test
@@ -36,11 +40,18 @@ public class PerfumeSearchServiceTest {
         Map<String, Object> data = new HashMap<>();
 
         // given
+        String testId = "kakao2435577184";
+
         Integer lastIdx = 712;
         Float lastItemRating = null;
         Integer pageSize = 6;
 
-        String genderList = "Men,Women,Unisex";
+        String genderList = "Men,Women";
+
+        List<String> gender = new ArrayList<>();
+        gender.add("Men");
+        gender.add("Women");
+
         String durationList = "1,3,5";
         String accordClassList = "3,4,5,6,7,8";
 
@@ -67,13 +78,9 @@ public class PerfumeSearchServiceTest {
             lastIdx = perfumeRepository.findTop1ByOrderByIdxDesc().getIdx() + 1;
         }
 
-        if(lastItemRating == null){
-            lastItemRating = perfumeRepository.findTop1ByOrderByItemRatingDescIdxDesc().getItemRating() + 1;
-        }
-
 
         Pageable pageable = Pageable.ofSize(pageSize);
-        Slice<PerfumeEntity> searchList = perfumeRepository.findAllByGenderAndLongevityAndAccordClass(genderList, longevity, accordClass, lastIdx, pageable);
+        Slice<PerfumeEntity> searchList = perfumeRepository.findAllByGenderAndLongevityAndAccordClass(gender, longevity, accordClass, lastIdx, pageable);
 
         List<PerfumeViewDto> result = new ArrayList<>();
         if(!searchList.isEmpty()){
@@ -108,9 +115,30 @@ public class PerfumeSearchServiceTest {
             data.put("searchList", result);
         }
 
+        // 검색 결과 로그인 했으면 user_search_log 에 저장
+        Optional<UserEntity> userEntityOptional = userRepository.findByUserId(testId);
+        if(userEntityOptional.isPresent()){
+            UserEntity user = userEntityOptional.get();
+            for(int i=0; i<gender.size(); i++){
+                for(int j=0; j<longevity.size(); j++){
+                    for(int k=0; k<accordClass.size(); k++){
+
+                        UserSearchLogEntity userSearchLogEntity = UserSearchLogEntity.builder()
+                                .user(user)
+                                .gender(gender.get(i))
+                                .duration(longevity.get(j))
+                                .accordClass(accordClass.get(k))
+                                .build();
+
+                        userSearchLogRepository.save(userSearchLogEntity);
+                    }
+                }
+            }
+        }
+
+        // then
         for(PerfumeViewDto d : result){
             System.out.println(d.toString());
         }
-
     }
 }
