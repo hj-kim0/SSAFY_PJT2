@@ -10,6 +10,7 @@ import Select from "@components/user/SelectItem";
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userProfileState, userState } from "../../atom";
 import { storage } from "../../firebase"
+import {useRecoilState} from "recoil";
 
 const sex = [
   { value: "Unisex", name: "성별 무관" },
@@ -44,10 +45,15 @@ const LUT = {
 
 }
 function InfoEdit() {
-  const userProfile = useRecoilValue(userProfileState);
+  const [userProfile, setUserProfile] = useRecoilState(userProfileState);
   const userLoginState = useRecoilValue(userState);
-  const setUserProfile = useSetRecoilState(userProfileState);
   const [isChecked, setIsChecked] = useState(0);
+  const [image, setImage] = useState({
+    image_file: "",
+    preview_URL: `${userProfile.profileImg}`,
+  });
+  const [imageUrl, setImageUrl] = useState("");
+  // let inputRef;
   const inputRef = useRef();
   const nicknameRef = useRef();
   const genderRef = useRef();
@@ -88,31 +94,47 @@ function InfoEdit() {
   };
 
 
-  const handleChangeFile = async (event) => {
-    const imgFile = event.target.files[0];
-    console.log(imgFile)
-    console.log(storage)
-    
-    const storageRef = ref(storage, `files/${imgFile.name}`)
-    console.log(storageRef)
-    const uploadTask = uploadBytes(storageRef, imgFile);
-    console.log(uploadTask)
-    
-    uploadTask.then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((downloadURL) => {
-        console.log(downloadURL)
-      })
-    })
-    // storage
-    // (동기) 파이어베이스 이미지 전송 로직
-    // 
-    // const changedProfile = {...userProfile};
-    // changedProfile.profileImg = ;
-    // setUserProfile(changedProfile);
-  
-
+  const handleChangeFile = (e) => {
+    e.preventDefault()
+    console.log(e.target.files[0])
+    if(e.target.files[0]){
+        URL.revokeObjectURL(image.preview_URL);
+        const preview_URL = URL.createObjectURL(e.target.files[0])
+        console.log(preview_URL)
+        setImage(() => (
+            {
+              image_file: e.target.files[0],
+              preview_URL: preview_URL
+            }
+        ))
+      console.log(image)
+      const storageRef = storage.ref("userProfile/test/")
+      const imageRef = storageRef.child(e.target.files[0].name)
+      const upLoadTask = imageRef.put(e.target.files[0])
+      upLoadTask.on(
+          "state_changed",
+          (snapshot) => {
+            console.log("snapshot", snapshot);
+            const percent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log(percent + "% done");
+          },
+          (error) => {
+            console.log("err", error);
+          },
+          () => {
+            upLoadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+              console.log("File available at", downloadURL);
+              setImageUrl(downloadURL);
+              console.log(downloadURL)
+              // const res = ChangeProfileImage(downloadURL)
+              //     .then((res) => {
+              //       console.log(res)
+              //     })
+            });
+          }
+      )
+    }
   };
-
 
   const checkNickname = () => {
     axios({

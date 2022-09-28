@@ -43,8 +43,8 @@ const PollResult = () => {
             kakao.Link.sendDefault({
                 objectType : "feed",
                 content : {
-                    title : `${resultPerfume.perfume_name}`,
-                    description : `${resultPerfume.description}}`,
+                    title : `나와 어울리는 향수는 ${resultPerfume.perfume_name}! ✨`,
+                    description : `나와 어울리는 향수를 찾아보고 싶다면?`,
                     imageUrl : `${resultPerfume.perfume_img}`,
                     link : {
                         mobileWebUrl : "http://j7c105.p.ssafy.io/personal",

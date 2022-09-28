@@ -50,7 +50,8 @@ module.exports = {
     "jsx-a11y/no-static-element-interactions" : "off",
     "import/order" : "off",
     "prefer-const" : "off",
-    "import/no-dynamic-require" : "off"
+    "import/no-dynamic-require" : "off",
+    "camelcase" : "off"
   },
   settings: {
     "import/resolver": {
