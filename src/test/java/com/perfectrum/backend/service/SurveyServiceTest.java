@@ -1,11 +1,10 @@
 package com.perfectrum.backend.service;
 
+import com.perfectrum.backend.domain.entity.AccordClassEntity;
 import com.perfectrum.backend.domain.entity.PerfumeEntity;
 import com.perfectrum.backend.domain.entity.SurveyEntity;
 import com.perfectrum.backend.domain.entity.UserEntity;
-import com.perfectrum.backend.domain.repository.PerfumeRepository;
-import com.perfectrum.backend.domain.repository.SurveyRepository;
-import com.perfectrum.backend.domain.repository.UserRepository;
+import com.perfectrum.backend.domain.repository.*;
 import com.perfectrum.backend.mapper.PerfumeViewMapper;
 //import org.junit.Test;
 import org.junit.jupiter.api.Test;
@@ -13,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 
 @SpringBootTest
@@ -27,69 +24,130 @@ public class SurveyServiceTest {
     private UserRepository userRepository;
     private SurveyRepository surveyRepository;
     private PerfumeRepository perfumeRepository;
+    private AccordClassRepository accordClassRepository;
+    private AccordRepository accordRepository;
 
     @Autowired
-    SurveyServiceTest(UserRepository userRepository, PerfumeRepository perfumeRepository, SurveyRepository surveyRepository){
+    SurveyServiceTest(UserRepository userRepository, PerfumeRepository perfumeRepository, SurveyRepository surveyRepository,
+                      AccordClassRepository accordClassRepository, AccordRepository accordRepository){
         this.userRepository = userRepository;
         this.perfumeRepository = perfumeRepository;
         this.surveyRepository = surveyRepository;
+        this.accordClassRepository = accordClassRepository;
+        this.accordRepository = accordRepository;
     }
 
     @Test
     public void 설문조사_테스트(){
-        Integer user_idx = 10;
-        String user_id = "surveyT";
-        String like_seasons = "summer";
-        String like_gender = "Men";
-        Integer like_longevity = 3;
-        String like_timezone = "day";
-        Integer like_accord_class = 1;
+        // given
+        String gender = "남자"; // 남자, 여자, 상관없음
+        String season = "가을";
+        String accordClass_s = "꽃 향기";
+        Integer duration = 0;
+        Integer accordClass = 0;
 
-        Optional<UserEntity> tmpUser = userRepository.findByUserId(user_id);
-        Map<String,Object> resultMap = new HashMap<>();
-
-        // 설문결과에 따른 퍼퓸 반환
-        PerfumeEntity perfume = perfumeRepository.findTop1BySeasonsContainsAndGenderAndLongevityAndTimezone
-                (like_seasons,like_gender,like_longevity,like_timezone);
-//        PerfumeEntity perfume = surveyRepository.findTop1ByGender(like_gender);
-        resultMap.put("data",perfume);
-        // 로그인 했을 경우
-        if(tmpUser.isPresent()){
-
-            // 반환된 퍼퓸의 idx 값
-            System.out.println("향수 반환 시도");
-            System.out.println(perfume.getGender());
-            System.out.println("향수 반환 결과");
-            Integer p_idx = perfume.getIdx();
-
-            SurveyEntity surveyEntity = SurveyEntity.builder()
-                    .user(tmpUser.get())
-                    .perfume(perfume)
-                    .likeSeasons(like_seasons)
-                    .likeGender(like_gender)
-                    .likeLongevity(like_longevity)
-                    .likeTimezone(like_timezone)
-                    .likeAccordClass(3)
-                    .build();
-//            SurveyEntity surveyEntity = SurveyEntity.builder().build();
-//            SurveyEntity survey = new SurveyEntity();
-//            survey.setUser(tmpUser.get());
-//            survey.setPerfume(perfume);
-//            survey.setLikeSeasons(like_seasons);
-//            survey.setLikeGender(like_gender);
-//            survey.setLikeLongevity(like_longevity);
-//            survey.setLikeTimezone(like_timezone);
-//            survey.setLikeAccordClass(like_accord_class);
-
-            // 설문결과 저장
-            System.out.println("설문결과");
-            surveyRepository.save(surveyEntity);
-            resultMap.put("message",success);
+        if(gender.equals("남자")){
+            gender = "Men";
+        }else if(gender.equals("여자")){
+            gender = "Women";
         }else{
-            resultMap.put("message",success);
-
+            gender = null;
         }
 
-        System.out.println(resultMap.toString());
+        switch (season){
+            case "봄":
+                season = "spring";
+                break;
+            case "여름":
+                season = "summer";
+                break;
+            case "가을":
+                season = "fall";
+                break;
+            case "겨울":
+                season = "winter";
+                break;
+        }
+
+        switch(accordClass_s){
+            case "꽃 향기":
+                accordClass = 2;
+                break;
+            case "풀 향기":
+                accordClass = 3;
+                break;
+            case "과일 향":
+                accordClass = 4;
+                break;
+            case "달콤한 향":
+                accordClass = 8;
+                break;
+            case "매운 향":
+                accordClass = 5;
+                break;
+            case "톡쏘는 향":
+                accordClass = 1;
+                break;
+            case "야성적인 향":
+                accordClass = 6;
+                break;
+            case "인공적인 향":
+                accordClass = 7;
+                break;
+        }
+
+        // when
+        AccordClassEntity accordClassEntity = accordClassRepository.findByIdx(accordClass);
+        List<PerfumeEntity> surveyList = new ArrayList<>();
+        if(duration==0){ // 1,2,3
+            if(gender==null){
+                surveyList = perfumeRepository.findBySeasonAndWeakLongevityAndAccordClass(season, accordClassEntity);
+            }else{
+                surveyList = perfumeRepository.findByGenderAndSeasonAndWeakLongevityAndAccordClass(gender, season, accordClassEntity);
+            }
+        }else{ // 4,5
+            if(gender==null){
+                surveyList = perfumeRepository.findBySeasonAndStrongLongevityAndAccordClass(season, accordClassEntity);
+            }else{
+                surveyList = perfumeRepository.findByGenderAndSeasonAndStrongLongevityAndAccordClass(gender, season, accordClassEntity);
+            }
+        }
+
+        Integer max=0, cnt = 0;
+        ArrayList<PerfumeEntity> resultList = new ArrayList<>();
+        for(int i=0; i<surveyList.size(); i++){
+            cnt = accordRepository.countByAccordClass(surveyList.get(i), accordClassEntity);
+//            System.out.println( surveyList.get(i).getIdx()+"번째 향수 accordClass포함 개수 : " + cnt);
+
+            if(max < cnt){
+                max = cnt;
+                resultList.clear();
+                resultList.add(surveyList.get(i));
+            }else if(max == cnt){
+                resultList.add(surveyList.get(i));
+            }
+        }
+
+
+        Random random = new Random();
+        PerfumeEntity perfume;
+        if(resultList.size() != 1){
+            perfume = resultList.get(random.nextInt(resultList.size()));
+
+        }else {
+            perfume = resultList.get(0);
+        }
+
+
+        // then
+        if(!resultList.isEmpty()){
+            System.out.println("survey결과 총 개수 : " + resultList.size());
+            for(PerfumeEntity p : resultList){
+                System.out.println(p.getIdx()+"번향수 ,"+p.getPerfumeName());
+            }
+        }else{
+            System.out.println("쿼리 검색 결과 없음");
+        }
+        System.out.println("최종 결과 : " + perfume.getIdx()+ ", " + perfume.getPerfumeName());
     }
 }

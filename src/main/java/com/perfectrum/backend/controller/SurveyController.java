@@ -22,32 +22,21 @@ public class SurveyController {
     private static HttpStatus status = HttpStatus.NOT_FOUND;
 
     private JwtService jwtService;
-    private WishListService wishListService;
-    private HaveListService haveListService;
-
-    private PerfumeDetailService perfumeDetailService;
 
     private SurveyService surveyService;
 
     @Autowired
-    SurveyController(JwtService jwtService, WishListService wishListService,
-                            HaveListService haveListService,PerfumeDetailService perfumeDetailService,
-                            SurveyService surveyService){
+    SurveyController(JwtService jwtService, SurveyService surveyService){
         this.jwtService = jwtService;
-        this.wishListService = wishListService;
-        this.haveListService = haveListService;
-        this.perfumeDetailService = perfumeDetailService;
         this.surveyService = surveyService;
     }
 
     @PostMapping("/survey")
-    public ResponseEntity<?> surveyResult(HttpServletRequest request, @RequestBody SurveyDto surveyDto){
+    public ResponseEntity<?> surveyResult(@RequestBody SurveyDto surveyDto){
         Map<String, Object> resultMap = new HashMap<>();
-        Map<String, Object> data = new HashMap<>();
-        String decodeId = checkToken(request,resultMap);
+
         try{
-            System.out.println("서비스 진입");
-            data = surveyService.surveyResult(decodeId,surveyDto);
+            Map<String, Object> data = surveyService.surveyResult(surveyDto);
             resultMap.put("perfume",data.get("perfume"));
             resultMap.put("message",success);
             status = HttpStatus.OK;
