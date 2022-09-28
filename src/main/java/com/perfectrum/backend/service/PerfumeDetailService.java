@@ -20,3 +20,4 @@ public interface PerfumeDetailService {
 
     void updateReview(String decodeId,Integer perfumeIdx, Integer reviewIdx, ReviewRegistDto reviewRegistDto);
 }
+

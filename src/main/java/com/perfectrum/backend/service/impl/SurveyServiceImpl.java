@@ -37,8 +37,16 @@ public class SurveyServiceImpl implements SurveyService {
         Map<String,Object> data = new HashMap<>();
         PerfumeEntity perfume;
         Random random = new Random();
-        String gender = surveyDto.getGender();
-        String season = surveyDto.getSeason();
+        String gender = "Men";
+        if(surveyDto.getGender().equals("남자")){
+            gender = "Men";
+        }else if(surveyDto.getGender().equals("여자")){
+            gender = "Women";
+        }else{
+            gender = "Unisex";
+        }
+        String season = "spring";
+        season = surveyDto.getSeason();
         Integer longevity = surveyDto.getLongevity();
         String accordClass_s = surveyDto.getAccordClass();
         Integer accordClass = 0;
@@ -69,9 +77,22 @@ public class SurveyServiceImpl implements SurveyService {
                 accordClass = 7;
                 break;
         }
-        System.out.println("향수 리스트 찾기");
-        List<PerfumeEntity> perfumeList = perfumeRepository.findByGenderAndSeasonsAndLongevity(gender,season,longevity);
-        System.out.println("향수 리스트 찾아옴" + perfumeList.size());
+
+        List<PerfumeEntity> perfumeList = null;
+        List<Integer> sList = new ArrayList<>();
+        List<Integer> wList = new ArrayList<>();
+        for(int i=0;i<3;i++){
+            sList.add(i+1);
+        }
+        wList.add(4);
+        wList.add(5);
+//        if(longevity == 1){
+//            perfumeList = perfumeRepository.findByGenderAndSeasonsAndSListLongevityAndAccordClass(gender,season,sList,accordClass);
+//        }else if(longevity == 0){
+//            perfumeList = perfumeRepository.findByGenderAndSeasonsAndwListLongevityAndAccordClass(gender,season,wList,accordClass);
+//        }
+        System.out.println(perfumeList.size());
+        System.out.println("웨얼두");
         List<AccordEntity> accordList;
         List<Integer> list = new ArrayList<>();
         List<PerfumeEntity> resultList = new ArrayList<>();
@@ -96,9 +117,10 @@ public class SurveyServiceImpl implements SurveyService {
             list.add(cnt);
         }
 
+
         if(resultList.size() != 1){
             perfume = resultList.get(random.nextInt(resultList.size()));
-        ;
+            ;
         }else {
             perfume = resultList.get(0);
         }
@@ -125,6 +147,8 @@ public class SurveyServiceImpl implements SurveyService {
                 .wishCount(wishCount)
                 .haveCount(haveCount)
                 .build();
+
+        System.out.println("idx " + perfumeViewDto.getIdx());
         data.put("perfume",perfumeViewDto);
         return data;
     }
