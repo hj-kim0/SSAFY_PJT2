@@ -15,9 +15,9 @@ import java.util.List;
 @Builder
 public class PerfumeSearchDto {
 
-    String gender;
-    String duration;
-    String accordClass;
+    List<String> gender;
+    List<Integer> duration;
+    List<Integer> accordClass;
 
     Integer lastIdx;
     Integer pageSize;
