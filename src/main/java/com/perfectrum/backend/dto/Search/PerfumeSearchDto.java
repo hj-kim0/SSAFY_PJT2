@@ -18,6 +18,8 @@ public class PerfumeSearchDto {
     String gender;
     String duration;
     String accordClass;
+
     Integer lastIdx;
     Integer pageSize;
+
 }
