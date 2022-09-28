@@ -23,14 +23,26 @@ function MainNavBar() {
     <div className="wrapper flex align-center">
       <nav id="MainNavBar" className="flex align-center">
         <nav className="left_nav notoBold flex align-center">
-          <Link to="/" className="left_nav__link flex">
+          <Link to="/" className="left_nav_home flex">
             <img className="logo" title="!213" alt="logoImage" src={navLogo} />
           </Link>
           <NavLink
-            className=""
-            to="/board"
+            className="left_nav_personal"
+            to="/personal"
           >
-            향수모음
+            향수추천
+          </NavLink>
+          <NavLink
+            className="left_nav_search"
+            to="/perfumesearch"
+          >
+            향수찾기
+          </NavLink>
+          <NavLink
+            className="left_nav_향 분석"
+            to="/tasteanalysis"
+          >
+            향 분석
           </NavLink>
         </nav>
         {
