@@ -27,4 +27,5 @@ public class ReviewViewDto {
 
     private LocalDateTime time;
     private LocalDateTime updateTime;
+    private boolean isDelete;
 }

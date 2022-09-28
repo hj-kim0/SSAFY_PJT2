@@ -43,8 +43,11 @@ public class ReviewEntity {
     @Column(name="update_time")
     private LocalDateTime updateTime;
 
+    @Column(name = "is_Delete")
+    private boolean isDelete;
+
     @Builder
-    public ReviewEntity(Integer idx, UserEntity user, PerfumeEntity perfume, String reviewImg, Integer totalScore, Integer longevity, Integer sillageScore, String content, Integer likeCount,LocalDateTime time, LocalDateTime updateTime) {
+    public ReviewEntity(Integer idx, UserEntity user, PerfumeEntity perfume, String reviewImg, Integer totalScore, Integer longevity, Integer sillageScore, String content, Integer likeCount,LocalDateTime time, LocalDateTime updateTime, boolean isDelete) {
         this.idx = idx;
         this.user = user;
         this.perfume = perfume;
@@ -56,5 +59,6 @@ public class ReviewEntity {
         this.likeCount = likeCount;
         this.time = time;
         this.updateTime = updateTime;
+        this.isDelete = isDelete;
     }
 }
