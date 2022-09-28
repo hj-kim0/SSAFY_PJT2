@@ -23,15 +23,15 @@ public interface PerfumeRepository extends JpaRepository<PerfumeEntity, Integer>
 
     @Query(value =
             "SELECT p FROM PerfumeEntity AS p WHERE p.gender = :gender AND p.seasons like %:season% and " +
-            "p.idx in (SELECT pa.perfume FROM PerfumeAccordsEntity AS pa " +
-            "WHERE pa.accord IN (SELECT a.idx from AccordEntity AS a WHERE a.accordClass = :accordClassEntity)) " +
-            "ORDER BY p.itemRating DESC")
+                    "p.idx in (SELECT pa.perfume FROM PerfumeAccordsEntity AS pa " +
+                    "WHERE pa.accord IN (SELECT a.idx from AccordEntity AS a WHERE a.accordClass = :accordClassEntity)) " +
+                    "ORDER BY p.itemRating DESC")
     List<PerfumeEntity> findBest6Perfumes(String gender, String season, AccordClassEntity accordClassEntity, Pageable top6);
 
     PerfumeEntity findByIdx(Integer idx);
 
     @Query(value = " select a from AccordEntity as a where a.idx in " +
-                    "(select p.accord from PerfumeAccordsEntity as p where p.perfume = :perfume)")
+            "(select p.accord from PerfumeAccordsEntity as p where p.perfume = :perfume)")
     List<AccordEntity> findByPerfume(PerfumeEntity perfume);
 
     @Query("SELECT p FROM PerfumeEntity AS p " +
@@ -71,3 +71,4 @@ public interface PerfumeRepository extends JpaRepository<PerfumeEntity, Integer>
 
     PerfumeEntity findTop1ByOrderByItemRatingDescIdxDesc();
 }
+
