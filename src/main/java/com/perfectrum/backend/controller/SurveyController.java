@@ -46,6 +46,7 @@ public class SurveyController {
         Map<String, Object> data = new HashMap<>();
         String decodeId = checkToken(request,resultMap);
         try{
+            System.out.println("서비스 진입");
             data = surveyService.surveyResult(decodeId,surveyDto);
             resultMap.put("perfume",data.get("perfume"));
             resultMap.put("message",success);
