@@ -19,6 +19,7 @@ import Token from "../Token";
 import PersonalPerfume from "../screens/PersonalPerfume";
 import PollStart from "../screens/poll/PollStart";
 import PollResult from "../screens/poll/PollResult";
+import Survey from "../screens/user/Survey";
 
 function Router() {
   return (
@@ -41,6 +42,7 @@ function Router() {
         <Route path="/poll" element={<PollStart />} />
         <Route path="/pollresult" element={<PollResult />} />
         <Route path="/getRec" element={<Rec></Rec>}></Route>
+        <Route path="/survey" element={<Survey />} />
       </Routes>
       <Footer />
     </RecoilRoot>

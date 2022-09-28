@@ -1,21 +1,49 @@
-import React from "react";
+import { React, useEffect }  from "react";
 // import { Link } from "react-router-dom";
 import dummyProfile from "@images/icon/dummyIcon.png";
+import gear from "@images/icon/gear.png";
 import InfoReview from "@components/user/InfoReview";
 import "./UserReview.scss";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userProfileState } from "../../atom";
+import { getUserProfile } from "../../apis/user";
 
 function UserReview() {
+  const navigate = useNavigate();
+
+  const userProfile = useRecoilValue(userProfileState);
+  const setUserProfile = useSetRecoilState(userProfileState);
+  console.log(userProfile)
+  
+  const editProfile = () => {
+    // 라우터 이동
+    navigate("/infoedit");
+  }
+  useEffect(() => {
+    // 사용자 정보 받아오기
+  }, [])
+  
   return (
     <div className="container flex justify-center">
       <div id="userReview" className="userReview">
         <div id="userReview1" className="userReview1 flex justify-center">
-          <img
+        { !userProfile.profileImg && <img
             src={dummyProfile}
             alt="Profile_Image"
-            className="userReview1_img"
-          />
+            className="userReview1_profileimg"
+          />}
+          { !!userProfile.profileImg && <img
+            src={userProfile.profileImg}
+            alt="Profile_Image"
+            className="userReview1_profileimg"
+          />}
+          {/* 수정 버튼 위치 */}
+          <button type="button" className="userReview1_editbutton" onClick={editProfile}>
+            <img src={gear} className="userReview1_gear" alt="" />
+          </button>
           <div className="userReview1_nickname notoBold fs-24">
-            닉네임
+            {userProfile.nickname}
           </div>
         </div>
         <div id="userReview2" className="userReview2 flex">
