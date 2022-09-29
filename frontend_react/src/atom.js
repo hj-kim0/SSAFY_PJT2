@@ -21,6 +21,7 @@ export const userState = atom({
         isLogin : null,
         sToken: "",
         kToken: "",
+        isRegist: "",
     },
     effects_UNSTABLE: [persistAtom],
 });

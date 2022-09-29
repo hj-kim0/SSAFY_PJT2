@@ -50,9 +50,10 @@ function Auth() {
             isLogin = true;
             console.log(isLogin);
             User = {
-                "isLogin":isLogin,
-                "sToken":sToken,
-                "kToken":kToken
+                "isLogin" : isLogin,
+                "sToken" : sToken,
+                "kToken" : kToken,
+                "isRegist" : response2.data.isRegist
             }
             setUser(User);
             const response3 = await axios.get("http://j7c105.p.ssafy.io:8083/user",{
