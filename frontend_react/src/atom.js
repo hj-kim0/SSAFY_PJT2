@@ -1,5 +1,5 @@
 import { atom } from 'recoil'
-import {recoilPersist} from "recoil-persist";
+import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist()
 
@@ -42,13 +42,14 @@ export const userProfileState = atom({
     default: {
         "idx": -1,
         "userId": "",
-        "profileImg": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIUAAABpCAIAAACbPneSAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAD8SURBVHhe7dFBDQAwCACx2UPnEIqNPi6pg74/G0cflj4sfVj6sPRh6cPSh6UPSx+WPix9WPqw9GHpw9KHpQ9LH5Y+LH1Y+rD0YenD0oelD0sflj4sfVj6sPRh6cPSh6UPSx+WPix9WPqw9GHpw9KHpQ9LH5Y+LH1Y+rD0YenD0oelD0sflj4sfVj6sPRh6cPSh6UPSx+WPix9WPqw9GHpw9KHpQ9LH5Y+LH1Y+rD0YenD0oelD0sflj4sfVj6sPRh6cPSh6UPSx+WPix9WPqw9GHpw9KHpQ9LH5Y+LH1Y+rD0YenD0oelD0sflj4sfVj6sPRh6cPSh6UPyewBt75BTHRWB6IAAAAASUVORK5CYII=", 
-        "nickname": "닉네임",
-        "gender": "성별",
-        "seasons": "시즌",
-        "accordClass": "클래스"
+        "profileImg": "",
+        "nickname": "",
+        "gender": "",
+        "seasons": "",
+        "accordClass": -1,
     },
     effects_UNSTABLE: [persistAtom],
+
 });
 
 export const surveyState = atom({
@@ -60,7 +61,7 @@ export const surveyState = atom({
                 "sentence": ["성별을 알려주세요."],
                 },
                 { "step" : 2,
-                "sentence": ["남자", "유니섹스", "여자"],
+                "sentence": ["남성", "유니섹스", "여성"],
                 },
                 { "step" : 3,
                 "sentence": ["선호하는 계절을 알려주세요."],
