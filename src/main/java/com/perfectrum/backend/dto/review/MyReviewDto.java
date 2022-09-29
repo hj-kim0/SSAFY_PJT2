@@ -20,6 +20,7 @@ public class MyReviewDto {
     private Integer longevity;
     private Integer sillageScore;
     private String content;
+    private boolean isDelete;
 
     private LocalDateTime time;
     private LocalDateTime updateTime;

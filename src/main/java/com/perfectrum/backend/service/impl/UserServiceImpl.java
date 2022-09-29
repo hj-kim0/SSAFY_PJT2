@@ -126,9 +126,9 @@ public class UserServiceImpl implements UserService {
                 }
 
                 if (type.equals("최신순")) {
-                    reviews = reviewRepository.findByUserOrderByIdxDesc(userEntity, lastIdx, pageable);
+                    reviews = reviewRepository.findByUserAndIsDeleteOrderByIdxDesc(userEntity, false, lastIdx, pageable);
                 }else{ // 평점순
-                    reviews = reviewRepository.findByUserOrderByTotalScoreDescIdxDesc(userEntity, lastScore, lastIdx, pageable);
+                    reviews = reviewRepository.findByUseAndIsDeleterOrderByTotalScoreDescIdxDesc(userEntity, false, lastScore, lastIdx, pageable);
                 }
 
                 boolean hasNext = reviews.hasNext();
@@ -146,6 +146,7 @@ public class UserServiceImpl implements UserService {
                             .sillageScore(r.getSillageScore())
                             .content(r.getContent())
                             .time(r.getTime())
+                            .isDelete(r.isDelete())
                             .updateTime(r.getUpdateTime())
                             .build();
 
