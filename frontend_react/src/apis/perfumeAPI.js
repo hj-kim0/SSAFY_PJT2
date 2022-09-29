@@ -37,3 +37,17 @@ export const fetchMainPerfume = async () => {
     })
     return response
 }
+
+export const fetchMainPerfumeUser = async (data) => {
+    const URL = `${SERVER_URL}/main`
+
+    const response = await fetch(URL,{
+        method : "GET",
+        headers : {
+            "Content-type": "application/json",
+            "Authorization": data,
+            
+        }
+    })
+    return response
+}
