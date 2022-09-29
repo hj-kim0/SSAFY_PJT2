@@ -7,6 +7,6 @@ import java.util.Map;
 
 public interface SurveyService {
 
-    Map<String,Object> surveyResult(SurveyDto surveyDto);
+    Map<String,Object> surveyResult(String decodeId, SurveyDto surveyDto);
 
 }

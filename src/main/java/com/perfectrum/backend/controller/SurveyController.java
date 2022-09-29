@@ -32,19 +32,24 @@ public class SurveyController {
     }
 
     @PostMapping("/survey")
-    public ResponseEntity<?> surveyResult(@RequestBody SurveyDto surveyDto){
+    public ResponseEntity<?> surveyResult(HttpServletRequest request, @RequestBody SurveyDto surveyDto){
         Map<String, Object> resultMap = new HashMap<>();
-
-        try{
-            Map<String, Object> data = surveyService.surveyResult(surveyDto);
-            resultMap.put("perfume",data.get("perfume"));
-            resultMap.put("message",success);
-            status = HttpStatus.OK;
-        }catch(Exception e){
-            resultMap.put("message",fail);
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        Map<String,Object> data = new HashMap<>();
+        String decodeId = "isLogin";
+        if(request != null && request.getHeader("Authorization")!=null){
+            decodeId = checkToken(request, resultMap);
         }
-
+        if(decodeId != null) {
+            try {
+                data = surveyService.surveyResult(decodeId,surveyDto);
+                resultMap.put("perfume", data.get("perfume"));
+                resultMap.put("message", success);
+                status = HttpStatus.OK;
+            } catch (Exception e) {
+                resultMap.put("message", fail);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }
         return new ResponseEntity<>(resultMap,status);
     }
 
