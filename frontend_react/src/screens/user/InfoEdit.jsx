@@ -10,7 +10,7 @@ import Select from "@components/user/SelectItem";
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userProfileState, userState } from "../../atom";
 import { storage } from "../../firebase"
-import {useRecoilState} from "recoil";
+import { useNavigate } from "react-router-dom";
 
 const sex = [
   { value: "Unisex", name: "성별 무관" },
@@ -45,12 +45,14 @@ const LUT = {
 
 }
 function InfoEdit() {
-  const [userProfile, setUserProfile] = useRecoilState(userProfileState);
+  const navigate = useNavigate();
+  const userProfile = useRecoilValue(userProfileState);
+  const setUserProfile = useSetRecoilState(userProfileState);
   const userLoginState = useRecoilValue(userState);
   const [isChecked, setIsChecked] = useState(0);
   const [image, setImage] = useState({
     image_file: "",
-    preview_URL: `${userProfile.profileImg}`,
+    preview_URL: `${userProfile[0].profileImg}`,
   });
   const [imageUrl, setImageUrl] = useState("");
   // let inputRef;
@@ -72,7 +74,7 @@ function InfoEdit() {
         },
         data : {
           "nickname" : nicknameRef.current.value,
-          "profileImg" : userProfile.profileImg,
+          "profileImg" : userProfile[0].profileImg,
           "gender" : genderRef.current.value,
           "seasons" : seasonsRef.current.value,
           "accordClass" : LUT.accord
@@ -80,7 +82,7 @@ function InfoEdit() {
       })
       .then(res => console.log("엑시오스", res))
       .catch(err => console.log(err))
-      // window.location.href = "/userreview";
+      navigate("/userreview")
     } else {
       alert("닉네임 중복 체크를 해주세요")
     }
@@ -126,12 +128,8 @@ function InfoEdit() {
               setImageUrl(downloadURL);
               console.log(downloadURL)
               const copy = JSON.parse(JSON.stringify(userProfile));
-              copy.profileImg = downloadURL;
+              copy[0].profileImg = downloadURL;
               setUserProfile(copy)
-              // const res = ChangeProfileImage(downloadURL)
-              //     .then((res) => {
-              //       console.log(res)
-              //     })
             });
           }
       )
@@ -159,13 +157,13 @@ function InfoEdit() {
       <div id="infoedit" className="infoedit">
         <div id="infoedit1" className="infoedit1 flex justify-center">
           <div className="infoedit1_title notoBold fs-28">개인정보 수정</div>
-          { !userProfile.profileImg && <img
+          { !userProfile[0]?.profileImg && <img
             src={dummyProfile}
             alt="Profile_Image"
             className="infoedit1_profileimg"
           />}
-          { !!userProfile.profileImg && <img
-            src={userProfile.profileImg}
+          { !!userProfile[0]?.profileImg && <img
+            src={userProfile[0].profileImg}
             alt="Profile_Image"
             className="infoedit1_profileimg"
           />}

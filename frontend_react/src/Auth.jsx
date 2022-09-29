@@ -65,8 +65,18 @@ function Auth() {
 
             const copy = JSON.parse(JSON.stringify(userProfile));
             // console.log("복제", copy[0]);
+
+            console.log("리코일",userProfile)
             copy[0] = {...response3.data.data}
+            // copy[0].idx = response3.data.data.idx
+            // copy.userId = response3.data.data.userId
+            // copy.profileImg = response3.data.data.profileImg
+            // copy.nickname = response3.data.data.nickname
+            // copy.gender = response3.data.data.gender
+            // copy.seasons = response3.data.data.seasons
+            // copy.accordClass = response3.data.data.accordClass
             setUserProfile(copy)
+            // console.log("카피",copy)
             // console.log("리코일 테스트", copy);
             if (response3.data.data.gender === "") {
                 window.location.replace("/preCheck");
