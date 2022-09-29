@@ -13,6 +13,7 @@ import com.perfectrum.backend.service.PerfumeDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.expression.spel.ast.OpInc;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -61,7 +62,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
     @Override
     public Map<String, Object> getPerfumeDetail(String decodeId, Integer perfumeIdx, ReviewListDto reviewListDto) {
         Map<String, Object> data = new HashMap<>();
-
+        Optional<UserEntity> OptionalUser = userRepository.findByUserId(decodeId);
         List<AccordEntity> accordList;
         
         String type = reviewListDto.getType();
@@ -75,8 +76,8 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
         PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
         accordList = perfumeRepository.findByPerfume(perfume);
 
-        Integer haveCount = Long.valueOf(Optional.ofNullable(haveListRepository.countByPerfumeIdx(perfumeIdx)).orElse(0L)).intValue();
-        Integer wishCount = Long.valueOf(Optional.ofNullable(wishListRepository.countByPerfumeIdx(perfumeIdx)).orElse(0L)).intValue();
+        Integer haveCount = Long.valueOf(Optional.ofNullable(haveListRepository.countByPerfumeIdxAndIsDelete(perfumeIdx,false)).orElse(0L)).intValue();
+        Integer wishCount = Long.valueOf(Optional.ofNullable(wishListRepository.countByPerfumeIdxAndIsDelete(perfumeIdx,false)).orElse(0L)).intValue();
 
         PerfumeViewDto perfumeViewDto = PerfumeViewDto.builder()
                 .idx(perfumeIdx)
@@ -100,6 +101,21 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                 .build();
         data.put("perfume", perfumeViewDto);
 
+
+        data.put("list","null");
+        if(OptionalUser.isPresent()){
+            UserEntity user = OptionalUser.get();
+            Integer isWish = Long.valueOf(Optional.ofNullable(wishListRepository.countByUserAndPerfumeAndIsDelete(user,perfume,false)).orElse(0L)).intValue();
+            if(isWish==1) {
+                data.put("list", "wish");
+            }else if(isWish == 0){
+                Integer isHave = Long.valueOf(Optional.ofNullable(haveListRepository.countByUserAndPerfumeAndIsDelete(user,perfume,false)).orElse(0L)).intValue();
+                if(isHave == 1){
+                    data.put("list","have");
+                }
+            }
+
+        }
         List<AccordInfoDto> aList = new ArrayList<>();
         for(AccordEntity ae : accordList) {
             AccordInfoDto aid = AccordInfoDto.builder()
