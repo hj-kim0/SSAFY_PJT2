@@ -25,4 +25,6 @@ public interface UserService {
     Object getTotalReviews(String decodeId);
 
     Object getAvgReviews(String decodeId);
+
+    String getUserId(String nickname);
 }

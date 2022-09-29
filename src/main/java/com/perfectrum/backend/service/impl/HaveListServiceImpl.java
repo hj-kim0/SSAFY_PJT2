@@ -38,7 +38,7 @@ public class HaveListServiceImpl implements HaveListService {
 
         if(userEntity.isPresent()){
             UserEntity user = userEntity.get();
-            List<HaveListEntity> haveListEntityList = haveListRepository.findByUser(user);
+            List<HaveListEntity> haveListEntityList = haveListRepository.findByUserAndIsDelete(user, false);
 
             if(!haveListEntityList.isEmpty()){
                 for(HaveListEntity h : haveListEntityList){
