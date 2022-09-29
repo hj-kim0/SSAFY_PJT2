@@ -14,7 +14,8 @@ function UserReview() {
 
   const userProfile = useRecoilValue(userProfileState);
   const setUserProfile = useSetRecoilState(userProfileState);
-  console.log(userProfile)
+  console.log("리코일 프로필",userProfile)
+  console.log("리코일 이미지",userProfile[0]?.profileImg)
   
   const editProfile = () => {
     // 라우터 이동
@@ -28,13 +29,13 @@ function UserReview() {
     <div className="container flex justify-center">
       <div id="userReview" className="userReview">
         <div id="userReview1" className="userReview1 flex justify-center">
-        { !userProfile.profileImg && <img
+        { !userProfile[0]?.profileImg && <img
             src={dummyProfile}
             alt="Profile_Image"
             className="userReview1_profileimg"
           />}
-          { !!userProfile.profileImg && <img
-            src={userProfile.profileImg}
+          { !!userProfile[0]?.profileImg && <img
+            src={userProfile[0]?.profileImg}
             alt="Profile_Image"
             className="userReview1_profileimg"
           />}
