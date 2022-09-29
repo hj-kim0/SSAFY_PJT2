@@ -110,6 +110,7 @@ public class PerfumeSearchServiceImpl implements SearchService {
 
                 if(gender != null){
                     AccordClassEntity accordClassEntity =  accordClassRepository.findByIdx(accordClass);
+
                     Pageable top6 = Pageable.ofSize(6);
                     List<PerfumeEntity> perfumes = perfumeRepository.findBest6Perfumes(gender,season,accordClassEntity,top6);
 

@@ -45,7 +45,6 @@ public class PerfumeSearchController {
     @PostMapping("/search")
     public ResponseEntity<?> getSearchResult(HttpServletRequest request, @RequestBody PerfumeSearchDto perfumeSearchDto){
         Map<String,Object> resultMap = new HashMap<>();
-        Map<String,Object> data = new HashMap<>();
         String decodeId = "isLogin";
 
         if(request != null && request.getHeader("Authorization") != null){
@@ -54,7 +53,7 @@ public class PerfumeSearchController {
 
         if(decodeId != null){
             try{
-                data = perfumeSearchService.searchPerfume(decodeId,perfumeSearchDto);
+                Map<String,Object> data = perfumeSearchService.searchPerfume(decodeId,perfumeSearchDto);
                 if(data.get("perfumeList")!=null){
                     resultMap.put("searchList", data.get("perfumeList"));
                     resultMap.put("hasNext", data.get("hasNext"));

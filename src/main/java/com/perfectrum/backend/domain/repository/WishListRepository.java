@@ -10,11 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WishListRepository extends JpaRepository<WishListEntity,String> {
-    List<WishListEntity> findByUser(UserEntity userEntity);
     WishListEntity findByIdx(Integer idx);
     Optional<WishListEntity> findByUserAndIdx(Optional<UserEntity> userEntityOptional, Integer idx);
-
-    Long countByuserIdx(Integer userIdx);
 
     Long countByPerfumeIdxAndIsDelete(Integer perfumeIdx,boolean check);
 

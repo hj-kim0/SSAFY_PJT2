@@ -53,7 +53,7 @@ public class MainController {
         // 토큰만료안됨 -> 로그인 했거나 비로그인 상태
         if(decodeId != null){
             try{
-                List<PerfumeViewDto> bestPerfumeList = perfumeService.viewBestPerfume(decodeId); // 사용자 정보 기반 베스트 향ㅅ
+                List<PerfumeViewDto> bestPerfumeList = perfumeService.viewBestPerfume(decodeId); // 사용자 정보 기반 베스트 향수
                 resultMap.put("BestPerfumeList", bestPerfumeList);
                 List<PerfumeViewDto> todayPerfumeList = perfumeService.viewTodayPerfume(decodeId); // 오늘의 향수 추천
 

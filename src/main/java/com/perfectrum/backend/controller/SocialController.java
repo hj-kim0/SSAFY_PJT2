@@ -36,33 +36,6 @@ public class SocialController {
         this.jwtService = jwtService;
     }
 
-    // 카카오 로그인
-//    @GetMapping("/oauth/kakao")
-//    public ResponseEntity<?> getKakaoAuthCode(@RequestParam String code) {
-//        Map<String, Object> resultMap = new HashMap<>();
-//        System.out.println(code);
-//
-//        try{
-//            String accessToken = kakaoUserService.getKakaoAccessToken(code); // 인가코드로 kakao access-token 발급받기
-//            String[] res = kakaoUserService.createKakaoUser(accessToken);
-//            if(res!=null){
-//                resultMap.put("isRegist", res[1]); // 회원가입 여부
-//                resultMap.put("access-token", accessToken); // 엑세스토큰
-//
-//                resultMap.put("messgae", success);
-//                status = HttpStatus.OK;
-//            }else{
-//                resultMap.put("message", fail);
-//                status = HttpStatus.UNAUTHORIZED;
-//            }
-//
-//        }catch (Exception e){
-//            resultMap.put("message", fail);
-//            status = HttpStatus.INTERNAL_SERVER_ERROR;
-//        }
-//        return new ResponseEntity<>(resultMap, status);
-//    }
-
     @GetMapping("/oauth/kakao")
     public ResponseEntity<?> getKakaoAuthCode(@RequestParam String code, HttpServletResponse response) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
@@ -104,7 +77,6 @@ public class SocialController {
     public ResponseEntity<?> authKakao(HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, Object> resultMap = new HashMap<>();
         String authToken = request.getHeader("authToken"); // 프론트에서 인가코드 헤더에 실어서 보냄
-//        String kakaoToken = kakaoUserService.getKakaoAccessToken(authCode); // 인가코드로 카카오토큰 발급
         try{
             String[] res = kakaoUserService.createKakaoUser(authToken); // 카카오 토근으로 카카오 회원 정보 조회
             if(res!=null){

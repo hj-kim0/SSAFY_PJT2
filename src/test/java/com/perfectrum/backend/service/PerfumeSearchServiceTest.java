@@ -107,8 +107,8 @@ public class PerfumeSearchServiceTest {
                         .timezone(pe.getTimezone())
                         .longevity(pe.getLongevity())
                         .sillage(pe.getSillage())
-                        .wishCount(Long.valueOf(Optional.ofNullable(haveListRepository.countByPerfumeIdx(pe.getIdx())).orElse(0L)).intValue())
-                        .haveCount(Long.valueOf(Optional.ofNullable(wishListRepository.countByPerfumeIdx(pe.getIdx())).orElse(0L)).intValue())
+                        .wishCount(Long.valueOf(Optional.ofNullable(haveListRepository.countByPerfumeIdxAndIsDelete(pe.getIdx(), false)).orElse(0L)).intValue())
+                        .haveCount(Long.valueOf(Optional.ofNullable(wishListRepository.countByPerfumeIdxAndIsDelete(pe.getIdx(), false)).orElse(0L)).intValue())
                         .build();
 
                 result.add(perfumeViewDto);

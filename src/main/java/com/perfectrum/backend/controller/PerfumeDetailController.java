@@ -6,6 +6,7 @@ import com.perfectrum.backend.dto.review.ReviewListDto;
 import com.perfectrum.backend.dto.review.ReviewRegistDto;
 import com.perfectrum.backend.dto.review.ReviewViewDto;
 import com.perfectrum.backend.service.*;
+import io.netty.handler.codec.serialization.ObjectEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,17 +25,12 @@ public class PerfumeDetailController {
     private static HttpStatus status = HttpStatus.NOT_FOUND;
 
     private JwtService jwtService;
-    private WishListService wishListService;
-    private HaveListService haveListService;
 
     private PerfumeDetailService perfumeDetailService;
 
     @Autowired
-    PerfumeDetailController(JwtService jwtService, WishListService wishListService,
-                            HaveListService haveListService,PerfumeDetailService perfumeDetailService){
+    PerfumeDetailController(JwtService jwtService,PerfumeDetailService perfumeDetailService){
         this.jwtService = jwtService;
-        this.wishListService = wishListService;
-        this.haveListService = haveListService;
         this.perfumeDetailService = perfumeDetailService;
     }
 
@@ -69,11 +65,10 @@ public class PerfumeDetailController {
     }
 
     @GetMapping("/detail/accord/{idx}")
-    public ResponseEntity<?> getAccordMoreInfo(HttpServletRequest request, @PathVariable("idx") Integer accordIdx){
+    public ResponseEntity<?> getAccordMoreInfo( @PathVariable("idx") Integer accordIdx){
         Map<String,Object> resultMap = new HashMap<>();
-        Map<String,Object> data = new HashMap<>();
         try{
-            data = perfumeDetailService.getAcoordMoreInfo(accordIdx);
+             Map<String, Object> data = perfumeDetailService.getAcoordMoreInfo(accordIdx);
             resultMap.put("accordMoreInfo",data.get("accordMoreInfo"));
             resultMap.put("message",success);
             status = HttpStatus.OK;
@@ -111,7 +106,7 @@ public class PerfumeDetailController {
         if(decodeId != null){
             try{
                 Map<String, Object> result = perfumeDetailService.addHaveList(decodeId,perfumeIdx);
-                resultMap.put("isClicked", result.get("isClicked"));
+                resultMap.put("isHaveClicked", result.get("isClicked"));
                 if(result.get("isWishClicked") != null) resultMap.put("isWishClicked", result.get("isWishClicked"));
                 resultMap.put("message",success);
                 status = HttpStatus.OK;
@@ -185,7 +180,7 @@ public class PerfumeDetailController {
         if(decodeId != null){
             try{
                 perfumeDetailService.clickLike(decodeId,perfumeIdx,reviewIdx);
-                resultMap.put("isCliked","true");
+                resultMap.put("isClicked","true");
                 resultMap.put("message",success);
                 status = HttpStatus.OK;
             }catch (Exception e){
@@ -204,7 +199,7 @@ public class PerfumeDetailController {
         if(decodeId != null){
             try{
                 perfumeDetailService.unclickLike(decodeId,perfumeIdx,reviewIdx);
-                resultMap.put("isCliked","false");
+                resultMap.put("isClicked","false");
                 resultMap.put("message",success);
                 status = HttpStatus.OK;
             }catch (Exception e){
