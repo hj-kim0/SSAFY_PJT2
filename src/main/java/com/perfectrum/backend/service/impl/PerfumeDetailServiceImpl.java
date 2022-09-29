@@ -181,6 +181,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
         AccordEntity ae = accordRepository.findByIdx(accordIdx);
 
         AccordMoreInfoDto accordMoreInfoDto = AccordMoreInfoDto.builder()
+                .accordName(ae.getAccordName())
                 .accordImg(ae.getAccordImg())
                 .accordDescription(ae.getAccordDescription())
                 .build();
@@ -513,7 +514,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                         .likeCount(review.getLikeCount() + 1)
                         .time(review.getTime())
                         .updateTime(review.getUpdateTime())
-                        .isDelete(true)
+                        .isDelete(review.isDelete())
                         .build();
 
                 reviewRepository.save(reviewEntity);
@@ -540,7 +541,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                         .likeCount(review.getLikeCount() - 1)
                         .time(review.getTime())
                         .updateTime(review.getUpdateTime())
-                        .isDelete(true)
+                        .isDelete(review.isDelete())
                         .build();
 
                 reviewRepository.save(reviewEntity);
