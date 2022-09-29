@@ -47,7 +47,8 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
 
 
     @Query(value = "select r from ReviewEntity r " +
-            "where r.perfume = :perfume and ((r.idx < :lastIdx AND r.totalScore = :lastTotalScore) OR r.totalScore < :lastTotalScore) "+
+            "where r.perfume = :perfume and ((r.idx < :lastIdx AND r.totalScore = :lastTotalScore) OR r.totalScore < :lastTotalScore) " +
+            "and r.isDelete = false "+
             "Order by r.totalScore desc, r.idx desc")
     Slice<ReviewEntity> findByPerfumeOrderTotalScoreDescIdxDesc(PerfumeEntity perfume, Integer lastIdx,Integer lastTotalScore, Pageable pageable);
     List<ReviewEntity> findByPerfumeIdx(Integer idx);

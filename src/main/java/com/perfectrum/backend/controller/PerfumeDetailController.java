@@ -54,6 +54,8 @@ public class PerfumeDetailController {
                 resultMap.put("hasNext",data.get("hasNext"));
                 resultMap.put("reviewList",data.get("reviewList"));
                 resultMap.put("accordList",data.get("perfumeAccordList"));
+                resultMap.put("isClicked",data.get("list"));
+                System.out.println(data.get("list"));
                 resultMap.put("message",success);
                 status = HttpStatus.OK;
             }catch(Exception e){
