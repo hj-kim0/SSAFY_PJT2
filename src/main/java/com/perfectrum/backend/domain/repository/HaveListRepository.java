@@ -25,4 +25,6 @@ public interface HaveListRepository extends JpaRepository<HaveListEntity,Integer
     Optional<HaveListEntity> findByUserAndPerfumeAndIsDelete(UserEntity user, PerfumeEntity perfume, boolean b);
 
     Optional<HaveListEntity> findByUserAndPerfume(UserEntity user, PerfumeEntity perfume);
+
+    List<HaveListEntity> findByUserAndIsDelete(UserEntity user, boolean b);
 }

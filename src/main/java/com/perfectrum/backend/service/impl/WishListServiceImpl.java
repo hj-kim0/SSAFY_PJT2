@@ -37,7 +37,7 @@ public class WishListServiceImpl implements WishListService {
 
         if(userEntity.isPresent()){
             UserEntity user = userEntity.get();
-            List<WishListEntity> wishListEntityList = wishListRepository.findByUser(user);
+            List<WishListEntity> wishListEntityList = wishListRepository.findByUserAndIsDelete(user, false);
 
             if(!wishListEntityList.isEmpty()){
                 for(WishListEntity w : wishListEntityList){
