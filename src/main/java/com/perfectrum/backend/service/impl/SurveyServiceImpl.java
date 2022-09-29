@@ -1,9 +1,6 @@
 package com.perfectrum.backend.service.impl;
 
-import com.perfectrum.backend.domain.entity.AccordClassEntity;
-import com.perfectrum.backend.domain.entity.AccordEntity;
-import com.perfectrum.backend.domain.entity.PerfumeEntity;
-import com.perfectrum.backend.domain.entity.UserEntity;
+import com.perfectrum.backend.domain.entity.*;
 import com.perfectrum.backend.domain.repository.*;
 import com.perfectrum.backend.dto.perfume.PerfumeViewDto;
 import com.perfectrum.backend.dto.survey.SurveyDto;
@@ -23,18 +20,21 @@ public class SurveyServiceImpl implements SurveyService {
     private WishListRepository wishListRepository;
     private AccordClassRepository accordClassRepository;
     private AccordRepository accordRepository;
+    private SurveyRepository surveyRepository;
     @Autowired
     SurveyServiceImpl(PerfumeRepository perfumeRepository,UserRepository userRepository,WishListRepository wishListRepository,
-                      HaveListRepository haveListRepository, AccordClassRepository accordClassRepository, AccordRepository accordRepository){
+                      HaveListRepository haveListRepository, AccordClassRepository accordClassRepository, AccordRepository accordRepository,
+                      SurveyRepository surveyRepository){
         this.perfumeRepository = perfumeRepository;
         this.userRepository = userRepository;
         this.wishListRepository = wishListRepository;
         this.haveListRepository = haveListRepository;
         this.accordClassRepository = accordClassRepository;
         this.accordRepository = accordRepository;
+        this.surveyRepository = surveyRepository;
     }
     @Override
-    public Map<String, Object> surveyResult(SurveyDto surveyDto) {
+    public Map<String, Object> surveyResult(String dedocdId, SurveyDto surveyDto) {
         Map<String,Object> data = new HashMap<>();
         Random random = new Random();
 
@@ -154,6 +154,21 @@ public class SurveyServiceImpl implements SurveyService {
                 .build();
 
         data.put("perfume",perfumeViewDto);
+        Optional<UserEntity> userEntity = userRepository.findByUserId(dedocdId);
+        if(userEntity.isPresent()){
+            UserEntity user = userEntity.get();
+            SurveyEntity surveyEntity = SurveyEntity.builder()
+                    .user(user)
+                    .perfume(perfume)
+                    .likeSeasons(surveyDto.getSeason())
+                    .likeGender(surveyDto.getGender())
+                    .likeLongevity(surveyDto.getLongevity())
+                    .likeTimezone("day")
+                    .likeAccordClass(accordClass)
+                    .build();
+
+            surveyRepository.save(surveyEntity);
+        }
         return data;
     }
 }
