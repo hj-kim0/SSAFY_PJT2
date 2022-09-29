@@ -3,6 +3,7 @@ import styled from "styled-components";
 import './ImgItem.css';
 import { Button } from "@material-ui/core"
 import history from "../../utils/history";
+import { NavLink } from "react-router-dom";
 
 const DivCenter = styled.div`
     text-align: center;
@@ -11,8 +12,6 @@ const DivCenter = styled.div`
 const Img = styled.img`
 width:100%;
 height:690px;
-//filter : brightness(100%);
-//filter=grayscale(10);
 `
 
 
@@ -39,15 +38,16 @@ const ImgItem = (props) => {
     
     return(
     <DivCenter>
+        <NavLink to="/">
             <div className="banner">
+                <Img src={imgSrc} alt=""/>        
                 <div className="banner-txt">
                     <p className="maintheme">{maintheme}</p>
                     <p className="subtheme">{subtheme}</p>
                     <br/>
-                    <Button variant="outlined">찾아보기</Button>
                 </div>
-                <Img src={imgSrc} alt="" onClick={history.forward("/personal")}/>
             </div>
+        </NavLink>
     </DivCenter>
     );
 };

@@ -25,7 +25,7 @@ const season = [
 ];
 const likeScent = [
   { value: "citrus", name: "톡쏘는 향" },
-  { value: "floral", name: "꽃 향" },
+  { value: "floral", name: "꽃 향기" },
   { value: "herbal", name: "풀 향기" },
   { value: "fruity", name: "과일 향" },
   { value: "spicy", name: "매운 향" },
@@ -65,7 +65,9 @@ function InfoEdit() {
 
   const completeEdit = () => {
     if (isChecked) {
-      const accord = accordClassRef.current.value
+      const accord = accordClassRef.current.value;
+      // console.log("어코드 디버깅", accord);
+      // console.log("클래스 디버깅", LUT[accord]);
       axios({
         method: "put",
         url : "http://j7c105.p.ssafy.io:8083/user/",
@@ -77,7 +79,7 @@ function InfoEdit() {
           "profileImg" : userProfile[0].profileImg,
           "gender" : genderRef.current.value,
           "seasons" : seasonsRef.current.value,
-          "accordClass" : LUT.accord
+          "accordClass" : LUT[accord]
         }
       })
       .then(res => console.log("엑시오스", res))

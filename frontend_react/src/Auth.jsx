@@ -42,7 +42,7 @@ function Auth() {
                     'authToken': AT,
                 }
             });
-
+            // console.log("isregister", typeof(response2.data.isRegist))
             console.log("스프링 엑세스토큰 저장");
             sToken = response2.data["access-token"];
             console.log(sToken);
@@ -50,9 +50,10 @@ function Auth() {
             isLogin = true;
             console.log(isLogin);
             User = {
-                "isLogin":isLogin,
-                "sToken":sToken,
-                "kToken":kToken
+                "isLogin" : isLogin,
+                "sToken" : sToken,
+                "kToken" : kToken,
+                "isRegist" : response2.data.isRegist
             }
             setUser(User);
             const response3 = await axios.get("http://j7c105.p.ssafy.io:8083/user",{
@@ -68,20 +69,14 @@ function Auth() {
 
             console.log("리코일",userProfile)
             copy[0] = {...response3.data.data}
-            // copy[0].idx = response3.data.data.idx
-            // copy.userId = response3.data.data.userId
-            // copy.profileImg = response3.data.data.profileImg
-            // copy.nickname = response3.data.data.nickname
-            // copy.gender = response3.data.data.gender
-            // copy.seasons = response3.data.data.seasons
-            // copy.accordClass = response3.data.data.accordClass
             setUserProfile(copy)
             // console.log("카피",copy)
             // console.log("리코일 테스트", copy);
-            if (response3.data.data.gender === "") {
+            // window.location.replace("/preCheck");
+            if (response2.data.isRegist === "false") {
+                window.location.replace("/");         
+                } else {
                 window.location.replace("/preCheck");
-            } else {
-                window.location.replace("/");                
             }
         }catch(err){
             console.log(err);
