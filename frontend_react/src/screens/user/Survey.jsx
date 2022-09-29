@@ -30,7 +30,7 @@ function Survey() {
       "가을" : "fall", 
       "겨울" : "winter", 
       "톡쏘는 향" : 1, 
-      "꽃 향" : 2, 
+      "꽃 향기" : 2, 
       "풀 향기" :3,  
       "과일 향" : 4,  
       "매운 향" : 5, 
@@ -66,7 +66,7 @@ function Survey() {
           {list.slice(0, survey.ptr + 1)}
           </div>
 
-          {survey.ptr >= 7 && <button type="button" className="surveytitle_btn notoBold fs-20" onClick={completeSurvey}>설문 완료</button>}
+          {survey.ptr >= 7 && <button type="button" className="surveytitle_btn notoBold fs-20" onClick={completeSurvey}>정보 입력 완료</button>}
     </div>
   )
 };
