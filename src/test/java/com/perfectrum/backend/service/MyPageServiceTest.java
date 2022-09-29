@@ -76,7 +76,7 @@ public class MyPageServiceTest {
         Optional<UserEntity> optionalUserEntity = userRepository.findByUserId(testId);
         if(optionalUserEntity.isPresent()){
             UserEntity userEntity = optionalUserEntity.get();
-            List<WishListEntity> list = wishListRepository.findByUser(userEntity);
+            List<WishListEntity> list = wishListRepository.findByUserAndIsDelete(userEntity, false);
             List<WishListDto> dtoList = new ArrayList<>();
             if(!list.isEmpty()){
                 for(WishListEntity w : list){
@@ -205,7 +205,7 @@ public class MyPageServiceTest {
         Optional<UserEntity> optionalUserEntity = userRepository.findByUserId(testId);
         if(optionalUserEntity.isPresent()){
             UserEntity userEntity = optionalUserEntity.get();
-            List<HaveListEntity> list = haveListRepository.findByUser(userEntity);
+            List<HaveListEntity> list = haveListRepository.findByUserAndIsDelete(userEntity, false);
             List<HaveListDto> dtoList = new ArrayList<>();
 
             if(!list.isEmpty()){

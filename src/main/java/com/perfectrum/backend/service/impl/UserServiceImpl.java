@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> userEntityOptional = userRepository.findByNickname(nickname);
         if(userEntityOptional.isPresent()){
             UserEntity userEntity = userEntityOptional.get();
-            Slice<ReviewEntity> reviews = reviewRepository.findByUser(userEntity);
+            Slice<ReviewEntity> reviews = reviewRepository.findByUserAndIsDelete(userEntity, false);
 
             if(!reviews.isEmpty()){
                 if(type == null){
@@ -168,7 +168,7 @@ public class UserServiceImpl implements UserService {
 
         if(userEntityOptional.isPresent()){
             UserEntity userEntity = userEntityOptional.get();
-            count = reviewRepository.countByUser(userEntity);
+            count = reviewRepository.countByUserAndIsDelete(userEntity, false);
         }
         return count;
     }
@@ -181,12 +181,17 @@ public class UserServiceImpl implements UserService {
             UserEntity userEntity = userEntityOptional.get();
             Slice<ReviewEntity> reviewEntities = reviewRepository.findByUser(userEntity);
             if(!reviewEntities.isEmpty()){
-                int count = reviewRepository.countByUser(userEntity);
-                double total_score = reviewRepository.sumByUser(userEntity);
+                int count = reviewRepository.countByUserAndIsDelete(userEntity, false);
+                double total_score = reviewRepository.sumByUserAndIsDelete(userEntity, false);
 
                 avg_score = total_score/count;
             }
         }
         return avg_score;
+    }
+
+    @Override
+    public String getUserId(String nickname) {
+        return userRepository.findByNickname(nickname).get().getUserId();
     }
 }
