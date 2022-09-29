@@ -156,7 +156,7 @@ public class UserServiceTest {
         if(optionalUser.isPresent()){
             UserEntity userEntity = optionalUser.get();
 
-            Slice<ReviewEntity> reviews = reviewRepository.findByUser(userEntity);
+            Slice<ReviewEntity> reviews = reviewRepository.findByUserAndIsDelete(userEntity, false);
 
             if(!reviews.isEmpty()){
                 if(lastIdx == null){ // null인 경우 가장 최신 글 idx 찾아서 넣어줌
@@ -207,7 +207,7 @@ public class UserServiceTest {
         Optional<UserEntity> optionalUserEntity = userRepository.findByUserId(testId);
         if(optionalUserEntity.isPresent()){
             UserEntity userEntity = optionalUserEntity.get();
-            Integer count = reviewRepository.countByUser(userEntity);
+            Integer count = reviewRepository.countByUserAndIsDelete(userEntity, false);
 
             System.out.println("======== 리뷰 개수 ========");
             System.out.println(count);
@@ -221,11 +221,11 @@ public class UserServiceTest {
         Optional<UserEntity> optionalUserEntity = userRepository.findByUserId(testId);
         if(optionalUserEntity.isPresent()){
             UserEntity userEntity = optionalUserEntity.get();
-            Slice<ReviewEntity> reviewEntities = reviewRepository.findByUser(userEntity);
+            Slice<ReviewEntity> reviewEntities = reviewRepository.findByUserAndIsDelete(userEntity, false);
             double avg_score = 0;
             if(!reviewEntities.isEmpty()){
-                int count = reviewRepository.countByUser(userEntity);
-                double total_score = reviewRepository.sumByUser(userEntity);
+                int count = reviewRepository.countByUserAndIsDelete(userEntity, false);
+                double total_score = reviewRepository.sumByUserAndIsDelete(userEntity, false);
 
                 avg_score = total_score/count;
             }

@@ -17,11 +17,6 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
     Slice<ReviewEntity> findByUser(UserEntity userEntity);
 
-    Integer countByUser(UserEntity userEntity);
-
-    @Query(value = "SELECT SUM(r.totalScore) FROM ReviewEntity r WHERE r.user = :userEntity")
-    Double sumByUser(UserEntity userEntity);
-
     ReviewEntity findTop1ByUserOrderByIdxDesc(UserEntity userEntity);
 
     ReviewEntity findTop1ByUserOrderByTotalScoreDescIdxDesc(UserEntity userEntity);
