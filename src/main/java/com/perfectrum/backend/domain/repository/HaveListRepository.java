@@ -13,16 +13,8 @@ import java.util.Optional;
 public interface HaveListRepository extends JpaRepository<HaveListEntity,Integer> {
 
     HaveListEntity findByIdx(Integer idx);
-
-    List<HaveListEntity> findByUser(UserEntity userEntity);
-
     Optional<HaveListEntity> findByUserAndIdx(Optional<UserEntity> userEntityOptional, Integer idx);
-
-    Long countByuserIdx(Integer userIdx);
-
     Long countByPerfumeIdx(Integer perfumeIdx);
-
-    Optional<HaveListEntity> findByUserAndPerfumeAndIsDelete(UserEntity user, PerfumeEntity perfume, boolean b);
-
     Optional<HaveListEntity> findByUserAndPerfume(UserEntity user, PerfumeEntity perfume);
+    List<HaveListEntity> findByUserAndIsDelete(UserEntity user, boolean b);
 }
