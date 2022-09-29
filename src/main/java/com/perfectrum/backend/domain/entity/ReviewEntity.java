@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-//@AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "reviews")
@@ -44,10 +43,10 @@ public class ReviewEntity {
     private LocalDateTime updateTime;
 
     @Column(name = "is_delete")
-    private boolean isDelete;
+    private Boolean isDelete;
 
     @Builder
-    public ReviewEntity(Integer idx, UserEntity user, PerfumeEntity perfume, String reviewImg, Integer totalScore, Integer longevity, Integer sillageScore, String content, Integer likeCount,LocalDateTime time, LocalDateTime updateTime, boolean isDelete) {
+    public ReviewEntity(Integer idx, UserEntity user, PerfumeEntity perfume, String reviewImg, Integer totalScore, Integer longevity, Integer sillageScore, String content, Integer likeCount,LocalDateTime time, LocalDateTime updateTime, Boolean isDelete) {
         this.idx = idx;
         this.user = user;
         this.perfume = perfume;

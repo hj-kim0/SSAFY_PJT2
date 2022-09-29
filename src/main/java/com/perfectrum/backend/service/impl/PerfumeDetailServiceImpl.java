@@ -460,8 +460,8 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                     .content(reviewRegistDto.getContent())
                     .likeCount(originReview.getLikeCount())
                     .time(originReview.getTime())
-                    .updateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
-                    .isDelete(false)
+                    .updateTime(now)
+                    .isDelete(originReview.getIsDelete())
                     .build();
 
             reviewRepository.save(reviewEntity);
@@ -487,7 +487,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                     .likeCount(review.getLikeCount())
                     .time(review.getTime())
                     .updateTime(review.getUpdateTime())
-                    .isDelete(true)
+                    .isDelete(false)
                     .build();
 
             reviewRepository.save(reviewEntity);
@@ -499,7 +499,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
         Optional<UserEntity> user = userRepository.findByUserId(decodeId);
         PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
         ReviewEntity review = reviewRepository.findByIdx(reviewIdx);
-        if(!review.isDelete()) {
+        if(!review.getIsDelete()) {
             if (user.isPresent()) {
                 ReviewEntity reviewEntity = ReviewEntity.builder()
                         .idx(review.getIdx())
@@ -513,7 +513,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                         .likeCount(review.getLikeCount() + 1)
                         .time(review.getTime())
                         .updateTime(review.getUpdateTime())
-                        .isDelete(true)
+                        .isDelete(review.getIsDelete())
                         .build();
 
                 reviewRepository.save(reviewEntity);
@@ -526,7 +526,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
         Optional<UserEntity> user = userRepository.findByUserId(decodeId);
         PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
         ReviewEntity review = reviewRepository.findByIdx(reviewIdx);
-        if(!review.isDelete()) {
+        if(!review.getIsDelete()) {
             if (user.isPresent()) {
                 ReviewEntity reviewEntity = ReviewEntity.builder()
                         .idx(review.getIdx())
@@ -540,7 +540,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                         .likeCount(review.getLikeCount() - 1)
                         .time(review.getTime())
                         .updateTime(review.getUpdateTime())
-                        .isDelete(true)
+                        .isDelete(review.getIsDelete())
                         .build();
 
                 reviewRepository.save(reviewEntity);
