@@ -43,7 +43,7 @@ public class ReviewEntity {
     @Column(name="update_time")
     private LocalDateTime updateTime;
 
-    @Column(name = "is_Delete")
+    @Column(name = "is_delete")
     private boolean isDelete;
 
     @Builder

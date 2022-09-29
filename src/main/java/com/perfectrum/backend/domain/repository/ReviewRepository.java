@@ -36,18 +36,10 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
 
     ReviewEntity findByIdx(Integer reviewIdx);
 
-//    List<ReviewEntity> findByPerfumeIdx(Integer perfumeIdx);
-
     Slice<ReviewEntity> findByPerfume(PerfumeEntity perfume);
 
     ReviewEntity findTop1ByPerfumeOrderByIdxDesc(PerfumeEntity perfume);
-
-
-
-
-    // 주어진 갯수만큼 끊어서 데이터를 가져오지만 스크롤 도중 새로운 리뷰가 생성될 시
-    // 데이터가 하나씩 밀려서 중복되는 데이터를 가져올 수 있는 상황이 발생하므로
-    // 현재까지 로드된 데이터 중 가장 작은 idx값을 가져와서 비교후 pagination
+    
     @Query(value = "select r from ReviewEntity r " +
                     "where r.perfume = :perfume and r.idx <:lastIdx "+
                     "ORDER BY r.idx DESC")
@@ -64,5 +56,12 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
             "Order by r.totalScore desc, r.idx desc")
     Slice<ReviewEntity> findByPerfumeOrderTotalScoreDescIdxDesc(PerfumeEntity perfume, Integer lastIdx,Integer lastTotalScore, Pageable pageable);
     List<ReviewEntity> findByPerfumeIdx(Integer idx);
+
+    Slice<ReviewEntity> findByUserAndIsDelete(UserEntity userEntity, boolean b);
+
+    Integer countByUserAndIsDelete(UserEntity userEntity, boolean b);
+
+    @Query("select sum(r.totalScore) from ReviewEntity as r where r.user = :userEntity and r.isDelete = :b")
+    double sumByUserAndIsDelete(UserEntity userEntity, boolean b);
 
 }
