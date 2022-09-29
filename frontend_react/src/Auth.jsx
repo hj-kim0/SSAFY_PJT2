@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import axios from "axios";
 import qs from "qs";
 import { useNavigate } from 'react-router-dom';
-
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { userProfileState } from "./atom";
 
 import { userState } from "./atom";
 
@@ -12,6 +12,8 @@ const REDIRECT_URI = 'http://localhost:3000/oauth/kakao';
 // const REDIRECT_URI = 'http://j7c105.p.ssafy.io/oauth/kakao';
 
 function Auth() {
+    const userProfile = useRecoilState(userProfileState);
+    const setUserProfile = useSetRecoilState(userProfileState);
     const coder = new URL(window.location.href).searchParams.get("code");
 
     let accessToken = '';
@@ -59,6 +61,23 @@ function Auth() {
                 }
             });
             console.log("디버깅", response3.data.data);
+            // 유저 정보 리코일에 넣기
+
+            const copy = JSON.parse(JSON.stringify(userProfile));
+            // console.log("복제", copy[0]);
+
+            console.log("리코일",userProfile)
+            copy[0] = {...response3.data.data}
+            // copy[0].idx = response3.data.data.idx
+            // copy.userId = response3.data.data.userId
+            // copy.profileImg = response3.data.data.profileImg
+            // copy.nickname = response3.data.data.nickname
+            // copy.gender = response3.data.data.gender
+            // copy.seasons = response3.data.data.seasons
+            // copy.accordClass = response3.data.data.accordClass
+            setUserProfile(copy)
+            // console.log("카피",copy)
+            // console.log("리코일 테스트", copy);
             if (response3.data.data.gender === "") {
                 window.location.replace("/preCheck");
             } else {
