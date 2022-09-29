@@ -25,10 +25,6 @@ import java.util.*;
 @Service
 public class PerfumeDetailServiceImpl implements PerfumeDetailService {
 
-    private static final String success = "SUCCESS";
-    private static final String fail = "FAIL";
-    private static final String timeOut = "access-token timeout";
-
     private UserRepository userRepository;
     private PerfumeRepository perfumeRepository;
     private AccordClassRepository accordClassRepository;
@@ -126,7 +122,8 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
         }
         data.put("perfumeAccordList", aList);
         
-        Slice<ReviewEntity> reviews = reviewRepository.findByPerfume(perfume);
+        Slice<ReviewEntity> reviews = reviewRepository.findByPerfumeAndIsDelete(perfume, false);
+
         if (!reviews.isEmpty()) {
             if (lastIdx == null) {
                 lastIdx = reviewRepository.findTop1ByPerfumeOrderByIdxDesc(perfume).getIdx() + 1;
@@ -136,11 +133,11 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
 
             if(type==null) type= "최신순";
             if (type.equals("평점순")) {
-                reviews = reviewRepository.findByPerfumeOrderTotalScoreDescIdxDesc(perfume, lastIdx, lastTotalScore, pageable);
+                reviews = reviewRepository.findByPerfumeAndIsDeleteOrderTotalScoreDescIdxDesc(perfume,false, lastIdx, lastTotalScore, pageable);
             } else if (type.equals("최신순")) {
-                reviews = reviewRepository.findByPerfumeOrderByIdxDesc(perfume, lastIdx, pageable);
+                reviews = reviewRepository.findByPerfumeAndIsDeleteOrderByIdxDesc(perfume,false, lastIdx, pageable);
             } else { // 공감순
-                reviews = reviewRepository.findByPerfumeOrderByLikeCountDescIdxDesc(perfume, lastIdx, lastLikeCount, pageable);
+                reviews = reviewRepository.findByPerfumeAndIsDeleteOrderByLikeCountDescIdxDesc(perfume,false, lastIdx, lastLikeCount, pageable);
             }
         }
         boolean hasNext = reviews.hasNext();
@@ -423,20 +420,19 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
         String reviewImg;
         if(reviewRegistDto.getReviewImg()==null){
             reviewImg = perfumeRepository.findByIdx(perfumeIdx).getPerfumeImg();
-        }else
+        }else {
             reviewImg = reviewRegistDto.getReviewImg();
-        Integer totalScore = reviewRegistDto.getTotalScore();
-        String content = reviewRegistDto.getContent();
+        }
 
         if (user.isPresent()) {
             ReviewEntity reviewEntity = ReviewEntity.builder()
                     .user(user.get())
                     .perfume(perfume)
                     .reviewImg(reviewImg)
-                    .totalScore(totalScore)
+                    .totalScore(reviewRegistDto.getTotalScore())
                     .longevity(reviewRegistDto.getLongevity())
                     .sillageScore(reviewRegistDto.getSillageScore())
-                    .content(content)
+                    .content(reviewRegistDto.getContent())
                     .updateTime(null)
                     .isDelete(false)
                     .build();
@@ -447,28 +443,24 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
     @Override
     public void updateReview(String decodeId, Integer perfumeIdx, Integer reviewIdx, ReviewRegistDto reviewRegistDto) {
         Optional<UserEntity> user = userRepository.findByUserId(decodeId);
-        PerfumeEntity perfume = perfumeRepository.findByIdx(perfumeIdx);
         ReviewEntity originReview = reviewRepository.findByIdx(reviewIdx);
         String reviewImg = reviewRegistDto.getReviewImg();
         if(reviewImg==null){
             reviewImg = perfumeRepository.findByIdx(perfumeIdx).getPerfumeImg();
         }
-        Integer totalScore = reviewRegistDto.getTotalScore();
-        String content = reviewRegistDto.getContent();
-        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
         if (user.isPresent()) {
             ReviewEntity reviewEntity = ReviewEntity.builder()
                     .idx(originReview.getIdx())
-                    .user(user.get())
-                    .perfume(perfume)
+                    .user(originReview.getUser())
+                    .perfume(originReview.getPerfume())
                     .reviewImg(reviewImg)
-                    .totalScore(totalScore)
+                    .totalScore(reviewRegistDto.getTotalScore())
                     .longevity(reviewRegistDto.getLongevity())
                     .sillageScore(reviewRegistDto.getSillageScore())
-                    .content(content)
+                    .content(reviewRegistDto.getContent())
                     .likeCount(originReview.getLikeCount())
                     .time(originReview.getTime())
-                    .updateTime(now)
+                    .updateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                     .isDelete(false)
                     .build();
 
