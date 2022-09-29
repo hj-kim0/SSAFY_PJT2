@@ -21,7 +21,10 @@ public interface WishListRepository extends JpaRepository<WishListEntity,String>
 
     Long countByuserIdx(Integer userIdx);
 
-    Long countByPerfumeIdx(Integer perfumeIdx);
+    Long countByPerfumeIdxAndIsDelete(Integer perfumeIdx,boolean check);
+
+
+    Long countByUserAndPerfumeAndIsDelete(UserEntity user,PerfumeEntity perfume,boolean check);
 
     Optional<WishListEntity> findByUserAndPerfumeAndIsDelete(UserEntity user, PerfumeEntity perfume, boolean b);
 

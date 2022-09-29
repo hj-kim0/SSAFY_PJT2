@@ -129,9 +129,9 @@ public class SurveyServiceImpl implements SurveyService {
         }else {
             perfume = resultList.get(0);
         }
-        Integer haveCount = Long.valueOf(Optional.ofNullable(haveListRepository.countByPerfumeIdx(perfume.getIdx())).orElse(0L)).intValue();
+        Integer haveCount = Long.valueOf(Optional.ofNullable(haveListRepository.countByPerfumeIdxAndIsDelete(perfume.getIdx(),false)).orElse(0L)).intValue();
 
-        Integer wishCount = Long.valueOf(Optional.ofNullable(wishListRepository.countByPerfumeIdx(perfume.getIdx())).orElse(0L)).intValue();
+        Integer wishCount = Long.valueOf(Optional.ofNullable(wishListRepository.countByPerfumeIdxAndIsDelete(perfume.getIdx(), false)).orElse(0L)).intValue();
         PerfumeViewDto perfumeViewDto = PerfumeViewDto.builder()
                 .idx(perfume.getIdx())
                 .brandName(perfume.getBrandName())
