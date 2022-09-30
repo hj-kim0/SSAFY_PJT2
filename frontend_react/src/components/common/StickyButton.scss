@@ -28,11 +28,14 @@
   right: (30px);
   width: (550px);
   height: (730px);
-  padding: (12px) (24px) (32px) (24px);
-  background-image: url(../../assets/images/icon/book.png);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  padding: (12px);
+  // background-image: url(../../assets/images/icon/book.png);
+  // background-repeat: no-repeat;
+  // background-position: center;
+  // background-size: cover;
+  background-color: #F8ECE0;
+  border-radius: (20px);
+  box-shadow: (4px) $GRAY-DB;
   // background-attachment: fixed;
   &_title {
     justify-content: space-between;
@@ -40,9 +43,10 @@
     // flex-direction: row;
     margin-bottom: (32px);
     &_tag {
-      flex-direction: row;
+      width: (480px);
       &_word {
-        margin-right: (24px);
+        margin-right: (12px);
+        margin-left: (108px);
       }
       &_word,
       &_scent {
@@ -75,7 +79,7 @@
       }
       &_contents {
         flex-direction: column;
-        width: (390px);
+        width: (396px);
         height: (592px);
         overflow-y: scroll;
         &_box {

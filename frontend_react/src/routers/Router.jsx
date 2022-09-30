@@ -13,6 +13,7 @@ import Login from "@screens/Login";
 import Footer from "@components/common/Footer";
 import Rec from "@components/common/Rec";
 import StickyButton from "@components/common/StickyButton";
+import Test from "@components/common/Test";
 import { RecoilRoot } from "recoil";
 
 import Auth from "../Auth";
@@ -49,6 +50,7 @@ function Router() {
       </Routes>
       <Footer />
       <StickyButton />
+      {/* <Test /> */}
     </RecoilRoot>
   );
 }

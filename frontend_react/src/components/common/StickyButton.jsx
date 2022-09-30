@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import LiveHelpTwoToneIcon from "@mui/icons-material/LiveHelpTwoTone";
+// import LiveHelpTwoToneIcon from "@mui/icons-material/LiveHelpTwoTone";
+import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import uuid from "react-uuid";
 import { getAccordClass } from "../../apis/perfume";
@@ -96,7 +97,7 @@ function StickyButton() {
       <div className="sticky">
         {!openMenu && (
           <button className="sticky_btn" type="button" onClick={openMenuOpt}>
-            <LiveHelpTwoToneIcon fontSize="large" />
+            <PsychologyAltIcon sx={{ fontSize: 60, color: "#81F7BE" }} />
           </button>
         )}
         {openMenu && (
