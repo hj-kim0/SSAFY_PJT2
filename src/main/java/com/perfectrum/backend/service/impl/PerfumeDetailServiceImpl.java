@@ -181,6 +181,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
         AccordEntity ae = accordRepository.findByIdx(accordIdx);
 
         AccordMoreInfoDto accordMoreInfoDto = AccordMoreInfoDto.builder()
+                .accordName(ae.getAccordName())
                 .accordImg(ae.getAccordImg())
                 .accordDescription(ae.getAccordDescription())
                 .build();
