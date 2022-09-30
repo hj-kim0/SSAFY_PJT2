@@ -48,12 +48,68 @@ public class PerfumeSearchServiceImpl implements SearchService {
     public Map<String, Object> searchPerfume(String decodeId, PerfumeSearchDto perfumeSearchDto) {
         Map<String,Object> data = new HashMap<>();
 
-        List<String> genderList = perfumeSearchDto.getGender();
-        List<Integer> durationList = perfumeSearchDto.getDuration();
+        List<String> genderList_kr = perfumeSearchDto.getGender();
+        List<String> genderList = new ArrayList<>();
+        for(String gender : genderList_kr){
+            if(gender.equals("남자")){
+                genderList.add("Men");
+            }else if(gender.equals("여자")){
+                genderList.add("Women");
+            }else{
+                genderList.add("Unisex");
+            }
+        }
+        List<String> durationList_kr = perfumeSearchDto.getDuration();
+        List<Integer> durationList = new ArrayList<>();
+        for(String duration : durationList_kr){
+            switch(duration){
+                case "매우 약함":
+                    durationList.add(1);
+                    break;
+                case "약함":
+                    durationList.add(2);
+                    break;
+                case "적당함":
+                    durationList.add(3);
+                    break;
+                case "강함":
+                    durationList.add(4);
+                    break;
+                case "매우 강함":
+                    durationList.add(5);
+                    break;
+
+            }
+        }
         List<AccordClassEntity> accordClassList = new ArrayList<>();
-        List<Integer> accords = perfumeSearchDto.getAccordClass();
-        for(Integer accord : accords){
-            accordClassList.add(accordClassRepository.findByIdx(accord));
+        List<String> accords = perfumeSearchDto.getAccordClass();
+        for(String accord : accords){
+            switch(accord){
+                case "꽃 향기":
+                    accordClassList.add(accordClassRepository.findByIdx(2));
+                    break;
+                case "풀 향기":
+                    accordClassList.add(accordClassRepository.findByIdx(3));
+                    break;
+                case "과일 향":
+                    accordClassList.add(accordClassRepository.findByIdx(4));
+                    break;
+                case "달콤한 향":
+                    accordClassList.add(accordClassRepository.findByIdx(8));
+                    break;
+                case "매운 향":
+                    accordClassList.add(accordClassRepository.findByIdx(5));
+                    break;
+                case "톡쏘는 향":
+                    accordClassList.add(accordClassRepository.findByIdx(1));
+                    break;
+                case "야성적인 향":
+                    accordClassList.add(accordClassRepository.findByIdx(6));
+                    break;
+                case "인공적인 향":
+                    accordClassList.add(accordClassRepository.findByIdx(7));
+                    break;
+            }
         }
 
         Integer lastIdx = perfumeSearchDto.getLastIdx();
