@@ -23,32 +23,38 @@ function MainNavBar() {
     <div className="wrapper flex align-center">
       <nav id="MainNavBar" className="flex align-center">
         <nav className="left_nav notoBold flex align-center">
-          <Link to="/" className="left_nav__link flex">
+          <Link to="/" className="left_nav_home flex">
             <img className="logo" title="!213" alt="logoImage" src={navLogo} />
           </Link>
           <NavLink
-            className=""
-            to="/board"
+            className="left_nav_personal"
+            to="/personal"
           >
-            향수모음
+            향수추천
+          </NavLink>
+          <NavLink
+            className="left_nav_search"
+            to="/perfumesearch"
+          >
+            향수찾기
+          </NavLink>
+          <NavLink
+            className="left_nav_향 분석"
+            to="/tasteanalysis"
+          >
+            향 분석
           </NavLink>
         </nav>
-        {
-        user[0].isLogin ? 
-        <nav className="right_nav notoReg">
-          <Button variant="contained" color="white" onClick={handleLogoutClick}>로그아웃</Button>
-        </nav> : 
-        <NavLink className="right_nav__link fs-16" to="/login">
-          로그인
-        </NavLink>
-        }
-        <NavLink
-            className=""
-            to="/getRec"
-          >
-            rec
+        <nav>
+
+          {user[0].isLogin ? 
+            <button className="notoBold fs-16" type="button" onClick={handleLogoutClick}>로그아웃</button>
+             : 
+          <NavLink className="right_nav__link notoBold fs-16" to="/login">
+            로그인
           </NavLink>
-    
+          }
+        </nav>
       </nav>
     </div>
   );

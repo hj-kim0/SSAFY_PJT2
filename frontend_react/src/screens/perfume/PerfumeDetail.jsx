@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import dummyImg from "@images/icon/perfumeImg.svg";
+// import dummyImg from "@images/icon/perfumeImg.svg";
 import favorite from "@images/icon/favorite_black(2).svg";
 import dummyProfile from "@images/icon/dummyIcon.png";
 import ratingStar from "@images/icon/star.svg";
@@ -54,8 +54,12 @@ function PerfumeDetail() {
             </div>
           </div>
           <div className="perfumeDetail2_info flex align-center notoBold fs-18">
-            <div className="perfumeDetail2_info_season">{perfumeDetail.seasons}</div>
-            <div className="perfumeDetail2_info_time">{perfumeDetail.timezone}</div>
+            <div className="perfumeDetail2_info_season">
+              {perfumeDetail.seasons}
+            </div>
+            <div className="perfumeDetail2_info_time">
+              {perfumeDetail.timezone}
+            </div>
           </div>
         </div>
         <div className="divide1" />
