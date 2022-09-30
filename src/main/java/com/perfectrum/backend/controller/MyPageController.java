@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,7 +93,7 @@ public class MyPageController {
                 if(list != null){
                     resultMap.put("wishList", list);
                 }else{
-                    resultMap.put("wishList", null);
+                    resultMap.put("wishList", new ArrayList<>());
                 }
                 resultMap.put("message", success);
                 status = HttpStatus.OK;
@@ -151,7 +152,7 @@ public class MyPageController {
                 if(list != null){
                     resultMap.put("haveList", list);
                 }else{
-                    resultMap.put("haveList", null);
+                    resultMap.put("haveList", new ArrayList<>());
                 }
                 resultMap.put("message", success);
                 status = HttpStatus.OK;
