@@ -23,7 +23,7 @@ function PreCheck() {
                 <img className="PreCheck_img" src={check} alt="" />
             </div>
             <div className="PreCheck_box notoBold fs-28">
-                로그인 성공!
+                회원가입 성공!
             </div>
             <div>
                 <button className="PreCheck_btn notoBold fs-14" type="button" onClick={goSurvey}>

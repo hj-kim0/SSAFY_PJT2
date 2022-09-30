@@ -45,22 +45,16 @@ function MainNavBar() {
             향 분석
           </NavLink>
         </nav>
-        {
-        user[0].isLogin ? 
-        <nav className="right_nav notoReg">
-          <Button variant="contained" color="white" onClick={handleLogoutClick}>로그아웃</Button>
-        </nav> : 
-        <NavLink className="right_nav__link fs-16" to="/login">
-          로그인
-        </NavLink>
-        }
-        <NavLink
-            className=""
-            to="/getRec"
-          >
-            rec
+        <nav>
+
+          {user[0].isLogin ? 
+            <button className="notoBold fs-16" type="button" onClick={handleLogoutClick}>로그아웃</button>
+             : 
+          <NavLink className="right_nav__link notoBold fs-16" to="/login">
+            로그인
           </NavLink>
-    
+          }
+        </nav>
       </nav>
     </div>
   );
