@@ -26,9 +26,9 @@
   position: fixed;
   bottom: 10%;
   right: (30px);
-  width: (770px);
-  height: (1022px);
-  padding: (20px) (24px) (20px) (24px);
+  width: (550px);
+  height: (730px);
+  padding: (12px) (24px) (32px) (24px);
   background-image: url(../../assets/images/icon/book.png);
   background-repeat: no-repeat;
   background-position: center;
@@ -38,7 +38,7 @@
     justify-content: space-between;
     width: 100%;
     // flex-direction: row;
-    margin-bottom: (72px);
+    margin-bottom: (32px);
     &_tag {
       flex-direction: row;
       &_word {
@@ -67,7 +67,7 @@
       &_tags {
         width: (96px);
         flex-direction: column;
-        margin-right: (20px);
+        margin-right: (12px);
         &_tag {
           margin-top: (20px);
           // box-shadow: (2px) (2px) #65350f;
@@ -75,16 +75,69 @@
       }
       &_contents {
         flex-direction: column;
-        width: (590px);
+        width: (390px);
+        height: (592px);
+        overflow-y: scroll;
         &_box {
-          flex-direction: row;
+          // flex-direction: row;
           margin-top: (20px);
           &_terms {
             width: (96px);
-            margin-right: (12px);
+            margin-right: (8px);
           }
           &_mean {
-            width: (480px);
+            width: (280px);
+          }
+        }
+      }
+      &_contents::-webkit-scrollbar {
+        width: (8px);
+        // background-color: #65350f;
+      }
+      &_contents::-webkit-scrollbar-thumb {
+        background-color: $GRAY-AD;
+        border-radius: (8px);
+        background-clip: padding-box;
+        border: (1px) solid transparent;
+      }
+      &_contents::-webkit-scrollbar-track {
+        background-color: $GRAY-DB;
+        border-radius: (8px);
+        box-shadow: inset 0 0 (4px) $WHITE;
+      }
+    }
+    &_word {
+      &_contents {
+        &_box {
+          flex-direction: row;
+        }
+      }
+    }
+    &_scent {
+      &_contents {
+        &_box {
+          flex-direction: column;
+          &_detail {
+            width: (372px);
+            flex-direction: row;
+            margin-bottom: (12px);
+            &_img {
+              width: (40px);
+              height: (40px);
+              overflow: hidden;
+              border-radius: (6px);
+              margin-top: (4px);
+              margin-right: (6px);
+              img {
+                // width: 100%;
+                // height: 100%;
+                object-fit: cover;
+              }
+            }
+            &_con {
+              width: (320px);
+              flex-direction: column;
+            }
           }
         }
       }

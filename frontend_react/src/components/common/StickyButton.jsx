@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import LiveHelpTwoToneIcon from "@mui/icons-material/LiveHelpTwoTone";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import uuid from "react-uuid";
 import { getAccordClass } from "../../apis/perfume";
 import navLogo from "@images/logo/logo.png";
 // import book from "@images/icon/book.png";
@@ -14,14 +15,48 @@ function StickyButton() {
   const [noteBar, setNoteBar] = useState(false);
   const [perBar, setPerBar] = useState(false);
   const [extraBar, setExtraBar] = useState(false);
-  const [accordClass, setAccordClass] = useState({});
+  const [accordType, setAccordType] = useState({});
+  const [detailInfo, setDetailInfo] = useState([]);
+  // console.log(typeof(accordType));
   const getAccord = async accordId => {
     const res = await getAccordClass(accordId);
-    setAccordClass(res.accordClass.classDescription);
+    setAccordType(res.accordClass.classDescription);
+    const accord = res.accordList.map((v) => (
+      <div key={uuid()} className="book_content_scent_contents_box_detail kyobo fs-18 flex">
+        <div className="book_content_scent_contents_box_detail_img flex">
+          <img src={v.accordImg} alt="향이미지" />
+        </div>
+        <div className="book_content_scent_contents_box_detail_con flex">
+          <div className="book_content_scent_contents_box_detail_con_name flex">
+            {v.accordName}
+          </div>
+          <div className="book_content_scent_contents_box_detail_con_des flex">
+            {v.accordDescription}
+          </div>
+        </div>
+      </div>
+    ));
+    setDetailInfo(accord);
   };
-  useEffect(() => {
-    getAccord(1);
-  }, []);
+  console.log(accordType);
+  const accordList = [{accordName: 'Citrus', accordNumber: 1}, {accordName: 'Floral', accordNumber: 2}, {accordName: 'Herbal', accordNumber: 3}, {accordName: 'Fruity', accordNumber: 4}, {accordName: 'Spicy', accordNumber: 5}, {accordName: 'Animalic', accordNumber: 6}, {accordName: 'Synthetic', accordNumber: 7}, {accordName: 'Sweet', accordNumber: 8}];
+  const accordClassList = accordList.map((v) => (
+    <div key={uuid()} className="book_content_scent_tags_tag">
+      <button type="button" className="book_content_scent_tags_tag_btn kyobo fs-18" onClick={() => {getAccord(v.accordNumber)}}>
+        {v.accordName}
+      </button>
+    </div>
+  ));
+  // console.log(accordClassList);
+  // const accordClassList = accordList.map(v => 
+  //   (<div className="book_content_scent_tags_tag" key={v.accordNumber}>
+  //     <button className="book_content_scent_tags_tag_ kyobo fs-18" type="button" onClick={getAccord(v.accordNumber)}>
+  //       {v.accordName}
+  //     </button>
+  //   </div>));
+  // useEffect(() => {
+  //   getAccord(1);
+  // }, []);
   const openMenuOpt = () => {
     setOpenMenu(!openMenu);
     setOpenWord(false);
@@ -57,6 +92,7 @@ function StickyButton() {
   };
   return (
     <div className="float">
+      {/* <div>{accordClassList}</div> */}
       <div className="sticky">
         {!openMenu && (
           <button className="sticky_btn" type="button" onClick={openMenuOpt}>
@@ -68,7 +104,6 @@ function StickyButton() {
             <div className="sticky_menuBar_title flex">
               <img
                 className="sticky_menuBar_title_img"
-                title="!213"
                 alt="logoImg"
                 src={navLogo}
               />
@@ -99,7 +134,7 @@ function StickyButton() {
             <div className="book_title_tag flex">
               <div className="book_title_tag_word">
                 <button
-                  className="book_title_tag_word_btn kyobo fs-32"
+                  className="book_title_tag_word_btn kyobo fs-28"
                   type="button"
                   onClick={openWordOpt}
                 >
@@ -111,7 +146,7 @@ function StickyButton() {
               </div>
               <div className="book_title_tag_scent">
                 <button
-                  className="book_title_tag_scent_btn kyobo fs-32"
+                  className="book_title_tag_scent_btn kyobo fs-28"
                   type="button"
                   onClick={openScentOpt}
                 >
@@ -136,7 +171,7 @@ function StickyButton() {
                 <div className="book_content_word_tags flex">
                   <div className="book_content_word_tags_tag">
                     <button
-                      className="book_content_word_tags_tag_note kyobo fs-24"
+                      className="book_content_word_tags_tag_note kyobo fs-20"
                       type="button"
                       onClick={openNoteBar}
                     >
@@ -148,7 +183,7 @@ function StickyButton() {
                   </div>
                   <div className="book_content_word_tags_tag">
                     <button
-                      className="book_content_word_tags_tag_per kyobo fs-24"
+                      className="book_content_word_tags_tag_per kyobo fs-20"
                       type="button"
                       onClick={openPerBar}
                     >
@@ -160,7 +195,7 @@ function StickyButton() {
                   </div>
                   <div className="book_content_word_tags_tag">
                     <button
-                      className="book_content_word_tags_tag_extra kyobo fs-24"
+                      className="book_content_word_tags_tag_extra kyobo fs-20"
                       type="button"
                       onClick={openExtraBar}
                     >
@@ -172,7 +207,7 @@ function StickyButton() {
                   </div>
                 </div>
                 {noteBar && (
-                  <div className="book_content_word_contents kyobo fs-22 flex">
+                  <div className="book_content_word_contents kyobo fs-18 flex">
                     <div className="book_content_word_contents_box flex">
                       <div className="book_content_word_contents_box_terms">
                         노트 <br /> (Note)
@@ -217,10 +252,10 @@ function StickyButton() {
                   </div>
                 )}
                 {perBar && (
-                  <div className="book_content_word_contents kyobo fs-22 flex">
+                  <div className="book_content_word_contents kyobo fs-16 flex">
                     <div className="book_content_word_contents_box flex">
                       <div className="book_content_word_contents_box_terms">
-                        퍼퓸(Perfume)
+                        퍼퓸 <br />(Perfume)
                       </div>
                       <div className="book_content_word_contents_box_mean">
                         원액의 농도가{" "}
@@ -295,7 +330,7 @@ function StickyButton() {
                   </div>
                 )}
                 {extraBar && (
-                  <div className="book_content_word_contents kyobo fs-22 flex">
+                  <div className="book_content_word_contents kyobo fs-18 flex">
                     <div className="book_content_word_contents_box flex">
                       <div className="book_content_word_contents_box_terms">
                         향수 용량
@@ -337,83 +372,17 @@ function StickyButton() {
             {openScent && (
               <div className="book_content_scent flex">
                 <div className="book_content_scent_tags flex">
-                  <div className="book_content_scent_tags_tag">
-                    <button
-                      className="book_content_scent_tags_tag_citrus kyobo fs-22"
-                      type="button"
-                      // onClick={getAccord}
-                    >
-                      시트러스 <br /> (Citrus)
-                    </button>
-                  </div>
-                  <div className="book_content_scent_tags_tag">
-                    <button
-                      className="book_content_scent_tags_tag_floral kyobo fs-22"
-                      type="button"
-                    >
-                      플로럴 <br /> (Floral)
-                    </button>
-                  </div>
-                  <div className="book_content_scent_tags_tag">
-                    <button
-                      className="book_content_scent_tags_tag_herbal kyobo fs-22"
-                      type="button"
-                    >
-                      허브 <br /> (Herbal)
-                    </button>
-                  </div>
-                  <div className="book_content_scent_tags_tag">
-                    <button
-                      className="book_content_scent_tags_tag_fruity kyobo fs-22"
-                      type="button"
-                    >
-                      프루티 <br /> (Fruity)
-                    </button>
-                  </div>
-                  <div className="book_content_scent_tags_tag">
-                    <button
-                      className="book_content_scent_tags_tag_spicy kyobo fs-22"
-                      type="button"
-                    >
-                      스파이시 <br /> (Spicy)
-                    </button>
-                  </div>
-                  <div className="book_content_scent_tags_tag">
-                    <button
-                      className="book_content_scent_tags_tag_animalic kyobo fs-22"
-                      type="button"
-                    >
-                      애니멀릭 <br /> (Animalic)
-                    </button>
-                  </div>
-                  <div className="book_content_scent_tags_tag">
-                    <button
-                      className="book_content_scent_tags_tag_synthetic kyobo fs-22"
-                      type="button"
-                    >
-                      인조적인 <br /> (Synthetic)
-                    </button>
-                  </div>
-                  <div className="book_content_scent_tags_tag">
-                    <button
-                      className="book_content_scent_tags_tag_sweet kyobo fs-22"
-                      type="button"
-                    >
-                      스위트 <br /> (Sweet)
-                    </button>
-                  </div>
+                  {accordClassList}
                 </div>
+                {typeof(accordType) === "string" && (
                 <div className="book_content_scent_contents flex">
-                  <div className="book_content_word_contents_title kyobo fs-22">
-                    {accordClass}
+                  <div className="book_content_scent_contents_title kyobo fs-18">
+                    {accordType}
                   </div>
-                  <div className="book_content_word_contents_box flex">
-                    반복 <br />
-                    반복 <br />
-                    반복 <br />
-                    반복 <br />
+                  <div className="book_content_scent_contents_box flex">
+                    {detailInfo}
                   </div>
-                </div>
+                </div>)}
               </div>
             )}
           </div>
