@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
                             .sillageScore(r.getSillageScore())
                             .content(r.getContent())
                             .time(r.getTime())
-                            .isDelete(r.isDelete())
+                            .isDelete(r.getIsDelete())
                             .updateTime(r.getUpdateTime())
                             .build();
 

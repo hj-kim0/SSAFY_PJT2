@@ -461,7 +461,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                     .content(reviewRegistDto.getContent())
                     .likeCount(originReview.getLikeCount())
                     .time(originReview.getTime())
-                    .updateTime(now)
+                    .updateTime(LocalDateTime.now(ZoneId.of("Asia/Seoul")))
                     .isDelete(originReview.getIsDelete())
                     .build();
 
