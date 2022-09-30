@@ -57,10 +57,10 @@ public class PerfumeSearchController {
                 if(data.get("perfumeList")!=null){
                     resultMap.put("searchList", data.get("perfumeList"));
                     resultMap.put("hasNext", data.get("hasNext"));
-                    resultMap.put("isSearched","true");
+                    resultMap.put("isSearched",true);
                 }else{
                     resultMap.put("bestPerfumeList",data.get("bestPerfumeList"));
-                    resultMap.put("isSearched","false");
+                    resultMap.put("isSearched",false);
                 }
                 resultMap.put("message",success);
                 status = HttpStatus.OK;
