@@ -1,9 +1,6 @@
 package com.perfectrum.backend.service.impl;
 
-import com.perfectrum.backend.domain.entity.AccordClassEntity;
-import com.perfectrum.backend.domain.entity.PerfumeEntity;
-import com.perfectrum.backend.domain.entity.UserEntity;
-import com.perfectrum.backend.domain.entity.UserSearchLogEntity;
+import com.perfectrum.backend.domain.entity.*;
 import com.perfectrum.backend.domain.repository.*;
 import com.perfectrum.backend.dto.Search.PerfumeSearchDto;
 import com.perfectrum.backend.dto.perfume.PerfumeViewDto;
@@ -50,66 +47,100 @@ public class PerfumeSearchServiceImpl implements SearchService {
 
         List<String> genderList_kr = perfumeSearchDto.getGender();
         List<String> genderList = new ArrayList<>();
-        for(String gender : genderList_kr){
-            if(gender.equals("남자")){
-                genderList.add("Men");
-            }else if(gender.equals("여자")){
-                genderList.add("Women");
-            }else{
-                genderList.add("Unisex");
+        if(genderList_kr.size()==0){
+            genderList.add("Men");
+            genderList.add("Women");
+            genderList.add("Unisex");
+        }else {
+            for (String gender : genderList_kr) {
+                if (gender.equals("남자")) {
+                    genderList.add("Men");
+                } else if (gender.equals("여자")) {
+                    genderList.add("Women");
+                } else {
+                    genderList.add("Unisex");
+                }
             }
         }
+        System.out.println(genderList_kr.size());
         List<String> durationList_kr = perfumeSearchDto.getDuration();
         List<Integer> durationList = new ArrayList<>();
-        for(String duration : durationList_kr){
-            switch(duration){
-                case "매우 약함":
-                    durationList.add(1);
-                    break;
-                case "약함":
-                    durationList.add(2);
-                    break;
-                case "적당함":
-                    durationList.add(3);
-                    break;
-                case "강함":
-                    durationList.add(4);
-                    break;
-                case "매우 강함":
-                    durationList.add(5);
-                    break;
+        if(durationList_kr.size()==0) {
+            for (int i = 1; i <= 5; i++) {
+                durationList.add(i);
+            }
+        }else{
+            for (String duration : durationList_kr) {
+                switch (duration) {
+                    case "매우 약함":
+                        durationList.add(1);
+                        break;
+                    case "약함":
+                        durationList.add(2);
+                        break;
+                    case "적당함":
+                        durationList.add(3);
+                        break;
+                    case "강함":
+                        durationList.add(4);
+                        break;
+                    case "매우 강함":
+                        durationList.add(5);
+                        break;
 
+                }
             }
         }
         List<AccordClassEntity> accordClassList = new ArrayList<>();
         List<String> accords = perfumeSearchDto.getAccordClass();
-        for(String accord : accords){
-            switch(accord){
-                case "꽃 향기":
-                    accordClassList.add(accordClassRepository.findByIdx(2));
-                    break;
-                case "풀 향기":
-                    accordClassList.add(accordClassRepository.findByIdx(3));
-                    break;
-                case "과일 향":
-                    accordClassList.add(accordClassRepository.findByIdx(4));
-                    break;
-                case "달콤한 향":
-                    accordClassList.add(accordClassRepository.findByIdx(8));
-                    break;
-                case "매운 향":
-                    accordClassList.add(accordClassRepository.findByIdx(5));
-                    break;
-                case "톡쏘는 향":
-                    accordClassList.add(accordClassRepository.findByIdx(1));
-                    break;
-                case "야성적인 향":
-                    accordClassList.add(accordClassRepository.findByIdx(6));
-                    break;
-                case "인공적인 향":
-                    accordClassList.add(accordClassRepository.findByIdx(7));
-                    break;
+
+        if(accordClassList.size()==0){
+            for(int i=1;i<=8;i++){
+                accordClassList.add(accordClassRepository.findByIdx(i));
             }
+        }else{
+            for(String accord : accords){
+                switch(accord){
+                    case "꽃 향기":
+                        accordClassList.add(accordClassRepository.findByIdx(2));
+                        break;
+                    case "풀 향기":
+                        accordClassList.add(accordClassRepository.findByIdx(3));
+                        break;
+                    case "과일 향":
+                        accordClassList.add(accordClassRepository.findByIdx(4));
+                        break;
+                    case "달콤한 향":
+                        accordClassList.add(accordClassRepository.findByIdx(8));
+                        break;
+                    case "매운 향":
+                        accordClassList.add(accordClassRepository.findByIdx(5));
+                        break;
+                    case "톡쏘는 향":
+                        accordClassList.add(accordClassRepository.findByIdx(1));
+                        break;
+                    case "야성적인 향":
+                        accordClassList.add(accordClassRepository.findByIdx(6));
+                        break;
+                    case "인공적인 향":
+                        accordClassList.add(accordClassRepository.findByIdx(7));
+                        break;
+                }
+            }
+        }
+
+        for(String str : genderList){
+            System.out.print(str+" ");
+        }
+        System.out.println();
+
+        for(Integer i : durationList){
+            System.out.print(i+" ");
+        }
+        System.out.println();
+
+        for(AccordClassEntity ae : accordClassList){
+            System.out.print(ae.getIdx()+" ");
         }
 
         Integer lastIdx = perfumeSearchDto.getLastIdx();
