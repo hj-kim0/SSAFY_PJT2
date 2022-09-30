@@ -44,7 +44,7 @@ const PollResult = () => {
                 objectType : "feed",
                 content : {
                     title : "나만의 향수",
-                    description : "향수설명",
+                    description : "향수 설명",
                     imageUrl : "https://fimgs.net/mdimg/perfume/375x500.48903.jpg",
                     link : {
                         mobileWebUrl : "http://j7c105.p.ssafy.io/personal",
