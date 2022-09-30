@@ -21,6 +21,7 @@
     flex-direction: column;
     width: (540px);
     &_title {
+      font-family: NotoSansBlack;
       color: $GRAY-40;
       margin-bottom: (40px);
     }
@@ -33,8 +34,11 @@
         height: (64px);
         border-radius: (16px);
         color: $GRAY-67;
+        margin: 5px;
         background-color: $GRAY-F3;
         border: 1px solid $BLACK;
+        font-size: 18px;
+        font-family: NotoSansBold;
       }
     }
   }
@@ -46,8 +50,11 @@
         height: (64px);
         border-radius: (16px);
         color: $GRAY-67;
+        margin: 5px;
         background-color: $GRAY-F3;
         border: 1px solid $BLACK;
+        font-size: 18px;
+        font-family: NotoSansBold;
       }
     }
     &_btns1 {
@@ -77,3 +84,11 @@
     }
   }
 }
+//.searchButton {
+//  width: (600px);
+//  flex-direction: column;
+//  align-items: center;
+//  flex-direction: column;
+//  width: (540px);
+//  justify-content: space-around;
+//}

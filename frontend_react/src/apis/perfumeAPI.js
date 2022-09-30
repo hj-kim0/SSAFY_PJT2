@@ -51,3 +51,22 @@ export const fetchMainPerfumeUser = async (data) => {
     })
     return response
 }
+
+export const fetchSearchPerfume = async ({gender, duration, accordClass}) => {
+    const URL = `${SERVER_URL}/search`
+    console.log(gender,duration,accordClass)
+    const response = await fetch(URL, {
+        method : "POST",
+        headers : {
+            "Content-type": "application/json"
+        },
+        body : {
+            gender : gender,
+            duration : duration,
+            accordClass : accordClass,
+            lastIdx : null,
+            pageSize : 1
+        }
+    })
+    return response
+}
