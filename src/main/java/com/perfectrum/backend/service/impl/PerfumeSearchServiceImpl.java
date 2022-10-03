@@ -94,7 +94,8 @@ public class PerfumeSearchServiceImpl implements SearchService {
         List<AccordClassEntity> accordClassList = new ArrayList<>();
         List<String> accords = perfumeSearchDto.getAccordClass();
 
-        if(accordClassList.size()==0){
+        System.out.println("어코드 개수 : " + accordClassList.size());
+        if(accords.size()==0){
             for(int i=1;i<=8;i++){
                 accordClassList.add(accordClassRepository.findByIdx(i));
             }
@@ -128,6 +129,21 @@ public class PerfumeSearchServiceImpl implements SearchService {
                 }
             }
         }
+
+        for(String str : genderList){
+            System.out.print(str+" ");
+        }
+        System.out.println();
+
+        for(Integer i : durationList){
+            System.out.print(i+" ");
+        }
+        System.out.println();
+
+        for(AccordClassEntity ae : accordClassList){
+            System.out.print(ae.getIdx()+" ");
+        }
+
         Integer lastIdx = perfumeSearchDto.getLastIdx();
         Integer pageSize = perfumeSearchDto.getPageSize();
         Pageable pageable = Pageable.ofSize(pageSize);
