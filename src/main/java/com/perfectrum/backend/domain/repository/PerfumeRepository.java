@@ -64,6 +64,8 @@ public interface PerfumeRepository extends JpaRepository<PerfumeEntity, Integer>
             "order by p.itemRating desc, p.idx desc")
     Slice<PerfumeEntity> findAllByGenderAndLongevityAndAccordClass(List<String> gender, List<Integer> longevity, List<AccordClassEntity> accordclass, Integer lastIdx, Pageable pageable);
 
+
+
     PerfumeEntity findTop1ByOrderByIdxDesc();
 
 }
