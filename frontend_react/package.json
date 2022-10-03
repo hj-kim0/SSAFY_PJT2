@@ -54,6 +54,10 @@
       "react-app/jest"
     ]
   },
+  "eslintIgnore": [
+    "canvasjs.react.js",
+    "canvasjs.min.js"
+  ],
   "browserslist": {
     "production": [
       ">0.2%",
