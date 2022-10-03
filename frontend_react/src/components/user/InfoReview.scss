@@ -1,8 +1,9 @@
 .infoReview {
-  margin: (24px) 0 (12px) 0;
+  margin: (40px) 0 (40px) 0;
   &_img {
     width: (90px);
     height: (120px);
+    margin-left: (24px);
     margin-right: (24px);
     overflow: hidden;
     border-radius: 15%;
@@ -12,15 +13,36 @@
       object-fit: cover;
     }
   }
+  &__container {
+    width: 200px;
+  }
+  &_block {
+    margin-left: 30px;
+  }
+  &_sillage {
+    width: 15px;
+    margin-left: 2px;
+    margin-right: 2px;      
+  }
+  &_long {
+    width: 15px;
+    margin-left: 2px;
+    margin-right: 2px;    
+  }
+  &_ystar {
+    width: 25px;
+    margin-left: 2px;
+    margin-right: 2px;
+  }
   &_extra {
     flex-direction: column;
     color: $GRAY-40;
     &_name {
-      margin-top: (8px);
+      // margin-top: (8px);
     }
     &_rating,
     &_comment {
-      margin-top: (20px);
+      margin-top: (10px);
     }
     &_rating {
       align-items: center;

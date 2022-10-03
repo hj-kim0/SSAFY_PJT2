@@ -31,7 +31,7 @@ function Router() {
         <Route path="/" element={<Home />} />
         {/* user */}
         <Route path="/infoedit" element={<InfoEdit />} />
-        <Route path="/userreview" element={<UserReview />} />
+        <Route path="/userreview/:nickname" element={<UserReview />} />
         {/* perfume */}
         <Route path="/perfumesearch" element={<PerfumeSearch />} />
         <Route path="/tasteInfo" element={<TasteInfo />} />

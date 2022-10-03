@@ -59,6 +59,10 @@ module.exports = {
     "react/prefer-stateless-function" : "off",
     "react/jsx-no-bind" : "off"
     
+    "react/jsx-props-no-spreading" : "off",
+    "react/jsx-curly-brace-presence" : "off",
+    "no-undef" : "off",
+    "jsx-a11y/anchor-is-valid" : "off"
   },
   settings: {
     "import/resolver": {

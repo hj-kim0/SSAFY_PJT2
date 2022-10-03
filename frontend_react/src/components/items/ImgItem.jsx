@@ -11,7 +11,7 @@ const DivCenter = styled.div`
 
 const Img = styled.img`
 width:100%;
-height:690px;
+height:850px;
 `
 
 
@@ -25,7 +25,7 @@ const ImgItem = (props) => {
     // let vis = false;
 
     if(idxSrc === 0){
-        maintheme = "PERSOANL PERFUME";
+        maintheme = "PERSONAL PERFUME";
         subtheme = "당신의 가치를 빛내줄 퍼스널 향수 추천";
         // vis = true;
     }else if(idxSrc === 1) {

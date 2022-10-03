@@ -132,6 +132,24 @@ export const fetchHaveDelete = async (data, idx) => {
             "Authorization": data,
         }
     })
+    return response
+}
 
+export const fetchSearchPerfume = async ({gender, duration, accordClass, lastIdx, pageSize}) => {
+    const URL = `${SERVER_URL}/search`
+    console.log(gender,duration,accordClass,lastIdx,pageSize)
+    const response = await fetch(URL, {
+        method : "POST",
+        headers : {
+            "Content-type": "application/json"
+        },
+        body : JSON.stringify({
+            gender : gender,
+            duration : duration,
+            accordClass : accordClass,
+            lastIdx : lastIdx,
+            pageSize : pageSize
+        })
+    })
     return response
 }
