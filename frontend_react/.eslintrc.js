@@ -51,7 +51,11 @@ module.exports = {
     "import/order" : "off",
     "prefer-const" : "off",
     "import/no-dynamic-require" : "off",
-    "camelcase" : "off"
+    "camelcase" : "off",
+    "react/jsx-props-no-spreading" : "off",
+    "react/jsx-curly-brace-presence" : "off",
+    "no-undef" : "off",
+    "jsx-a11y/anchor-is-valid" : "off"
   },
   settings: {
     "import/resolver": {

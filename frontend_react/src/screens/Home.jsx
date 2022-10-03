@@ -62,7 +62,7 @@ function Home() {
             src: require("../assets/images/carousel/11.jpg"),
         },
     ]
-
+    console.log(bestPerfume)
     // BEST 향수 추천 리스트 나중에 리팩토링
 
     const bestData = ([
