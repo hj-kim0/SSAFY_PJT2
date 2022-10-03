@@ -128,21 +128,6 @@ public class PerfumeSearchServiceImpl implements SearchService {
                 }
             }
         }
-
-        for(String str : genderList){
-            System.out.print(str+" ");
-        }
-        System.out.println();
-
-        for(Integer i : durationList){
-            System.out.print(i+" ");
-        }
-        System.out.println();
-
-        for(AccordClassEntity ae : accordClassList){
-            System.out.print(ae.getIdx()+" ");
-        }
-
         Integer lastIdx = perfumeSearchDto.getLastIdx();
         Integer pageSize = perfumeSearchDto.getPageSize();
         Pageable pageable = Pageable.ofSize(pageSize);
@@ -153,6 +138,8 @@ public class PerfumeSearchServiceImpl implements SearchService {
         }
 
         Slice<PerfumeEntity> searchList = perfumeRepository.findAllByGenderAndLongevityAndAccordClass(genderList, durationList, accordClassList, lastIdx, pageable);
+        List<PerfumeEntity> list = perfumeRepository.findAllByGenderAndLongevityAndAccordClass2(genderList, durationList, accordClassList);
+        System.out.println("향수 갯수 : " + list.size());
         List<PerfumeViewDto> resultList = new ArrayList<>();
         if(!searchList.isEmpty()){
             boolean hasNext = searchList.hasNext();
