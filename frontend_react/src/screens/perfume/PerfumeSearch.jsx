@@ -5,25 +5,29 @@ import { useState } from "react";
 import "./PerfumeSearch.scss";
 import SearchIcon from '@mui/icons-material/Search';
 import { fetchSearchPerfume } from "../../apis/perfumeAPI";
+import InfiniteScroll from 'react-infinite-scroll-component'
+import LinearProgress from '@mui/material/LinearProgress';
+import Box from '@mui/material/Box';
+
 
 function PerfumeSearch() {
-  const isGenderActiveDefault = [true, true, true, true]
   const [isActive, setIsActive] = useState([true, true, true, true])
   const [isDurationActive, setIsDurationActive] = useState([true, true, true, true, true, true])
   const [isAccordClassActive, setIsAccordClassActive] = useState([true, true, true, true, true, true, true, true, true])
-  // const [payload, setPayload] = useState({
-  //   gender : [],
-  //   duration : [],
-  //   accordClass : []
-  // })
-  const payload = {
+  let payload = {
     gender : [],
     duration : [],
-    accordClass : []
+    accordClass : [],
+    lastIdx : null,
+    pageSize : 10
   }
   const durtaionList = ["전체","매우 강함","강함","적당함","약함","매우 약함"]
   const accordClassList = ["전체","매운 향","톡쏘는 향","야성적인 향","인공적인 향","꽃 향기","풀 향기","과일 향","달콤한 향"]
-  const [searchResult, setSearchResult] = useState({})
+  const [searchResult, setSearchResult] = useState({
+    isSearched : false,
+    searchList : []
+  })
+  const [morePost, setMorePost] = useState(true)
 
   console.log(isAccordClassActive)
   const handleClickGender = (index) => {
@@ -44,6 +48,13 @@ function PerfumeSearch() {
       temp[index] = !temp[index]
       setIsActive(temp)
     }
+    for(let i=0; i<isActive.length; i++){
+      if(temp[i] === true){
+        temp[0] = true
+        setIsActive(temp)
+      }
+    }
+    console.log(temp)
   }
   const handleClickDuration = (index) => {
     const temp2 = [...isDurationActive]
@@ -62,6 +73,12 @@ function PerfumeSearch() {
     }else{
       temp2[index] = !temp2[index]
       setIsDurationActive(temp2)
+    }
+    for(let i=0; i<isDurationActive.length; i++){
+      if(temp2[i] === true){
+        temp2[0] = true
+        setIsDurationActive(temp2)
+      }
     }
   }
   const handleClickAccordClass = (index) => {
@@ -83,12 +100,18 @@ function PerfumeSearch() {
       temp3[index] = !temp3[index]
       setIsAccordClassActive(temp3)
     }
+    for(let i=0; i<isAccordClassActive.length; i++){
+      if(temp3[i] === true){
+        temp3[0] = true
+        setIsAccordClassActive(temp3)
+      }
+    }
   }
 
   const genderList = [
     "전체",
     "남자",
-    "유니섹스",
+    "중성",
     "여자"
   ]
   const durationList1 = [
@@ -137,8 +160,36 @@ function PerfumeSearch() {
     fetchSearchPerfume(payload)
       .then((res) => {res.json().then((res) => {
         console.log(res)
-        setSearchResult(res)
+        setSearchResult({isSearched : res.isSearched,searchList :res.searchList})
+        setMorePost(res.hasNext)
       })})
+  }
+  const searchNextPerfume = () => {
+    for(let i=1; i<isActive.length; i++){
+      if(isActive[i] === false){
+        payload.gender.push(genderList[i])
+      }
+    }
+    for(let j=1; j<isDurationActive.length; j++){
+      if(isDurationActive[j] === false){
+        payload.duration.push(durtaionList[j])
+      }
+    }
+    for(let k=0; k<isAccordClassActive.length; k++){
+      if(isAccordClassActive[k] === false){
+        payload.accordClass.push(accordClassList[k])
+      }
+    }
+    payload.lastIdx = searchResult.searchList[searchResult.searchList.length - 1].idx
+    console.log(payload)
+    if(morePost){
+      fetchSearchPerfume(payload)
+        .then((res) => {res.json().then((res) => {
+          console.log(res)
+          setSearchResult({isSearched: res.isSearched, searchList : searchResult.searchList.concat(res.searchList)})
+          setMorePost(res.hasNext)
+        })})
+    }
   }
 
   return (
@@ -276,24 +327,50 @@ function PerfumeSearch() {
         </div>
       </div>
       <div id="perfumeResult" className="perfumeResult flex">
-        <div className="perfumeResult_img">
-          <img src={dummyImg} alt="더미이미지" />
-        </div>
-        <div className="perfumeResult_img">
-          <img src={dummyImg} alt="더미이미지" />
-        </div>
-        <div className="perfumeResult_img">
-          <img src={dummyImg} alt="더미이미지" />
-        </div>
-        <div className="perfumeResult_img">
-          <img src={dummyImg} alt="더미이미지" />
-        </div>
-        <div className="perfumeResult_img">
-          <img src={dummyImg} alt="더미이미지" />
-        </div>
-        <div className="perfumeResult_img">
-          <img src={dummyImg} alt="더미이미지" />
-        </div>
+        <InfiniteScroll
+          id="perfumeResult" className="perfumeResult flex"
+          dataLength={searchResult.searchList.length}
+          next={() => {
+            searchNextPerfume()
+          }}
+          hasMore={morePost}
+          loader={
+            <Box sx={{ width: '100%' }}>
+              <LinearProgress />
+            </Box>
+          }
+        >
+          { searchResult.isSearched ? (
+              searchResult.searchList.map((result, index) => (
+                <div
+                  className="perfumeResult_img"
+                  key={index}
+                >
+                  <img src={result.perfumeImg} alt="더미이미지" />
+                </div>
+              ))
+          )  :  (
+            <></>
+          )}
+        </InfiniteScroll>
+        {/*<div className="perfumeResult_img">*/}
+        {/*  <img src={dummyImg} alt="더미이미지" />*/}
+        {/*</div>*/}
+        {/*<div className="perfumeResult_img">*/}
+        {/*  <img src={dummyImg} alt="더미이미지" />*/}
+        {/*</div>*/}
+        {/*<div className="perfumeResult_img">*/}
+        {/*  <img src={dummyImg} alt="더미이미지" />*/}
+        {/*</div>*/}
+        {/*<div className="perfumeResult_img">*/}
+        {/*  <img src={dummyImg} alt="더미이미지" />*/}
+        {/*</div>*/}
+        {/*<div className="perfumeResult_img">*/}
+        {/*  <img src={dummyImg} alt="더미이미지" />*/}
+        {/*</div>*/}
+        {/*<div className="perfumeResult_img">*/}
+        {/*  <img src={dummyImg} alt="더미이미지" />*/}
+        {/*</div>*/}
       </div>
     </div>
   );

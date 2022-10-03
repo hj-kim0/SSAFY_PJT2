@@ -1,83 +1,255 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import styled from 'styled-components';
+import { Link } from "react-router-dom";
 import dummyImg from "@images/icon/perfumeImg.svg";
-import brandChart from "@images/icon/brand.png";
-import scentChart from "@images/icon/scent.png";
+import CarouselSlider from 'react-carousel-slider';
 import "./TasteAnalysis.scss";
+import "./Pie Chart";
+import PieChart from "./Pie Chart";
+import { fetchAccordClassListUser, fetchHaveListUser, fetchWishListUser, fetchHaveDelete, fetchWishDelete, fetchWishToHave} from "../../apis/perfumeAPI";
+import { userProfileState, userState } from "../../atom";
+import { useRecoilState } from "recoil";
+import { Button, IconButton } from '@mui/material';
+import { Delete, Send } from "@material-ui/icons";
+import history from "../../utils/history";
+
+const DivCenter = styled.div`
+margin: 30px 0px 30px 0px;
+text-align: center;
+`;
+
+const DivGap = styled.div`
+margin: 30px 0px 30px -30px;
+text-align: center;
+`
+const SpanCenter = styled.span`
+text-align: center;
+`
+const DivInline = styled.div`
+display: inline  ;
+`;
+
+const sliderBoxStyle = {
+  height: "400px",
+  width: "80%",
+  background: "transparent",
+  border: "1px solid #e1e4e8"
+};
+
+const itemsStyle = {
+  width: "200px",
+  height: "240px",
+  padding: "5px",
+  background: "transparent",
+  border: "1px solid #e1e4e8",
+  borderRadius: "2px",
+  };
+  
+
+const buttonSetting = {
+  placeOn: "middle-inside",
+  style: {
+      left: {
+      color: "#cccccc",
+      background: "transparent",
+      border: "1px solid #e1e4e8",
+      borderRadius: "50%"
+      },
+      right: {
+      color: "#cccccc",
+      background: "transparent",
+      border: "1px solid #e1e4e8",
+      borderRadius: "50%"
+      }
+  }
+  };
 
 function TasteAnalysis() {
-  return (
-    <div className="container flex">
-      <div id="tasteAnalysis" className="tasteAnalysis flex">
-        <div className="tasteAnalysis_wishList flex">
-          <div className="tasteAnalysis_wishList_title notoBold fs-36">
-            위시리스트
-          </div>
-          <div className="tasteAnalysis_wishList_cart flex">
-            <img src={dummyImg} alt="향수이미지1" />
-            <img src={dummyImg} alt="향수이미지2" />
-            <img src={dummyImg} alt="향수이미지3" />
-          </div>
-        </div>
-        <div className="tasteAnalysis_emptyList flex">
-          <div className="tasteAnalysis_emptyList_title notoBold fs-36">
-            위시리스트가 비었어요!
-          </div>
-          <div className="tasteAnalysis_emptyList_btns flex">
-            <button
-              type="button"
-              className="tasteAnalysis_emptyList_btns_best notoBold fs-20"
-            >
-              랭킹 확인하기
-            </button>
-            <button
-              type="button"
-              className="tasteAnalysis_emptyList_btns_search notoBold fs-20"
-            >
-              향수 검색하기
-            </button>
-          </div>
-        </div>
-        <div className="divide" />
-        <div className="tasteAnalysis_charts flex">
-          <div className="tasteAnalysis_charts_brand">
-            <img src={brandChart} alt="브랜드차트" />
-          </div>
-          <div className="tasteAnalysis_charts_scent">
-            <img src={scentChart} alt="향기차트" />
-          </div>
-        </div>
-        <div className="tasteAnalysis_recommend flex">
-          <div className="tasteAnalysis_recommend_title1 notoBold fs-32">
-            hanPark님과 비슷한 취향의 사용자들이
-          </div>
-          <div className="tasteAnalysis_recommend_title2 notoBold fs-32">
-            좋아하는 향수입니다
-          </div>
-          <div className="tasteAnalysis_recommend_img">
-            <img src={dummyImg} alt="추천향수" />
-          </div>
-          <div className="tasteAnalysis_recommend_noData flex">
-            <div className="tasteAnalysis_recommend_noData_title notoBold fs-36">
-              정보가 없어요!
-            </div>
-            <div className="tasteAnalysis_recommend_noData_btns flex">
-              <button
-                type="button"
-                className="tasteAnalysis_recommend_noData_btns_info notoBold fs-20"
-              >
-                정보 입력하기
-              </button>
-              <button
-                type="button"
-                className="tasteAnalysis_recommend_noData_btns_search notoBold fs-20"
-              >
-                향수 검색하기
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  // 현재 로그인 유저 정보
+  const [user, setUser] = useRecoilState(userState);
+  const userProfile = useRecoilState(userProfileState);
+  //위시리스트 가져오기
+  const [wishList, setWishList] = useState([]);
+  //보유리스트 가져오기
+  const [haveList, setHaveList] = useState([]);
+  //향 순위 분석 가져오기
+  const [accordClassList, setAccordClassList ] = useState([]);
+  const wishData = wishList;
+  let wishBody;
+  const haveData = haveList;
+  let haveBody;
+  const accordClassData = accordClassList;
+  const nickname = userProfile[0][0].nickname;
+  let datasize;
+
+  
+  // console.log("위시");
+  // console.log(wishData);
+  // console.log("해브");
+  // console.log(haveData);
+  // console.log(accordClassData);
+  // console.log(userProfile[0][0].nickname);
+
+  // 클릭시 삭제
+
+  function handleWishDelete(idx, e){
+    e.preventDefault();
+    console.log(idx);
+    fetchWishDelete(user.sToken, idx)
+    window.location.replace("/tasteanalysis")
+  }  
+  
+  function handleHaveDelete(idx, e){
+    e.preventDefault();
+    console.log(idx);
+    fetchHaveDelete(user.sToken, idx)
+    window.location.replace("/tasteanalysis")
+  }  
+
+  function handleWishToHave(idx, e){
+    e.preventDefault();
+    console.log(idx);
+    fetchWishToHave(user.sToken, idx)
+    window.location.replace("/tasteanalysis")
+  }
+
+  const customSlideWishCpnts = 
+  wishData.map((item) => (<>
+  <Link to={"/detail/" + item.perfumeIdx} key={item.perfumeIdx}>
+      <img src = {item.perfumeImg}/>
+    </Link>
+    <br></br>
+    <SpanCenter>
+    <Button variant="contained" size="small" onClick={(e) => {handleWishToHave(item.idx, e)}}>
+      보유리스트로</Button>
+    <Button variant="outlined" size="small" onClick={(e) => {handleWishDelete(item.idx, e)}} startIcon={<Delete />}>
+      삭제
+      </Button>
+    </SpanCenter>
+  </>
+  ));
+
+
+  const customSlideHaveCpnts = 
+    haveData.map((item) => (<>
+    <Link to={"/detail/" + item.perfumeIdx} key={item.perfumeIdx}>
+        <img src = {item.perfumeImg}/>
+      </Link>
+      <br></br>
+      <SpanCenter>
+      <Button variant="outlined" size="small" onClick={(e) => {handleHaveDelete(item.idx, e)}} startIcon={<Delete />}>
+        삭제
+        </Button>
+      </SpanCenter>
+      
+    </>
+    ));
+
+    useEffect(() => {
+      fetchHaveListUser(user.sToken)
+      .then((res) => {res.json().then((res) => {
+        setHaveList(res.haveList)
+      })})
+    },[]);
+
+    useEffect(() => {
+      fetchWishListUser(user.sToken)
+      .then((res) => {res.json().then((res) => {
+        setWishList(res.wishList)
+      })})
+    },[]);
+
+    useEffect(() => {
+      fetchAccordClassListUser(user.sToken)
+      .then((res) => {res.json().then((res) => {
+        setAccordClassList(res.accordClassList)
+      })})
+    },[]);
+
+    if(wishData.length===0){
+      wishBody = <><h1 className="tasteAnalysis_emptyList_title fs-36">
+      위시리스트가 비었어요!
+    </h1>
+    <div className="tasteAnalysis_emptyList_btns flex">
+      <Link to="/perfumesearch">
+      <button
+        type="button"
+        className="tasteAnalysis_emptyList_btns_search notoBold fs-20"
+      >
+        향수 찾아보기
+      </button>
+      </Link>
+    </div></>
+    }else{
+      wishBody = 
+      <CarouselSlider
+        slideCpnts={customSlideWishCpnts}
+        manner={{ circular: true }}
+        sliderBoxStyle={sliderBoxStyle}
+        buttonSetting={buttonSetting}
+        itemsStyle={itemsStyle}        
+      ></CarouselSlider>
+    }
+
+    if(haveData.length===0){
+      haveBody = <><h1 className="tasteAnalysis_emptyList_title fs-36">
+      보유한 향수가 없어요...
+    </h1></>
+    }else{
+      haveBody = 
+      <CarouselSlider
+        slideCpnts={customSlideHaveCpnts}
+        manner={{ circular: true }}
+        sliderBoxStyle={sliderBoxStyle}
+        buttonSetting={buttonSetting}
+        itemsStyle={itemsStyle}        
+      ></CarouselSlider>
+    }
+
+    let pieBody;
+
+    if(accordClassData.length===0){
+      pieBody = <h1 className="tasteAnalysis_emptyList_title fs-36">
+      데이터가 없어요...
+    </h1>
+    }else{
+      let sum = 0;
+
+      for(let i = 0; i < accordClassData.length; i++){
+        accordClassData[i].y = accordClassData[i].accordClassCount;
+        delete accordClassData[i].accordClassIdx;
+        delete accordClassData[i].accordClassCount;
+        sum += accordClassData[i].y;
+      }
+      for(let i = 0; i < accordClassData.length; i++){
+        accordClassData[i].y = Math.round(((accordClassData[i].y/sum)*100 + Number.EPSILON) * 100) / 100;
+      }
+
+      pieBody = <PieChart data={accordClassData}/>
+    }
+
+      return (<>
+        <DivCenter className="container flex">
+          <DivCenter id="tasteAnalysis" className="tasteAnalysis flex">
+            <DivCenter className="tasteAnalysis_wishList flex">
+              <DivCenter className="tasteAnalysis_wishList_title notoBold fs-36">
+                위시리스트
+              </DivCenter>
+              {wishBody}
+            </DivCenter>
+            <DivCenter className="tasteAnalysis_wishList flex">
+              <DivCenter className="tasteAnalysis_wishList_title notoBold fs-36">
+                보유리스트
+              </DivCenter>
+              {haveBody}
+            </DivCenter>
+            <DivCenter className="tasteAnalysis_wishList_title notoBold fs-36">
+                {nickname} 님의 향 선호 분포
+            </DivCenter>
+          </DivCenter>
+        </DivCenter>
+        {pieBody}
+        </>
+        );
 }
 export default TasteAnalysis;

@@ -52,21 +52,104 @@ export const fetchMainPerfumeUser = async (data) => {
     return response
 }
 
-export const fetchSearchPerfume = async ({gender, duration, accordClass}) => {
+export const fetchWishListUser = async (data) => {
+    const URL = `${SERVER_URL}/my-page/wish`
+
+    const response = await fetch(URL,{
+        method : "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": data,
+        }
+    })
+
+    return response
+}
+
+export const fetchHaveListUser = async (data) => {
+    const URL = `${SERVER_URL}/my-page/have`
+
+    const response = await fetch(URL,{
+        method : "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": data,
+        }
+    })
+
+    return response
+}
+
+export const fetchAccordClassListUser = async (data) => {
+    const URL = `${SERVER_URL}/my-page/analysis`
+
+    const response = await fetch(URL,{
+        method : "GET",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": data,
+        }
+    })
+
+    return response
+}
+
+export const fetchWishToHave = async (data, idx) => {
+    const URL = `${SERVER_URL}/my-page/wish/${idx}`
+
+    const response = await fetch(URL,{
+        method : "PUT",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": data,
+        }
+    })
+
+    return response
+}
+
+export const fetchWishDelete = async (data, idx) => {
+    const URL = `${SERVER_URL}/my-page/wish/delete/${idx}`
+
+    const response = await fetch(URL,{
+        method : "PUT",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": data,
+        }
+    })
+
+    return response
+}
+
+export const fetchHaveDelete = async (data, idx) => {
+    console.log(idx);
+    const URL = `${SERVER_URL}/my-page/have/delete/${idx}`
+    const response = await fetch(URL,{
+        method : "PUT",
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": data,
+        }
+    })
+    return response
+}
+
+export const fetchSearchPerfume = async ({gender, duration, accordClass, lastIdx, pageSize}) => {
     const URL = `${SERVER_URL}/search`
-    console.log(gender,duration,accordClass)
+    console.log(gender,duration,accordClass,lastIdx,pageSize)
     const response = await fetch(URL, {
         method : "POST",
         headers : {
             "Content-type": "application/json"
         },
-        body : {
+        body : JSON.stringify({
             gender : gender,
             duration : duration,
             accordClass : accordClass,
-            lastIdx : null,
-            pageSize : 1
-        }
+            lastIdx : lastIdx,
+            pageSize : pageSize
+        })
     })
     return response
 }
