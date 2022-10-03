@@ -16,7 +16,7 @@ import java.util.Optional;
 
 
 @SpringBootTest
-//@Transactional
+@Transactional
 public class SearchServiceTest {
     private static final String success = "SUCCESS";
     private static final String fail = "FAIL";

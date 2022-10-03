@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
-//@Transactional
+@Transactional
 public class MyPageServiceTest {
 
     private UserRepository userRepository;

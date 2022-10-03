@@ -33,13 +33,15 @@ public class UserAccordClassServiceImpl implements UserAccordClassService {
             List<UserAccordClassEntity> userAccordClassEntities = userAccordClassRepository.findByUser(user);
             if(!userAccordClassEntities.isEmpty()){
                 for(UserAccordClassEntity u : userAccordClassEntities){
-                    UserAccordClassDto dto = UserAccordClassDto.builder()
-                            .accordClassIdx(u.getAccordClass().getIdx())
-                            .accordClassName(u.getAccordClass().getClassName())
-                            .accordClassCount(u.getAccordClassCount())
-                            .build();
+                    if(u.getAccordClassCount() != 0){
+                        UserAccordClassDto dto = UserAccordClassDto.builder()
+                                .accordClassIdx(u.getAccordClass().getIdx())
+                                .accordClassName(u.getAccordClass().getClassName())
+                                .accordClassCount(u.getAccordClassCount())
+                                .build();
 
-                    list.add(dto);
+                        list.add(dto);
+                    }
                 }
             }else{
                 list = null;

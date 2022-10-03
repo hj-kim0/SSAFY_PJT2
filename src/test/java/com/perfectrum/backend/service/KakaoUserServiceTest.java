@@ -5,11 +5,13 @@ import com.google.gson.JsonParser;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.transaction.Transactional;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 @SpringBootTest
+@Transactional
 public class KakaoUserServiceTest {
 
     @Test
