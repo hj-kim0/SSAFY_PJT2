@@ -138,6 +138,8 @@ public class PerfumeSearchServiceImpl implements SearchService {
         }
 
         Slice<PerfumeEntity> searchList = perfumeRepository.findAllByGenderAndLongevityAndAccordClass(genderList, durationList, accordClassList, lastIdx, pageable);
+        List<PerfumeEntity> list = perfumeRepository.findAllByGenderAndLongevityAndAccordClass2(genderList, durationList, accordClassList);
+        System.out.println("향수 갯수 : " + list.size());
         List<PerfumeViewDto> resultList = new ArrayList<>();
         if(!searchList.isEmpty()){
             boolean hasNext = searchList.hasNext();

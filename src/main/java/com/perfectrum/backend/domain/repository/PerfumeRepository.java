@@ -61,9 +61,19 @@ public interface PerfumeRepository extends JpaRepository<PerfumeEntity, Integer>
             "and p.idx IN(select pa.perfume from PerfumeAccordsEntity as pa " +
             "where pa.accord in (select a.idx from AccordEntity a " +
             "where a.accordClass in(:accordclass))) and p.idx < :lastIdx " +
+            "group by p.perfumeImg " +
             "order by p.itemRating desc, p.idx desc")
     Slice<PerfumeEntity> findAllByGenderAndLongevityAndAccordClass(List<String> gender, List<Integer> longevity, List<AccordClassEntity> accordclass, Integer lastIdx, Pageable pageable);
 
+    @Query(value = "select p from PerfumeEntity p " +
+            "where p.gender in (:gender)" +
+            "and p.longevity in (:longevity) " +
+            "and p.idx IN(select pa.perfume from PerfumeAccordsEntity as pa " +
+            "where pa.accord in (select a.idx from AccordEntity a " +
+            "where a.accordClass in(:accordclass))) " +
+            "group by p.perfumeImg " +
+            "order by p.itemRating desc, p.idx desc")
+    List<PerfumeEntity> findAllByGenderAndLongevityAndAccordClass2(List<String> gender, List<Integer> longevity, List<AccordClassEntity> accordclass);
 
 
     PerfumeEntity findTop1ByOrderByIdxDesc();
