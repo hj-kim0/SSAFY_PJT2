@@ -71,7 +71,7 @@ public interface PerfumeRepository extends JpaRepository<PerfumeEntity, Integer>
             "and p.idx IN(select pa.perfume from PerfumeAccordsEntity as pa " +
             "where pa.accord in (select a.idx from AccordEntity a " +
             "where a.accordClass in(:accordclass))) " +
-            "group by p.perfumeImg " +
+//            "group by p.perfumeImg " +
             "order by p.itemRating desc, p.idx desc")
     List<PerfumeEntity> findAllByGenderAndLongevityAndAccordClass2(List<String> gender, List<Integer> longevity, List<AccordClassEntity> accordclass);
 
