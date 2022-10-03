@@ -59,7 +59,7 @@ public class PerfumeSearchController {
                     resultMap.put("hasNext", data.get("hasNext"));
                     resultMap.put("isSearched",true);
                 }else{
-                    resultMap.put("bestPerfumeList",data.get("bestPerfumeList"));
+                    resultMap.put("searchList",data.get("bestPerfumeList"));
                     resultMap.put("isSearched",false);
                 }
                 resultMap.put("message",success);
