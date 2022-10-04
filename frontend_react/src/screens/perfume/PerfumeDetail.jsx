@@ -10,6 +10,7 @@ import { getDetail } from "../../apis/perfume";
 import "./PerfumeDetail.scss";
 
 function PerfumeDetail() {
+  const [position, setPosition] = useState(0)
   const { id } = useParams();
   const [perfumeDetail, setPerfumeDetail] = useState({});
   const detail = async () => {
@@ -24,6 +25,17 @@ function PerfumeDetail() {
     setPerfumeDetail(res.perfume);
   };
   console.log(perfumeDetail);
+
+  function onScroll(){
+    setPosition(window.scrollY)
+  }
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+    }
+  }, [])
+
 
   useEffect(() => {
     detail();
@@ -63,6 +75,14 @@ function PerfumeDetail() {
           </div>
         </div>
         <div className="divide1" />
+        <div>
+          <p style={{
+            transform : `trans`
+          }}>
+
+          </p>
+        </div>
+        <div className="divide1"/>
         <div id="perfumeDetail3" className="perfumeDetail3 flex align-center">
           <div className="perfumeDetail3_profile flex">
             <div className="perfumeDetail3_profile_img">
