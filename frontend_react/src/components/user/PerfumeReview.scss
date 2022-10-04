@@ -3,11 +3,11 @@
   margin: (20px) 0 (20px) 0;
   &_profile {
     flex-direction: column;
-    margin-right: (40px);
-    // align-items: space-between;
-    justify-content: space-around;
+    margin-right: (8px);
+    width: (120px);
+    justify-content: space-evenly;
     &_img {
-      margin-left: (10px);
+      margin-left: (20px);
       width: (80px);
       height: (80px);
       overflow: hidden;
@@ -19,20 +19,31 @@
         object-fit: cover;
       }
     }
-    &_rating {
+    &_imginput {
+      display: none;
+    }
+    &_btn {
+      margin-left: (10px);
+      width: (80px);
+      height: (80px);
+      margin-bottom: (4px);
+    }
+    &_name {
       width: (100px);
-      &_ystar {
-        width: 16px;
-        margin-left: 2px;
-        margin-right: 2px;
+      margin-left: (10px);
+      &_nickname {
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
-      // height: (10px);
-      // overflow: hidden;
-      // img {
-      //   width: 100%;
-      //   height: 100%;
-      //   object-fit: cover;
-      // }
+    }
+    &_fix {
+      width: (80px);
+      margin-left: (20px);
+      &_nickname {
+        width: 100%;
+      }
     }
   }
   &_upload {
@@ -46,41 +57,63 @@
       object-fit: cover;
     }
   }
-  &_info {
-    margin-left: (40px);
-    width: (480px);
-    height: 100%;
-    justify-content: space-around;
+  &_rating {
     flex-direction: column;
-    &_writer {
-      color: $BLACK;
-      width: (480px);
-      &_nickname {
-        margin-right: (40px);
+    width: (136px);
+    margin: 0 (12px) 0 (12px);
+    &_total {
+      margin-top: (18px);
+      height: (24px);
+      &_sub {
+        width: (26px);
+        margin-right: (10px);
+      }
+      &_ystar {
+        width: 16px;
+        margin-left: 2px;
+        margin-right: 2px;
       }
     }
-    &_rating {
-      width: (480px);
-      &_long, &_sil {
-        width: (100px);
-        margin-right: (20px);
-        &_emo {
-          width: 16px;
-          margin-left: 2px;
-          margin-right: 2px;
-        }
+    &_long,
+    &_sil {
+      height: (24px);
+      margin-top: (8px);
+      &_sub {
+        width: (26px);
+        margin-right: (10px);
+      }
+      &_emo {
+        width: 16px;
+        margin-left: 2px;
+        margin-right: 2px;
       }
     }
-    &_review {
+  }
+  &_info {
+    width: (368px);
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-evenly;
+    &_contents {
+      width: (368px);
+    }
+    &_date {
+      margin-left: (268px);
+    }
+    &_input {
       width: 100%;
-      color: $BLACK;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      height: (100px);
+      border: 1px solid $GRAY-ED;
+      &_board {
+        width: 100%;
+        height: (100px);
+        border: $WHITE;
+      }
     }
   }
   &_btns {
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    margin-left: (12px);
   }
 }
