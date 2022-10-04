@@ -129,19 +129,6 @@ public class PerfumeSearchServiceImpl implements SearchService {
             }
         }
 
-        for(String str : genderList){
-            System.out.print(str+" ");
-        }
-        System.out.println();
-
-        for(Integer i : durationList){
-            System.out.print(i+" ");
-        }
-        System.out.println();
-
-        for(AccordClassEntity ae : accordClassList){
-            System.out.print(ae.getIdx()+" ");
-        }
 
         Integer lastIdx = perfumeSearchDto.getLastIdx();
         Integer pageSize = perfumeSearchDto.getPageSize();

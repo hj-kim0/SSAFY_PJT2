@@ -60,7 +60,8 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
         Map<String, Object> data = new HashMap<>();
         Optional<UserEntity> OptionalUser = userRepository.findByUserId(decodeId);
         List<AccordEntity> accordList;
-        
+
+
         String type = reviewListDto.getType();
         Integer lastIdx = reviewListDto.getLastIdx();
         Integer lastTotalScore = reviewListDto.getLastTotalScore();
@@ -488,7 +489,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
                     .likeCount(review.getLikeCount())
                     .time(review.getTime())
                     .updateTime(review.getUpdateTime())
-                    .isDelete(false)
+                    .isDelete(!review.getIsDelete())
                     .build();
 
             reviewRepository.save(reviewEntity);
