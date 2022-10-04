@@ -59,4 +59,7 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
     double sumByUserAndIsDelete(UserEntity userEntity, boolean b);
 
     Slice<ReviewEntity> findByPerfumeAndIsDelete(PerfumeEntity perfume, boolean b);
+
+    List<ReviewEntity> findAll();
+
 }
