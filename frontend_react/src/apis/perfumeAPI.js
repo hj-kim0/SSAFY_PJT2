@@ -1,4 +1,5 @@
 const SERVER_URL = 'http://j7c105.p.ssafy.io:8083'
+const RECOM_URL = 'http://j7c105.p.ssafy.io:8080'
 
 export const surveyResult = async (season,gender,longevity,accordClass) => {
     const URL = `${SERVER_URL}/survey`
@@ -131,6 +132,14 @@ export const fetchHaveDelete = async (data, idx) => {
             "Content-type": "application/json",
             "Authorization": data,
         }
+    })
+    return response
+}
+
+export const fetchRecomSVD = async (idx) => {
+    const URL = `${RECOM_URL}/api/recommend-svd?user_idx=${idx}`
+    const response = await fetch(URL,{
+        method : "GET"
     })
     return response
 }

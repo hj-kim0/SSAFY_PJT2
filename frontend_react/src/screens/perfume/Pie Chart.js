@@ -9,32 +9,9 @@ class PieChart extends Component {
 		
 		const datas = this.props.data;
 
-		console.log(datas);
-
-		const datass = 
-		[
-			{
-				"accordClassName": "herbal",
-				"y": 1
-			},
-			{
-				"accordClassName": "animalic",
-				"y": 1
-			},
-			{
-				"accordClassName": "floral",
-				"y": 1
-			},
-			{
-				"accordClassName": "synthetic",
-				"y": 1
-			}
-		];
-		
-
 		const options = {
-			exportEnabled: true,
-			animationEnabled: true,
+			exportEnabled: false,
+			animationEnabled: false,
 			data: [{
 				type: "pie",
 				startAngle: 75,
@@ -47,14 +24,6 @@ class PieChart extends Component {
 			}]
 		}
 
-		// [
-		// 	{ y: datas[0].accordClassCount, label: datas[0].accordClassName },
-		// 	{ y: 1, label: "Organic Search" },
-		// 	{ y: 1, label: "Paid Search" },
-		// 	{ y: 1, label: "Referral" },
-		// 	{ y: 1, label: "Social" }
-		// ]
-		
 		return (
 		<div>
 			<CanvasJSChart options = {options} 
