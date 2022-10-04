@@ -51,7 +51,17 @@ module.exports = {
     "import/order" : "off",
     "prefer-const" : "off",
     "import/no-dynamic-require" : "off",
-    "camelcase" : "off"
+    "camelcase" : "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "import/newline-after-import" : "off",
+    "no-var" : "off",
+    "prefer-destructuring" : "off",
+    "react/prefer-stateless-function" : "off",
+    "react/jsx-no-bind" : "off",
+    "react/jsx-props-no-spreading" : "off",
+    "react/jsx-curly-brace-presence" : "off",
+    "no-undef" : "off",
+    "jsx-a11y/anchor-is-valid" : "off"
   },
   settings: {
     "import/resolver": {
