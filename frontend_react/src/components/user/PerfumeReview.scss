@@ -79,4 +79,8 @@
       text-overflow: ellipsis;
     }
   }
+  &_btns {
+    flex-direction: column;
+    justify-content: space-around;
+  }
 }

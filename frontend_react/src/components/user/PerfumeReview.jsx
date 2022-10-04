@@ -1,4 +1,8 @@
 import React from "react";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { useRecoilValue } from 'recoil';
+import { userProfileState } from "../../atom";
 import dummyProfile from "@images/icon/dummyIcon.png";
 // import starRating from "@images/icon/star.svg";
 import ystar from "@images/icon/ystar.png";
@@ -7,6 +11,7 @@ import sillage from "@images/icon/sillage.png";
 import "./PerfumeReview.scss";
 
 function PerfumeReview(props) {
+  const userProfile = useRecoilValue(userProfileState);
   const perfumeItem = props.item;
   const starList = []
   let i = 0;
@@ -23,7 +28,8 @@ function PerfumeReview(props) {
   for (; k < perfumeItem.sillageScore; ++k) {
     sillageList.push(<span><img className="perfumeReview_info_rating_sil_emo" src={sillage} alt="" /></span>)
   }
-  console.log(perfumeItem);
+  console.log(perfumeItem.userNickname);
+  console.log(userProfile[0].nickname);
   return (
     <div id="perfumeReview" className="perfumeReview flex">
       <div className="perfumeReview_profile flex">
@@ -51,7 +57,7 @@ function PerfumeReview(props) {
       <div className="perfumeReview_info flex">
         <div className="perfumeReview_info_writer flex">
           <div className="perfumeReview_info_writer_nickname notoBold fs-22">
-            닉네임
+            {perfumeItem.userNickname}
           </div>
           <div className="perfumeReview_info_writer_date notoMid fs-20">
             {perfumeItem.time?.slice(0,10)}
@@ -64,6 +70,14 @@ function PerfumeReview(props) {
         <div className="perfumeReview_info_review notoMid fs-20">
           {perfumeItem.content}
         </div>
+      </div>
+      <div className="perfumeReview_btns flex">
+        <button className="perfumeReview_btns_edit" type="button">
+          <EditIcon sx={{ fontSize: 36, color: "black"}} />
+        </button>
+        <button className="perfumeReview_btns_del" type="button">
+          <DeleteIcon sx={{ fontSize: 36, color: "black"}} />
+        </button>
       </div>
     </div>
   );
