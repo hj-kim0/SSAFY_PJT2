@@ -23,7 +23,7 @@ function PerfumeReview(props) {
   for (; k < perfumeItem.sillageScore; ++k) {
     sillageList.push(<span><img className="perfumeReview_info_rating_sil_emo" src={sillage} alt="" /></span>)
   }
-  console.log(perfumeItem);
+  // console.log(perfumeItem);
   return (
     <div id="perfumeReview" className="perfumeReview flex">
       <div className="perfumeReview_profile flex">

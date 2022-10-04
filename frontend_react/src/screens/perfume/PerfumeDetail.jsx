@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import uuid from "react-uuid";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from 'recoil';
-import { userProfileState } from "../../atom";
+import { userProfileState, userState } from "../../atom";
 // import dummyImg from "@images/icon/perfumeImg.svg";
 import favorite from "@images/icon/favorite_black(2).svg";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -14,6 +14,16 @@ import { getDetail } from "../../apis/perfume";
 import "./PerfumeDetail.scss";
 import axios from "axios";
 import { fetchRecommendCos } from "../../apis/perfumeAPI";
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Slider from 'react-slick'
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
+import { wishPerfume, havePerfume } from "../../apis/perfumeAPI";
 
 function PerfumeDetail() {
   const [position, setPosition] = useState(0)
@@ -24,6 +34,9 @@ function PerfumeDetail() {
   const [perfumeDetail, setPerfumeDetail] = useState({});
   const [getReviewList, setGetReviewList] = useState([]);
   const userProfile = useRecoilValue(userProfileState);
+  const [recommendPerfume, setRecommendPerfume] = useState([])
+  const user = useRecoilValue(userState)
+
   const detail = () => {
     axios({
       method: "post",
@@ -43,7 +56,6 @@ function PerfumeDetail() {
     })
     .catch((err) => console.log(err))
   };
-  console.log(perfumeDetail);
 
   function onScroll(){
     setPosition(window.scrollY)
@@ -57,10 +69,12 @@ function PerfumeDetail() {
 
   useEffect(() => {
     fetchRecommendCos(id)
-      .then((res) => {res.json().then(() => {
+      .then((res) => {res.json().then((res) => {
+        setRecommendPerfume(res)
         console.log(res)
       })})
-  })
+  },[])
+  // console.log(recommendPerfume)
 
 
   // console.log(perfumeDetail);
@@ -75,6 +89,19 @@ function PerfumeDetail() {
   const scoreclick = () => {
     setFlip("평점순");
   }
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    speed: 2000,
+    autoplaySpeed: 2000,
+    cssEase: "linear"
+  }
+
+
   return (
     <div className="container flex justify-center">
       <div id="perfumeDetail" className="perfumeDetail">
@@ -93,15 +120,35 @@ function PerfumeDetail() {
             </div>
             <div className="perfumeDetail2_title_count flex">
               <div className="perfumeDetail2_title_count_like flex">
-                <button className="perfumeDetail2_title_count_like_img" type="button">
+                <button className="perfumeDetail2_title_count_like_img"
+                        type="button"
+                        onClick={() => {
+                          wishPerfume(user.sToken, id)
+                            .then((res) => {res.json().then((res) => {
+                              console.log(res)
+                              window.location.reload();
+                            })})
+                        }}
+                >
                   <img src={favorite} alt="favorite_Img" />
                 </button>
-                <div className="perfumeDetail2_title_count_like_number roBold fs-24">
+                <div
+                  className="perfumeDetail2_title_count_like_number roBold fs-24"
+                >
                   {perfumeDetail.wishCount}
                 </div>
               </div>
               <div className="perfumeDetail2_title_count_have flex">
-                <button className="perfumeDetail2_title_count_have_img" type="button">
+                <button className="perfumeDetail2_title_count_have_img"
+                        type="button"
+                        onClick={() => {
+                          havePerfume(user.sToken, id)
+                            .then((res) => {res.json().then((res) => {
+                              console.log(res)
+                              window.location.reload();
+                            })})
+                        }}
+                >
                   <ShoppingCartIcon sx={{ fontSize: 36, color: "black"}}/>
                 </button>
                 <div className="perfumeDetail2_title_count_have_number roBold fs-24">
@@ -121,11 +168,40 @@ function PerfumeDetail() {
         </div>
         <div className="divide1" />
         <div>
-          <p style={{
-            transform : `translateX(${position}px)`,
-          }}>
-            Parall Scrollll~~~~
-          </p>
+          <Typography style={{ fontFamily : 'KyoboHandwriting2020A', textAlign : 'center', margin : "5px" }} component="div" variant="h4">
+            이 향수를 PICK한 사용자들은 이런 향수를 좋아해요😍
+          </Typography>
+          <Slider {...settings}>
+            { recommendPerfume?.map((perfume, index) => (
+              <Card
+                sx={{ maxWidth : 200, margin : "10px", cursor : 'pointer' }}
+                onClick={() => {
+                  navigate(`/detail/${perfume.idx}`)
+                  window.location.reload();
+                }}
+                key={perfume.idx}
+              >
+                <CardMedia
+                  component="img"
+                  height="160"
+                  image={perfume.perfume_img}
+                  alt="green iguana"
+                />
+                <CardContent>
+                  <Typography style={{ fontFamily : "NotoSansMedium", textAlign : "center" }} gutterBottom variant="h5" component="div">
+                    {perfume.perfume_name}
+                  </Typography>
+                  {/*<Typography variant="body2" color="text.secondary">*/}
+                  {/*  {perfume.description}*/}
+                  {/*</Typography>*/}
+                </CardContent>
+                {/*<CardActions>*/}
+                {/*  <Button size="small">Share</Button>*/}
+                {/*  <Button size="small">Learn More</Button>*/}
+                {/*</CardActions>*/}
+              </Card>
+            )) }
+          </Slider>
         </div>
         <div className="divide1"/>
         <div id="perfumeDetail3" className="perfumeDetail3 flex align-center">

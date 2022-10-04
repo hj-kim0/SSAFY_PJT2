@@ -375,8 +375,8 @@ function PerfumeSearch() {
                   className="perfumeResult_img"
                   key={index}
                   onClick={() => {
-                    navigate(`/detail/${result.idx}`)
-                  }}
+                  navigate(`/detail/${result.idx}`)
+                }}
                 >
                   <img src={result.perfumeImg} alt="더미이미지" />
                 </div>

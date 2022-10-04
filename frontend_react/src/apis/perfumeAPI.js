@@ -1,5 +1,6 @@
 const SERVER_URL = 'http://j7c105.p.ssafy.io:8083'
 const RECOM_URL = 'http://j7c105.p.ssafy.io:8080'
+const DJANGO_TEST_URL = 'http://127.0.0.1:8000'
 
 
 export const surveyResult = async (season,gender,longevity,accordClass) => {
@@ -140,7 +141,10 @@ export const fetchHaveDelete = async (data, idx) => {
 export const fetchRecomSVD = async (idx) => {
     const URL = `${RECOM_URL}/api/recommend-svd?user_idx=${idx}`
     const response = await fetch(URL,{
-        method : "GET"
+        method : "GET",
+        headers : {
+            "Content-type": "application/json"
+        }
     })
     return response
 }
@@ -168,9 +172,32 @@ export const fetchRecommendCos = async (PerfumeId) => {
     const URL = `${RECOM_URL}/api/recommend-cos?perfume_idx=${PerfumeId}`
     const response = await fetch(URL, {
         method : "GET",
-        // headers : {
-        //     "Content-type": "application/json"
-        // }
+        headers : {
+            // 'Access-Control-Allow-Origin':'*',
+            "Content-type": "application/json"
+        }
+    })
+    return response
+}
+
+export const wishPerfume = async (data,idx) => {
+    const URL = `${SERVER_URL}/detail/wish/${idx}`
+    const response = await fetch(URL, {
+        method : "GET",
+        headers : {
+            "Authorization": data,
+        }
+    })
+    return response
+}
+
+export const havePerfume = async (data,idx) => {
+    const URL = `${SERVER_URL}/detail/have/${idx}`
+    const response = await fetch(URL, {
+        method : "GET",
+        headers : {
+            "Authorization": data,
+        }
     })
     return response
 }
