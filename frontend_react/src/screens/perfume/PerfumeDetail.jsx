@@ -13,6 +13,7 @@ import PerfumeReview from "@components/user/PerfumeReview";
 import { getDetail } from "../../apis/perfume";
 import "./PerfumeDetail.scss";
 import axios from "axios";
+import { fetchRecommendCos } from "../../apis/perfumeAPI";
 
 function PerfumeDetail() {
   const [position, setPosition] = useState(0)
@@ -53,6 +54,13 @@ function PerfumeDetail() {
       window.removeEventListener("scroll", onScroll)
     }
   }, [])
+
+  useEffect(() => {
+    fetchRecommendCos(id)
+      .then((res) => {res.json().then(() => {
+        console.log(res)
+      })})
+  })
 
 
   // console.log(perfumeDetail);
@@ -113,11 +121,11 @@ function PerfumeDetail() {
         </div>
         <div className="divide1" />
         <div>
-          {/*<p style={{*/}
-          {/*  transform : `trans`*/}
-          {/*}}>*/}
-
-          {/*</p>*/}
+          <p style={{
+            transform : `translateX(${position}px)`,
+          }}>
+            Parall Scrollll~~~~
+          </p>
         </div>
         <div className="divide1"/>
         <div id="perfumeDetail3" className="perfumeDetail3 flex align-center">
