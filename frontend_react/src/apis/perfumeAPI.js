@@ -159,9 +159,9 @@ export const fetchRecommendCos = async (PerfumeId) => {
     const URL = `${DJANGO_URL}/api/recommend-cos?perfume_idx=${PerfumeId}`
     const response = await fetch(URL, {
         method : "GET",
-        headers : {
-            "Content-type": "application/json"
-        }
+        // headers : {
+        //     "Content-type": "application/json"
+        // }
     })
     return response
 }
