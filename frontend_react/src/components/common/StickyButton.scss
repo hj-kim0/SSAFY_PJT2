@@ -2,7 +2,9 @@
   position: fixed;
   bottom: (20px);
   right: (20px);
+  z-index: (1);
   &_menuBar {
+    z-index: (2);
     height: (600px);
     width: (300px);
     flex-direction: column;
@@ -23,6 +25,7 @@
   }
 }
 .book {
+  z-index: (3);
   position: fixed;
   bottom: 10%;
   right: (30px);
