@@ -13,27 +13,18 @@ import sillage from "@images/icon/sillage.png";
 import "./PerfumeReview.scss";
 
 function PerfumeReview(props) {
-  const userProfile = useRecoilValue(userProfileState);
-  const userLoginState = useRecoilValue(userState);
-  const { id } = useParams();
-  const [editInfo, setEditInfo] = useState(false);
-  const navigate = useNavigate();
-  const move = () => {
-    navigate(`/detail/${id}`);
-    window.location.reload();
-  };
   const perfumeItem = props.item;
-  const starList = [];
+  const starList = []
   let i = 0;
   for (; i < perfumeItem.totalScore; ++i) {
     starList.push(<span><img className="perfumeReview_profile_rating_ystar" src={ystar} alt="" /></span>)
-  };
-  const longList = [];
+  }
+  const longList = []
   let j = 0;
   for (; j < perfumeItem.longevity; ++j) {
     longList.push(<span><img className="perfumeReview_info_rating_long_emo" src={long} alt="" /></span>)
-  };
-  const sillageList = [];
+  }
+  const sillageList = []
   let k = 0;
   for (; k < perfumeItem.sillageScore; ++k) {
     sillageList.push(<span><img className="perfumeReview_info_rating_sil_emo" src={sillage} alt="" /></span>)
