@@ -7,10 +7,10 @@ import { userProfileState, userState } from "../../atom";
 import favorite from "@images/icon/favorite_black(2).svg";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import dummyProfile from "@images/icon/dummyIcon.png";
-import ratingStar from "@images/icon/star.svg";
 // import InfoReview from "@components/user/InfoReview";
 import PerfumeReview from "@components/user/PerfumeReview";
 import { getDetail } from "../../apis/perfume";
+import { storage } from "../../firebase";
 import "./PerfumeDetail.scss";
 import axios from "axios";
 import { fetchRecommendCos } from "../../apis/perfumeAPI";
@@ -18,8 +18,10 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Rating from '@mui/material/Rating';
 import Slider from 'react-slick'
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
@@ -27,15 +29,29 @@ import { wishPerfume, havePerfume } from "../../apis/perfumeAPI";
 
 function PerfumeDetail() {
   const [position, setPosition] = useState(0)
+  const [total, setTotal] = useState(null);
+  const [long, setLong] = useState(null);
+  const [sil, setSil] = useState(null);
+  const user = useRecoilValue(userState);
+  const userProfile = useRecoilValue(userProfileState);
+  const [image, setImage] = useState({
+    image_file: "",
+    preview_URL: "",
+  });
+  // console.log(image);
+  const [imageUrl, setImageUrl] = useState("");
   const navigate = useNavigate();
   const reviewRef = useRef();
+  const inputRef = useRef();
   const { id } = useParams();
+  const move = () => {
+    navigate(`/detail/${id}`);
+    window.location.reload();
+  };
   const [flip, setFlip] = useState("평점순");
   const [perfumeDetail, setPerfumeDetail] = useState({});
   const [getReviewList, setGetReviewList] = useState([]);
-  const userProfile = useRecoilValue(userProfileState);
-  const [recommendPerfume, setRecommendPerfume] = useState([])
-  const user = useRecoilValue(userState)
+  const [recommendPerfume, setRecommendPerfume] = useState([]);
 
   const detail = () => {
     axios({
@@ -99,8 +115,94 @@ function PerfumeDetail() {
     speed: 2000,
     autoplaySpeed: 2000,
     cssEase: "linear"
-  }
+  };
 
+  const uploadImg = (e) => {
+    e.preventDefault();
+    inputRef.current.click();
+  };
+
+  const handleUpload = (e) => {
+    e.preventDefault();
+    // console.log(e.target.files[0]);
+    // console.log(perfumeDetail.perfumeImg);
+    if (e.target.files[0]) {
+      URL.revokeObjectURL(image.preview_URL);
+      const preview_URL = URL.createObjectURL(e.target.files[0])
+      console.log(preview_URL)
+      setImage(() => (
+        {
+          image_file: e.target.files[0],
+          preview_URL: preview_URL
+        }
+      ))
+      console.log(image)
+      const storageRef = storage.ref("detail/test/")
+      const imageRef = storageRef.child(e.target.files[0].name)
+      const upLoadTask = imageRef.put(e.target.files[0])
+      upLoadTask.on(
+        "state_changed",
+        (snapshot) => {
+          console.log("snapshot", snapshot);
+          const percent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(percent + "% done");
+        },
+        (error) => {
+          console.log("err", error);
+        },
+        () => {
+          upLoadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            setImageUrl(downloadURL);
+            console.log(downloadURL);
+            // const copy = JSON.parse(JSON.stringify(userProfile));
+            // copy[0].profileImg = downloadURL;
+            // setUserProfile(copy)
+          });
+        }
+      )
+    }
+  };
+  const uploadReview = () => {
+    if (window.confirm("리뷰를 등록하시겠습니까?")) {
+      if (imageUrl === "") {
+        axios({
+          method: "post",
+          url: `http://j7c105.p.ssafy.io:8083/detail/${id}/review`,
+          headers: {
+            Authorization: user.sToken
+          },
+          data: {
+            "reviewImg": perfumeDetail.perfumeImg,
+            "totalScore": total,
+            "longevity": long,
+            "sillageScore": sil,
+            "content" : reviewRef.current.value
+          }
+        })
+        .then(res => console.log("엑시오스", res))
+        .catch(err => console.log(err))
+      } else {
+        axios({
+          method: "post",
+          url: `http://j7c105.p.ssafy.io:8083/detail/${id}/review`,
+          headers: {
+            Authorization: user.sToken
+          },
+          data: {
+            "reviewImg": imageUrl,
+            "totalScore": total,
+            "longevity": long,
+            "sillageScore": sil,
+            "content" : reviewRef.current.value
+          }
+        })
+        .then(res => console.log("엑시오스", res))
+        .catch(err => console.log(err))
+      }
+      move();
+    }
+  };
 
   return (
     <div className="container flex justify-center">
@@ -204,31 +306,79 @@ function PerfumeDetail() {
           </Slider>
         </div>
         <div className="divide1"/>
-        <div id="perfumeDetail3" className="perfumeDetail3 flex align-center">
-          <div className="perfumeDetail3_profile flex">
-            <div className="perfumeDetail3_profile_img">
-              {userProfile?.profileImg && (
-                <img src={userProfile.profileImg} alt="프로필이미지" />
+        {user?.isLogin && (
+          <div id="perfumeDetail3" className="perfumeDetail3 flex align-center">
+            <input type="file" accept=".jpg, .jpeg, .png, .JPG, .JPEG, .PNG" className="perfumeDetail3_imginput" ref={inputRef} onChange={handleUpload}/>
+            <button type="button" className="perfumeDetail3_img flex" onClick={uploadImg}>
+              {!imageUrl && 
+                <AddAPhotoIcon sx={{ fontSize: 80, color: "pink" }} />
+              }
+              {imageUrl &&
+                <img alt="리뷰이미지" src={imageUrl} />
+              }
+              {/* <div className="perfumeDetail3_profile_img">
+                {userProfile?.profileImg && (
+                  <img src={userProfile.profileImg} alt="프로필이미지" />
+                  )}
+                {!userProfile?.profileImg && (
+                  <img src={dummyProfile} alt="프로필이미지" />
                 )}
-              {!userProfile?.profileImg && (
-                <img src={dummyProfile} alt="프로필이미지" />
-              )}
-            </div>
-            <div className="perfumeDetail3_profile_rating">
-              <img src={ratingStar} alt="프로필별점" />
-            </div>
-          </div>
-          <div className="perfumeDetail3_input flex align-center">
-            {/* <input className="perfumeDetail3_input_input" type="input" /> */}
-            <textarea type="textarea" className="perfumeDetail3_input_text notoReg fs-18" ref={reviewRef} />
-            <button
-              className="perfumeDetail3_input_btn notoReg fs-18"
-              type="button"
-            >
-              입력
+              </div> */}
             </button>
+            <div className="perfumeDetail3_rating flex kyobo fs-16">
+              <div className="perfumeDetail3_rating_total flex">
+                <div className="perfumeDetail3_rating_total_sub">
+                  종합
+                </div>
+                <Rating
+                  name="simple-controlled"
+                  value={total}
+                  onChange={(event, newValue) => {
+                    setTotal(newValue);
+                  }}
+                  sx = {{ fontSize: 20}}
+                />
+              </div>
+              <div className="perfumeDetail3_rating_long flex">
+                <div className="perfumeDetail3_rating_long_sub">
+                  지속
+                </div>
+                <Rating
+                  name="simple-controlled"
+                  value={long}
+                  onChange={(event, newValue) => {
+                    setLong(newValue);
+                  }}
+                  sx = {{ fontSize: 20}}
+                />
+              </div>
+              <div className="perfumeDetail3_rating_sil flex">
+                <div className="perfumeDetail3_rating_sil_sub">
+                  잔향
+                </div>
+                <Rating
+                  name="simple-controlled"
+                  value={sil}
+                  onChange={(event, newValue) => {
+                    setSil(newValue);
+                  }}
+                  sx = {{ fontSize: 20}}
+                />
+              </div>
+            </div>
+            <div className="perfumeDetail3_input flex align-center">
+              {/* <input className="perfumeDetail3_input_input" type="input" /> */}
+              <textarea type="textarea" className="perfumeDetail3_input_text notoReg fs-18" ref={reviewRef} />
+              <button
+                className="perfumeDetail3_input_btn notoThin fs-18"
+                type="button"
+                onClick={uploadReview}
+              >
+                입력
+              </button>
+            </div>
           </div>
-        </div>
+        )}
         <div className="perfumeDetail4 flex">
           {flip === "평점순" && (
             <div className="perfumeDetail4_sort flex">

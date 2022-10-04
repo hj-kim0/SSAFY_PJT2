@@ -13,6 +13,19 @@ import sillage from "@images/icon/sillage.png";
 import "./PerfumeReview.scss";
 
 function PerfumeReview(props) {
+  const user = useRecoilValue(userState);
+  const userProfile = useRecoilValue(userProfileState);
+  const { id } = useParams();
+  const [editInfo, setEditInfo] = useState(false);
+  const changeEdit = () => {
+    setEditInfo(!editInfo);
+  };
+  const navigate = useNavigate();
+  const move = () => {
+    navigate(`/detail/${id}`);
+    window.location.reload();
+  };
+
   const perfumeItem = props.item;
   const starList = []
   let i = 0;
@@ -35,7 +48,7 @@ function PerfumeReview(props) {
         method : "put",
         url : `http://j7c105.p.ssafy.io:8083/detail/${id}/review/delete/${perfumeItem.idx}`,
         headers : {
-          Authorization : userLoginState.sToken
+          Authorization : user.sToken
         }
       })
       .then(res => console.log(res))
@@ -43,11 +56,9 @@ function PerfumeReview(props) {
       move();
     }
   };
-  const editReview = () => {
+  // const editReview = () => {
     
-  };
-  console.log(perfumeItem);
-  // console.log(userProfile[0].nickname);
+  // };
   return (
     <div id="perfumeReview" className="perfumeReview flex">
       <div className="perfumeReview_profile flex">
@@ -77,7 +88,7 @@ function PerfumeReview(props) {
           <div className="perfumeReview_info_writer_nickname notoBold fs-22">
             {perfumeItem.userNickname}
           </div>
-          <div className="perfumeReview_info_writer_date notoMid fs-20">
+          <div className="perfumeReview_info_writer_date notoMid fs-16">
             {perfumeItem.time?.slice(0,10)}
           </div>
         </div>
@@ -85,12 +96,19 @@ function PerfumeReview(props) {
           <div className="perfumeReview_info_rating_long">{longList}</div>
           <div className="perfumeReview_info_rating_sil">{sillageList}</div>
         </div>
-        <div className="perfumeReview_info_review notoMid fs-20">
-          {perfumeItem.content}
-        </div>
+        {!editInfo && 
+          <div className="perfumeReview_info_review notoMid fs-20">
+            {perfumeItem.content}
+          </div>
+        }
+        {editInfo && 
+          <div className="perfumeReview_info_review notoMid fs-20">
+            와 존나 배고파
+          </div>
+        }
       </div>
       <div className="perfumeReview_btns flex">
-        <button className="perfumeReview_btns_edit" type="button">
+        <button className="perfumeReview_btns_edit" type="button" onClick={changeEdit}>
           <EditIcon sx={{ fontSize: 36, color: "black"}} />
         </button>
         <button className="perfumeReview_btns_del" type="button" onClick={deleteReview}>
