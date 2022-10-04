@@ -1,14 +1,15 @@
 .perfumeReview {
-  height: (80px);
-  margin-top: (20px);
+  height: (124px);
+  margin: (20px) 0 (20px) 0;
   &_profile {
     flex-direction: column;
-    margin-right: (30px);
+    margin-right: (40px);
     // align-items: space-between;
     justify-content: center;
     &_img {
-      width: (50px);
-      height: (50px);
+      margin-left: (10px);
+      width: (80px);
+      height: (80px);
       overflow: hidden;
       border-radius: 70%;
       margin-bottom: (4px);
@@ -19,24 +20,56 @@
       }
     }
     &_rating {
-      width: (50px);
-      height: (10px);
-      overflow: hidden;
-      //   margin-top: (4px);
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+      width: (100px);
+      &_ystar {
+        width: 16px;
+        margin-left: 2px;
+        margin-right: 2px;
       }
+      // height: (10px);
+      // overflow: hidden;
+      // img {
+      //   width: 100%;
+      //   height: 100%;
+      //   object-fit: cover;
+      // }
+    }
+  }
+  &_upload {
+    height: (124px);
+    width: (93px);
+    overflow: hidden;
+    border-radius: (8px);
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
   &_info {
-    width: (450px);
+    margin-left: (40px);
+    width: (480px);
     height: 100%;
     justify-content: space-around;
     flex-direction: column;
-    &_nickname {
+    &_writer {
       color: $BLACK;
+      width: (480px);
+      &_nickname {
+        margin-right: (40px);
+      }
+    }
+    &_rating {
+      width: (480px);
+      &_long, &_sil {
+        width: (100px);
+        margin-right: (20px);
+        &_emo {
+          width: 16px;
+          margin-left: 2px;
+          margin-right: 2px;
+        }
+      }
     }
     &_review {
       width: 100%;
