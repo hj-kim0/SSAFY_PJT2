@@ -8,6 +8,9 @@ import { fetchSearchPerfume } from "../../apis/perfumeAPI";
 import InfiniteScroll from 'react-infinite-scroll-component'
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
+import Typography from "@mui/material/Typography";
+import CircularProgress from '@mui/material/CircularProgress';
+import { useNavigate } from "react-router-dom";
 
 
 function PerfumeSearch() {
@@ -19,15 +22,16 @@ function PerfumeSearch() {
     duration : [],
     accordClass : [],
     lastIdx : null,
-    pageSize : 10
+    pageSize : 3
   }
   const durtaionList = ["전체","매우 강함","강함","적당함","약함","매우 약함"]
   const accordClassList = ["전체","매운 향","톡쏘는 향","야성적인 향","인공적인 향","꽃 향기","풀 향기","과일 향","달콤한 향"]
   const [searchResult, setSearchResult] = useState({
-    isSearched : false,
+    isSearched : true,
     searchList : []
   })
-  const [morePost, setMorePost] = useState(true)
+  const [morePost, setMorePost] = useState(false)
+  const navigate = useNavigate();
 
   console.log(isAccordClassActive)
   const handleClickGender = (index) => {
@@ -160,8 +164,13 @@ function PerfumeSearch() {
     fetchSearchPerfume(payload)
       .then((res) => {res.json().then((res) => {
         console.log(res)
-        setSearchResult({isSearched : res.isSearched,searchList :res.searchList})
-        setMorePost(res.hasNext)
+        if(res.isSearched){
+          setSearchResult({isSearched : res.isSearched,searchList :res.searchList})
+          setMorePost(res.hasNext)
+        }else{
+          setSearchResult({isSearched : res.isSearched,searchList :res.searchList})
+          setMorePost(false)
+        }
       })})
   }
   const searchNextPerfume = () => {
@@ -186,8 +195,16 @@ function PerfumeSearch() {
       fetchSearchPerfume(payload)
         .then((res) => {res.json().then((res) => {
           console.log(res)
-          setSearchResult({isSearched: res.isSearched, searchList : searchResult.searchList.concat(res.searchList)})
-          setMorePost(res.hasNext)
+          if(res.isSearched){
+            setSearchResult({isSearched: res.isSearched, searchList : searchResult.searchList.concat(res.searchList)})
+            setMorePost(res.hasNext)
+          }else if(!res.isSearched && res.searchList.length >= 1){
+            // setSearchResult({isSearched: res.isSearched, searchList: res.searchList})
+            setMorePost(false)
+          }else{
+            setSearchResult({isSearched: res.isSearched, searchList: res.searchList})
+            setMorePost(false)
+          }
         })})
     }
   }
@@ -310,21 +327,33 @@ function PerfumeSearch() {
           </div>
         </div>
         <div className="divide" />
-        <div className="perfumeSearch_duration_btns2 flex">
-          <Button
-            style = {{
-              backgroundColor : "#bbdefb",
-              color : "black",
-              borderWidth : "2px"
-            }}
-            onClick={() => {
-              searchPerfume()
-            }}
-          >
-            <SearchIcon style={{ fontSize : "30px" }}></SearchIcon>&nbsp;
+        {/*<div className="perfumeSearch_duration_btns2 flex">*/}
+        {/*  <Button*/}
+        {/*    style = {{*/}
+        {/*      backgroundColor : "#bbdefb",*/}
+        {/*      color : "black",*/}
+        {/*      borderWidth : "2px"*/}
+        {/*    }}*/}
+        {/*    onClick={() => {*/}
+        {/*      searchPerfume()*/}
+        {/*    }}*/}
+        {/*  >*/}
+        {/*    <SearchIcon style={{ fontSize : "30px" }}></SearchIcon>&nbsp;*/}
+        {/*    향수 검색*/}
+        {/*  </Button>*/}
+        {/*</div>*/}
+          <Button onClick={() => {
+            searchPerfume()
+          }}
+                  style={{ backgroundColor : "black" }}
+                  sx={{ fontFamily : "NotoSansBold",
+                    borderWidth : "2px",
+                    marginBottom : "15px" }}
+                  size="large"
+                  variant="contained"
+                  startIcon={<SearchIcon/>}>
             향수 검색
           </Button>
-        </div>
       </div>
       <div id="perfumeResult" className="perfumeResult flex">
         <InfiniteScroll
@@ -335,8 +364,8 @@ function PerfumeSearch() {
           }}
           hasMore={morePost}
           loader={
-            <Box sx={{ width: '100%' }}>
-              <LinearProgress />
+            <Box sx={{ width : "100%" ,marginBottom : "5px"}}>
+              <LinearProgress/>
             </Box>
           }
         >
@@ -345,12 +374,29 @@ function PerfumeSearch() {
                 <div
                   className="perfumeResult_img"
                   key={index}
+                  onClick={() => {
+                    navigate(`/detail/${result.idx}`)
+                  }}
                 >
                   <img src={result.perfumeImg} alt="더미이미지" />
                 </div>
               ))
           )  :  (
-            <></>
+            <>
+              <Box sx={{ width : "100%", display : "flex", justifyContent : "center", alignItems : "center" }} >
+                <Typography style={{ fontFamily : "NotoSansBold" }} mt={3} variant="h4" component="h3">
+                  검색결과가 없어요😥 이런 향수는 어떠세요??
+                </Typography>
+              </Box>
+                {searchResult.searchList.map((result, index) => (
+                <div
+                  className="perfumeResult_img"
+                  key={index}
+                >
+                  <img src={result.perfumeImg} alt="더미이미지" />
+                </div>
+            ))}
+            </>
           )}
         </InfiniteScroll>
         {/*<div className="perfumeResult_img">*/}

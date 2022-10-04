@@ -1,4 +1,6 @@
 const SERVER_URL = 'http://j7c105.p.ssafy.io:8083'
+const RECOM_URL = 'http://j7c105.p.ssafy.io:8080'
+
 
 export const surveyResult = async (season,gender,longevity,accordClass) => {
     const URL = `${SERVER_URL}/survey`
@@ -135,6 +137,14 @@ export const fetchHaveDelete = async (data, idx) => {
     return response
 }
 
+export const fetchRecomSVD = async (idx) => {
+    const URL = `${RECOM_URL}/api/recommend-svd?user_idx=${idx}`
+    const response = await fetch(URL,{
+        method : "GET"
+    })
+    return response
+}
+
 export const fetchSearchPerfume = async ({gender, duration, accordClass, lastIdx, pageSize}) => {
     const URL = `${SERVER_URL}/search`
     console.log(gender,duration,accordClass,lastIdx,pageSize)
@@ -150,6 +160,17 @@ export const fetchSearchPerfume = async ({gender, duration, accordClass, lastIdx
             lastIdx : lastIdx,
             pageSize : pageSize
         })
+    })
+    return response
+}
+
+export const fetchRecommendCos = async (PerfumeId) => {
+    const URL = `${RECOM_URL}/api/recommend-cos?perfume_idx=${PerfumeId}`
+    const response = await fetch(URL, {
+        method : "GET",
+        // headers : {
+        //     "Content-type": "application/json"
+        // }
     })
     return response
 }

@@ -13,8 +13,10 @@ import PerfumeReview from "@components/user/PerfumeReview";
 import { getDetail } from "../../apis/perfume";
 import "./PerfumeDetail.scss";
 import axios from "axios";
+import { fetchRecommendCos } from "../../apis/perfumeAPI";
 
 function PerfumeDetail() {
+  const [position, setPosition] = useState(0)
   const navigate = useNavigate();
   const reviewRef = useRef();
   const { id } = useParams();
@@ -41,6 +43,26 @@ function PerfumeDetail() {
     })
     .catch((err) => console.log(err))
   };
+  console.log(perfumeDetail);
+
+  function onScroll(){
+    setPosition(window.scrollY)
+  }
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchRecommendCos(id)
+      .then((res) => {res.json().then(() => {
+        console.log(res)
+      })})
+  })
+
+
   // console.log(perfumeDetail);
   // console.log(getReviewList);
   useEffect(() => {
@@ -98,6 +120,14 @@ function PerfumeDetail() {
           </div>
         </div>
         <div className="divide1" />
+        <div>
+          <p style={{
+            transform : `translateX(${position}px)`,
+          }}>
+            Parall Scrollll~~~~
+          </p>
+        </div>
+        <div className="divide1"/>
         <div id="perfumeDetail3" className="perfumeDetail3 flex align-center">
           <div className="perfumeDetail3_profile flex">
             <div className="perfumeDetail3_profile_img">

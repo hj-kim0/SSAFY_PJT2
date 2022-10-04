@@ -6,7 +6,7 @@ import CarouselSlider from 'react-carousel-slider';
 import "./TasteAnalysis.scss";
 import "./Pie Chart";
 import PieChart from "./Pie Chart";
-import { fetchAccordClassListUser, fetchHaveListUser, fetchWishListUser, fetchHaveDelete, fetchWishDelete, fetchWishToHave} from "../../apis/perfumeAPI";
+import { fetchAccordClassListUser, fetchHaveListUser, fetchWishListUser, fetchHaveDelete, fetchWishDelete, fetchWishToHave, fetchRecomSVD} from "../../apis/perfumeAPI";
 import { userProfileState, userState } from "../../atom";
 import { useRecoilState } from "recoil";
 import { Button, IconButton } from '@mui/material';
@@ -65,6 +65,8 @@ const buttonSetting = {
   };
 
 function TasteAnalysis() {
+
+  
   // 현재 로그인 유저 정보
   const [user, setUser] = useRecoilState(userState);
   const userProfile = useRecoilState(userProfileState);
@@ -74,13 +76,38 @@ function TasteAnalysis() {
   const [haveList, setHaveList] = useState([]);
   //향 순위 분석 가져오기
   const [accordClassList, setAccordClassList ] = useState([]);
+  const [recomSVDList, setRecomSVDList ] = useState([]);
   const wishData = wishList;
   let wishBody;
   const haveData = haveList;
   let haveBody;
   const accordClassData = accordClassList;
+  const recomSVDData = recomSVDList;
   const nickname = userProfile[0][0].nickname;
   let datasize;
+
+
+  let pieBody;
+
+  if(accordClassData.length===0){
+    pieBody = <h1 className="tasteAnalysis_emptyList_title fs-36">
+    데이터가 없어요...
+  </h1>
+  }else{
+    let sum = 0;
+
+    for(let i = 0; i < accordClassData.length; i++){
+      accordClassData[i].y = accordClassData[i].accordClassCount;
+      delete accordClassData[i].accordClassIdx;
+      delete accordClassData[i].accordClassCount;
+      sum += accordClassData[i].y;
+    }
+    for(let i = 0; i < accordClassData.length; i++){
+      accordClassData[i].y = Math.round(((accordClassData[i].y/sum)*100 + Number.EPSILON) * 100) / 100;
+    }
+
+    pieBody = <PieChart data={accordClassData}/>
+  }
 
   
   // console.log("위시");
@@ -89,8 +116,8 @@ function TasteAnalysis() {
   // console.log(haveData);
   // console.log(accordClassData);
   // console.log(userProfile[0][0].nickname);
-
-  // 클릭시 삭제
+  // console.log(recomSVDData);
+  // 클릭시 삭
 
   function handleWishDelete(idx, e){
     e.preventDefault();
@@ -145,6 +172,14 @@ function TasteAnalysis() {
     </>
     ));
 
+    const customSlideRecomSVDCpnts = 
+    recomSVDData.map((item) => (
+    <Link to={"/detail/" + item.idx} key={item.idx}>
+        <img src = {item.perfume_img}/>
+    </Link>
+    ));
+
+
     useEffect(() => {
       fetchHaveListUser(user.sToken)
       .then((res) => {res.json().then((res) => {
@@ -163,6 +198,13 @@ function TasteAnalysis() {
       fetchAccordClassListUser(user.sToken)
       .then((res) => {res.json().then((res) => {
         setAccordClassList(res.accordClassList)
+      })})
+    });
+
+    useEffect(() => {
+      fetchRecomSVD(userProfile[0][0].idx)
+      .then((res) => {res.json().then((res) => {
+        setRecomSVDList(res);
       })})
     },[]);
 
@@ -206,26 +248,24 @@ function TasteAnalysis() {
       ></CarouselSlider>
     }
 
-    let pieBody;
 
-    if(accordClassData.length===0){
-      pieBody = <h1 className="tasteAnalysis_emptyList_title fs-36">
+
+
+    let recomBody;
+    if(recomSVDData.length===0){
+      recomBody = <h1 className="tasteAnalysis_emptyList_title fs-36">
       데이터가 없어요...
     </h1>
     }else{
-      let sum = 0;
+      recomBody =
+      <CarouselSlider
+        slideCpnts={customSlideRecomSVDCpnts}
+        manner={{ circular: true }}
+        sliderBoxStyle={sliderBoxStyle}
+        buttonSetting={buttonSetting}
+        itemsStyle={itemsStyle}        
+      ></CarouselSlider>
 
-      for(let i = 0; i < accordClassData.length; i++){
-        accordClassData[i].y = accordClassData[i].accordClassCount;
-        delete accordClassData[i].accordClassIdx;
-        delete accordClassData[i].accordClassCount;
-        sum += accordClassData[i].y;
-      }
-      for(let i = 0; i < accordClassData.length; i++){
-        accordClassData[i].y = Math.round(((accordClassData[i].y/sum)*100 + Number.EPSILON) * 100) / 100;
-      }
-
-      pieBody = <PieChart data={accordClassData}/>
     }
 
       return (<>
@@ -249,6 +289,14 @@ function TasteAnalysis() {
           </DivCenter>
         </DivCenter>
         {pieBody}
+        <DivCenter className="container flex">
+          <DivCenter id="tasteAnalysis" className="tasteAnalysis flex">
+          <DivCenter className="tasteAnalysis_wishList_title notoBold fs-36">
+                {nickname} 님과 같은 취향의 향수
+            </DivCenter>
+            {recomBody}
+          </DivCenter>
+        </DivCenter>
         </>
         );
 }
