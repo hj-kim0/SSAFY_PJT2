@@ -66,7 +66,6 @@ const buttonSetting = {
 
 function TasteAnalysis() {
 
-  
   // 현재 로그인 유저 정보
   const [user, setUser] = useRecoilState(userState);
   const userProfile = useRecoilState(userProfileState);
@@ -83,9 +82,7 @@ function TasteAnalysis() {
   let haveBody;
   const accordClassData = accordClassList;
   const recomSVDData = recomSVDList;
-  const nickname = userProfile[0][0].nickname;
-  let datasize;
-
+  const nickname = userProfile[0][0]?.nickname;
 
   let pieBody;
 
@@ -96,13 +93,13 @@ function TasteAnalysis() {
   }else{
     let sum = 0;
 
-    for(let i = 0; i < accordClassData.length; i++){
+    for(let i = 0; i < accordClassData?.length; i++){
       accordClassData[i].y = accordClassData[i].accordClassCount;
       delete accordClassData[i].accordClassIdx;
       delete accordClassData[i].accordClassCount;
       sum += accordClassData[i].y;
     }
-    for(let i = 0; i < accordClassData.length; i++){
+    for(let i = 0; i < accordClassData?.length; i++){
       accordClassData[i].y = Math.round(((accordClassData[i].y/sum)*100 + Number.EPSILON) * 100) / 100;
     }
 
@@ -141,15 +138,15 @@ function TasteAnalysis() {
   }
 
   const customSlideWishCpnts = 
-  wishData.map((item) => (<>
+  wishData?.map((item) => (<>
   <Link to={"/detail/" + item.perfumeIdx} key={item.perfumeIdx}>
       <img src = {item.perfumeImg}/>
     </Link>
     <br></br>
     <SpanCenter>
-    <Button variant="contained" size="small" onClick={(e) => {handleWishToHave(item.idx, e)}}>
+    <Button variant="contained" style={{background:"rgba(0, 0, 0, 0.5)", "border-color": "white", color:"white"}} size="small" onClick={(e) => {handleWishToHave(item.idx, e)}}>
       보유리스트로</Button>
-    <Button variant="outlined" size="small" onClick={(e) => {handleWishDelete(item.idx, e)}} startIcon={<Delete />}>
+    <Button variant="outlined" style={{background:"rgba(0, 0, 0, 0.5)", "border-color": "white", color:"white"}} size="small" onClick={(e) => {handleWishDelete(item.idx, e)}} startIcon={<Delete />}>
       삭제
       </Button>
     </SpanCenter>
@@ -158,13 +155,13 @@ function TasteAnalysis() {
 
 
   const customSlideHaveCpnts = 
-    haveData.map((item) => (<>
+    haveData?.map((item) => (<>
     <Link to={"/detail/" + item.perfumeIdx} key={item.perfumeIdx}>
         <img src = {item.perfumeImg}/>
       </Link>
       <br></br>
       <SpanCenter>
-      <Button variant="outlined" size="small" onClick={(e) => {handleHaveDelete(item.idx, e)}} startIcon={<Delete />}>
+      <Button variant="outlined" style={{background:"rgba(0, 0, 0, 0.5)", "border-color": "white" , color:"white"}} size="small" onClick={(e) => {handleHaveDelete(item.idx, e)}} startIcon={<Delete />}>
         삭제
         </Button>
       </SpanCenter>
@@ -202,13 +199,13 @@ function TasteAnalysis() {
     });
 
     useEffect(() => {
-      fetchRecomSVD(userProfile[0][0].idx)
+      fetchRecomSVD(userProfile[0][0]?.idx)
       .then((res) => {res.json().then((res) => {
         setRecomSVDList(res);
       })})
     },[]);
 
-    if(wishData.length===0){
+    if(wishData?.length===0){
       wishBody = <><h1 className="tasteAnalysis_emptyList_title fs-36">
       위시리스트가 비었어요!
     </h1>
@@ -227,13 +224,18 @@ function TasteAnalysis() {
       <CarouselSlider
         slideCpnts={customSlideWishCpnts}
         manner={{ circular: true }}
+        dotsSetting={{ style: {
+          dotSize: "5px",
+          currDotColor: "rgba(0, 0, 0, 0.5)",
+          marginTop: "2px"
+      }}}
         sliderBoxStyle={sliderBoxStyle}
         buttonSetting={buttonSetting}
         itemsStyle={itemsStyle}        
       ></CarouselSlider>
     }
 
-    if(haveData.length===0){
+    if(haveData?.length===0){
       haveBody = <><h1 className="tasteAnalysis_emptyList_title fs-36">
       보유한 향수가 없어요...
     </h1></>
@@ -242,6 +244,11 @@ function TasteAnalysis() {
       <CarouselSlider
         slideCpnts={customSlideHaveCpnts}
         manner={{ circular: true }}
+        dotsSetting={{ style: {
+          dotSize: "5px",
+          currDotColor: "rgba(0, 0, 0, 0.5)",
+          marginTop: "2px"
+      }}}
         sliderBoxStyle={sliderBoxStyle}
         buttonSetting={buttonSetting}
         itemsStyle={itemsStyle}        
@@ -252,7 +259,7 @@ function TasteAnalysis() {
 
 
     let recomBody;
-    if(recomSVDData.length===0){
+    if(recomSVDData?.length===0){
       recomBody = <h1 className="tasteAnalysis_emptyList_title fs-36">
       데이터가 없어요...
     </h1>
@@ -261,6 +268,11 @@ function TasteAnalysis() {
       <CarouselSlider
         slideCpnts={customSlideRecomSVDCpnts}
         manner={{ circular: true }}
+        dotsSetting={{ style: {
+          dotSize: "5px",
+          currDotColor: "rgba(0, 0, 0, 0.5)",
+          marginTop: "2px"
+      }}}
         sliderBoxStyle={sliderBoxStyle}
         buttonSetting={buttonSetting}
         itemsStyle={itemsStyle}        

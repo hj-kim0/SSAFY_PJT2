@@ -1,102 +1,56 @@
 import React from 'react';
+import styled from 'styled-components';
+import notion from '../../assets/images/logo/notion.png';
+import { Col, Container, Row } from 'react-bootstrap';
 
-function Footer(){
-    return(
-        <footer className="bottom"
-        style={{
-            background: "#343a40",
-            color: "#ffffff",
-            textAlign: "justify",
-            bottom: 0,
-            width: "100%",
-            position: "relative",
-            margin: 0,
-            padding: 30,
-            borderSize: "border-box"
-        }}>
-    <div className="container">
-        <div className="row">
-            <div className="col-md-4 col 12">
-            <h3
-            style={{
-                backgroundColor: "white",
-                color: "black",
-                width: 110,
-                height: 35,
-                marginTop: 5,
-                borderStyle: "solid",
-                borderColor: "black",
-                border: 1,
-                borderRadius: 7
-            }}
-            >
-                Find Us
-            </h3>
+const Footer = styled.footer`
+background-color:black;
+text-align:center;
+padding: 5px;
+`;
 
-            <div>
-                <div>SSAFY</div>
-                <div>C105</div>
-            </div>
-            </div>
-            <div className="col-md-4 col-12" style={{ marginTop: 40 }}>
-            <h4 style={{ color: "lightgrey" }}> Resources </h4>
-            <ul className="list-unstyled">
-                <li>Privacy Policy </li>
-            </ul>
-            </div>
-            <div className="col-md-4 col-12" style={{ marginTop: 40 }}>
-            <h4 style={{ color: "lightgrey", textAlign: "justify" }}>
-                {" "}
-                About{" "}
-            </h4>
+const ContentHeader = styled.h1`
+margin-top:40px;
+padding: 5px;
+font-size:32px;
+color:white;
+`
+
+const DivCenter = styled.div`
+margin-top:40px;
+border: 5px;
+padding: 5px;
+color:white;
+`
+
+
+const FooterPage = () => {
+  return (
+    <Footer>
+      <Container>
+        <Row>
+          <Col xs={4}></Col>
+          <Col xs={12} md={4}>
+            <ContentHeader className='text-uppercase'>Contact Us</ContentHeader>
+            <br></br>
             <p>
-                -
+              <a href="https://www.notion.so/PJT2_C105_-8ba2738dcb49470ba9f4e9c1fd1fd88f">
+              <img src={notion} width="50px"/>
+              </a>
             </p>
-            </div>
-            <div className=" col-12">
-            <i
-            className="fa fa-facebook-official"
-            aria-hidden="true"
-            style={{
-                padding: 10,
-                color: "white",
-                float: "left",
-                fontSize: 25
-            }}
-            >
-            {" "}
-            </i>
-            <i
-            className="fa fa-twitter-square"
-            aria-hidden="true"
-            style={{
-                padding: 10,
-                color: "white",
-                float: "left",
-                fontSize: 25
-            }}
-            ></i>
-            <i
-            className="fa fa-github-square"
-            aria-hidden="true"
-            style={{
-                padding: 10,
-                color: "white",
-                float: "left",
-                fontSize: 25
-            }}
-            ></i>
-        </div>
-        <div
-            className="col-12"
-            style={{ fontSize: 14, color: "lightgrey", textAlign: "center" }}
-        >
-            &copy; 2022 SSAFY | All Rights Reserved
-        </div>
-        </div>
-        </div>
-        </footer>
-    )
+          </Col>
+          <Col xs={4}></Col>
+        </Row>
+    </Container>
+
+      <DivCenter className='text-center p-3'>
+        &copy; {new Date().getFullYear()} Copyright:{' '}
+        <a className='text-white' href='https://edu.ssafy.com/'>
+          SSAFY.com
+        </a>
+      </DivCenter>
+    </Footer>
+  );
 }
 
-export default Footer;
+export default FooterPage;

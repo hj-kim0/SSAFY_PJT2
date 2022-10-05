@@ -109,7 +109,7 @@ function UserReview() {
             className="userReview1_profileimg"
           />}
           {/* 수정 버튼 위치 */}
-          {guestUserProfile?.nickname === userProfile[0]?.nickname && <button type="button" className="userReview1_editbutton" onClick={editProfile}>
+          {guestUserProfile?.userId === userProfile[0]?.userId && <button type="button" className="userReview1_editbutton" onClick={editProfile}>
             <img src={gear} className="userReview1_gear" alt="" />
           </button>}
           <div className="userReview1_nickname notoBold fs-24">

@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import Typography from "@mui/material/Typography";
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from "react-router-dom";
+import CommonCard from "../../components/common/CommonCard";
 
 
 function PerfumeSearch() {
@@ -371,14 +372,27 @@ function PerfumeSearch() {
         >
           { searchResult.isSearched ? (
               searchResult.searchList.map((result, index) => (
+                // <div
+                //   className="perfumeResult_img"
+                //   key={index}
+                //   onClick={() => {
+                //   navigate(`/detail/${result.idx}`)
+                // }}
+                // >
+                //   <img src={result.perfumeImg} alt="더미이미지" />
+                // </div>
                 <div
-                  className="perfumeResult_img"
                   key={index}
                   onClick={() => {
-                  navigate(`/detail/${result.idx}`)
-                }}
+                    navigate(`/detail/${result.idx}`)
+                  }}
                 >
-                  <img src={result.perfumeImg} alt="더미이미지" />
+                  <CommonCard
+                    img={result.perfumeImg}
+                    title={result.perfumeName}
+                    author={result.brandName}
+                    description={result.scent}
+                  />
                 </div>
               ))
           )  :  (
@@ -389,12 +403,25 @@ function PerfumeSearch() {
                 </Typography>
               </Box>
                 {searchResult.searchList.map((result, index) => (
-                <div
-                  className="perfumeResult_img"
-                  key={index}
-                >
-                  <img src={result.perfumeImg} alt="더미이미지" />
-                </div>
+                // <div
+                //   className="perfumeResult_img"
+                //   key={index}
+                // >
+                //   <img src={result.perfumeImg} alt="더미이미지" />
+                // </div>
+                  <div
+                    key={index}
+                    onClick={() => {
+                      navigate(`/detail/${result.idx}`)
+                    }}
+                  >
+                    <CommonCard
+                      img={result.perfumeImg}
+                      title={result.perfumeName}
+                      author={result.brandName}
+                      description={result.scent}
+                    />
+                  </div>
             ))}
             </>
           )}

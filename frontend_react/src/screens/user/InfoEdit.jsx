@@ -9,7 +9,7 @@ import "./InfoEdit.scss";
 import Select from "@components/user/SelectItem";
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { userProfileState, userState } from "../../atom";
-import { storage } from "../../firebase"
+import { storage } from "../../firebase";
 import { useNavigate } from "react-router-dom";
 
 const sex = [
@@ -42,8 +42,8 @@ const LUT = {
   "animalic" : 6,
   "synthetic" : 7,
   "sweet" : 8,
+};
 
-}
 function InfoEdit() {
   const navigate = useNavigate();
   const userProfile = useRecoilValue(userProfileState);
@@ -84,7 +84,8 @@ function InfoEdit() {
       })
       .then(res => console.log("엑시오스", res))
       .catch(err => console.log(err))
-      navigate("/userreview")
+      window.location.replace(`/userreview/${nicknameRef.current.value}`);
+      // navigate(`/userreview/${nicknameRef.current.value}`)
     } else {
       alert("닉네임 중복 체크를 해주세요")
     }
