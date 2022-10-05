@@ -26,6 +26,21 @@ import Slider from 'react-slick'
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import { wishPerfume, havePerfume } from "../../apis/perfumeAPI";
+// import CommonCard from "../../components/common/CommonCard";
+
+const CommonCard = (props) => {
+  return(
+    <div style={{ width : "15em", display : "flex" }} className="card">
+      <img style={{ width : "50%", height: "50%" }} src={props.img} />
+      <div className="card-body">
+        <h2>{props.title}</h2>
+        <p>{props.description}</p>
+        <h5>{props.author}</h5>
+      </div>
+    </div>
+  )
+}
+
 
 function PerfumeDetail() {
   const [position, setPosition] = useState(0)
@@ -66,7 +81,7 @@ function PerfumeDetail() {
       }
     })
     .then((res) => {
-      // console.log(res);
+      console.log(res);
       setPerfumeDetail(res.data.perfume);
       setGetReviewList(res.data.reviewList);
     })
@@ -204,6 +219,8 @@ function PerfumeDetail() {
     }
   };
 
+
+
   return (
     <div className="container flex justify-center">
       <div id="perfumeDetail" className="perfumeDetail">
@@ -232,7 +249,11 @@ function PerfumeDetail() {
                             })})
                         }}
                 >
-                  <img src={favorite} alt="favorite_Img" />
+                  { perfumeDetail.isClicked === "wish" ? (
+                    <img style={{ color : "red" }} src={favorite} alt="favorite_Img" />
+                  ) : (
+                    <img src={favorite} alt="favorite_Img" />
+                  )}
                 </button>
                 <div
                   className="perfumeDetail2_title_count_like_number roBold fs-24"
@@ -251,7 +272,11 @@ function PerfumeDetail() {
                             })})
                         }}
                 >
-                  <ShoppingCartIcon sx={{ fontSize: 36, color: "black"}}/>
+                  { perfumeDetail.isClicked === "have" ? (
+                    <ShoppingCartIcon sx={{ fontSize: 36, color: "red"}}/>
+                  ) : (
+                    <ShoppingCartIcon sx={{ fontSize: 36, color: "black"}}/>
+                  )}
                 </button>
                 <div className="perfumeDetail2_title_count_have_number roBold fs-24">
                   {perfumeDetail.haveCount}
@@ -273,35 +298,24 @@ function PerfumeDetail() {
           <Typography style={{ fontFamily : 'KyoboHandwriting2020A', textAlign : 'center', margin : "5px" }} component="div" variant="h4">
             이 향수를 PICK한 사용자들은 이런 향수를 좋아해요😍
           </Typography>
-          <Slider {...settings}>
+          <Slider
+            {...settings}
+          >
             { recommendPerfume?.map((perfume, index) => (
-              <Card
-                sx={{ maxWidth : 200, margin : "10px", cursor : 'pointer' }}
+              <div
                 onClick={() => {
                   navigate(`/detail/${perfume.idx}`)
                   window.location.reload();
                 }}
                 key={perfume.idx}
               >
-                <CardMedia
-                  component="img"
-                  height="160"
-                  image={perfume.perfume_img}
-                  alt="green iguana"
+                <CommonCard
+                  img={perfume.perfume_img}
+                  title={perfume.perfume_name}
+                  description={perfume.scent}
+                  author={perfume.brand_name}
                 />
-                <CardContent>
-                  <Typography style={{ fontFamily : "NotoSansMedium", textAlign : "center" }} gutterBottom variant="h5" component="div">
-                    {perfume.perfume_name}
-                  </Typography>
-                  {/*<Typography variant="body2" color="text.secondary">*/}
-                  {/*  {perfume.description}*/}
-                  {/*</Typography>*/}
-                </CardContent>
-                {/*<CardActions>*/}
-                {/*  <Button size="small">Share</Button>*/}
-                {/*  <Button size="small">Learn More</Button>*/}
-                {/*</CardActions>*/}
-              </Card>
+              </div>
             )) }
           </Slider>
         </div>
