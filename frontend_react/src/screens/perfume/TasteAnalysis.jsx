@@ -99,7 +99,7 @@ function TasteAnalysis() {
       delete accordClassData[i].accordClassCount;
       sum += accordClassData[i].y;
     }
-    for(let i = 0; i < accordClassData??.length; i++){
+    for(let i = 0; i < accordClassData?.length; i++){
       accordClassData[i].y = Math.round(((accordClassData[i].y/sum)*100 + Number.EPSILON) * 100) / 100;
     }
 
@@ -259,7 +259,7 @@ function TasteAnalysis() {
 
 
     let recomBody;
-    if(recomSVDData??.length===0){
+    if(recomSVDData?.length===0){
       recomBody = <h1 className="tasteAnalysis_emptyList_title fs-36">
       데이터가 없어요...
     </h1>
