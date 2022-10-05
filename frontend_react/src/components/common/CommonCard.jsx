@@ -3,7 +3,7 @@ import './CommonCard_module.css'
 
 const CommonCard = (props) => {
   return(
-    <div style={{ width : "15em" }} className="card">
+    <div style={{ width : "15rem" }} className="card">
       <img src={props.img} />
       <div className="card-body">
         <h2>{props.title}</h2>

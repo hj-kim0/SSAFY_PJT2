@@ -17,11 +17,12 @@ const ContentHeader = styled.h1`
 `;
 
 const DivCenter = styled.div`
-  margin-top: 40px;
-  border: 5px;
-  padding: 5px;
-  color: white;
-`;
+margin-top:40px;
+border: 5px;
+padding: 5px;
+color:white;
+`
+
 
 const FooterPage = () => {
   return (

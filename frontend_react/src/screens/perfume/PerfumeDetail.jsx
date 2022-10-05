@@ -26,7 +26,8 @@ import Slider from 'react-slick'
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import { wishPerfume, havePerfume } from "../../apis/perfumeAPI";
-// import CommonCard from "../../components/common/CommonCard";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 const CommonCard = (props) => {
   return(
@@ -67,25 +68,51 @@ function PerfumeDetail() {
   const [perfumeDetail, setPerfumeDetail] = useState({});
   const [getReviewList, setGetReviewList] = useState([]);
   const [recommendPerfume, setRecommendPerfume] = useState([]);
-
+  const [isClicked, setIsClicked] = useState(null)
+  console.log(isClicked)
   const detail = () => {
-    axios({
-      method: "post",
-      url: `http://j7c105.p.ssafy.io:8083/detail/${id}`,
-      data: {
-        "type": flip,
-        "lastIdx": null,
-        "lastTatalScore": null,
-        "lastLikeCount": null,
-        "pageSize": 4
-      }
-    })
-    .then((res) => {
-      console.log(res);
-      setPerfumeDetail(res.data.perfume);
-      setGetReviewList(res.data.reviewList);
-    })
-    .catch((err) => console.log(err))
+    if(user.sToken){
+      axios({
+        method: "post",
+        url: `http://j7c105.p.ssafy.io:8083/detail/${id}`,
+        headers : {
+          "Authorization" : `${user.sToken}`
+        },
+        data: {
+          "type": flip,
+          "lastIdx": null,
+          "lastTatalScore": null,
+          "lastLikeCount": null,
+          "pageSize": 4
+        }
+      })
+        .then((res) => {
+          console.log(res);
+          setPerfumeDetail(res.data.perfume);
+          setGetReviewList(res.data.reviewList);
+          setIsClicked(res.data.isClicked)
+        })
+        .catch((err) => console.log(err))
+    }else{
+      axios({
+        method: "post",
+        url: `http://j7c105.p.ssafy.io:8083/detail/${id}`,
+        data: {
+          "type": flip,
+          "lastIdx": null,
+          "lastTatalScore": null,
+          "lastLikeCount": null,
+          "pageSize": 4
+        }
+      })
+      .then((res) => {
+        console.log(res);
+        setPerfumeDetail(res.data.perfume);
+        setGetReviewList(res.data.reviewList);
+        setIsClicked(res.data.isClicked)
+      })
+      .catch((err) => console.log(err))
+    }
   };
 
   function onScroll(){
@@ -242,17 +269,22 @@ function PerfumeDetail() {
                 <button className="perfumeDetail2_title_count_like_img"
                         type="button"
                         onClick={() => {
-                          wishPerfume(user.sToken, id)
-                            .then((res) => {res.json().then((res) => {
-                              console.log(res)
-                              window.location.reload();
-                            })})
+                          if(isClicked === "have"){
+                            alert("이미 보유한 향수입니다.")
+                          }else{
+                            wishPerfume(user.sToken, id)
+                              .then((res) => {res.json().then((res) => {
+                                console.log(res)
+                                window.location.reload();
+                              })})
+                          }
                         }}
                 >
-                  { perfumeDetail.isClicked === "wish" ? (
-                    <img style={{ color : "red" }} src={favorite} alt="favorite_Img" />
+                  { isClicked === "wish" ? (
+                    // <img style={{ color : "red" }} src={favorite} alt="favorite_Img" />
+                    <FavoriteIcon  sx={{ fontSize : 35 }} style={{ color : "red" }} />
                   ) : (
-                    <img src={favorite} alt="favorite_Img" />
+                    <FavoriteBorderIcon sx={{ fontSize : 35 }} />
                   )}
                 </button>
                 <div
@@ -272,7 +304,7 @@ function PerfumeDetail() {
                             })})
                         }}
                 >
-                  { perfumeDetail.isClicked === "have" ? (
+                  { isClicked === "have" ? (
                     <ShoppingCartIcon sx={{ fontSize: 36, color: "red"}}/>
                   ) : (
                     <ShoppingCartIcon sx={{ fontSize: 36, color: "black"}}/>
