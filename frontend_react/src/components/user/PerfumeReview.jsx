@@ -50,12 +50,12 @@ function PerfumeReview(props) {
   const longList = [];
   let j = 0;
   for (; j < perfumeItem.longevity; ++j) {
-    longList.push(<span><img className="perfumeReview_rating_long_emo" src={long} alt="" /></span>)
+    longList.push(<span><img className="perfumeReview_rating_long_emo" src={ystar} alt="" /></span>)
   }
   const sillageList = [];
   let k = 0;
   for (; k < perfumeItem.sillageScore; ++k) {
-    sillageList.push(<span><img className="perfumeReview_rating_sil_emo" src={sillage} alt="" /></span>)
+    sillageList.push(<span><img className="perfumeReview_rating_sil_emo" src={ystar} alt="" /></span>)
   };
   const uploadImg = (e) => {
     e.preventDefault();
