@@ -89,20 +89,20 @@ function TasteAnalysis() {
 
   let pieBody;
 
-  if(accordClassData.length===0){
+  if(accordClassData?.length===0){
     pieBody = <h1 className="tasteAnalysis_emptyList_title fs-36">
     데이터가 없어요...
   </h1>
   }else{
     let sum = 0;
 
-    for(let i = 0; i < accordClassData.length; i++){
+    for(let i = 0; i < accordClassData?.length; i++){
       accordClassData[i].y = accordClassData[i].accordClassCount;
       delete accordClassData[i].accordClassIdx;
       delete accordClassData[i].accordClassCount;
       sum += accordClassData[i].y;
     }
-    for(let i = 0; i < accordClassData.length; i++){
+    for(let i = 0; i < accordClassData?.length; i++){
       accordClassData[i].y = Math.round(((accordClassData[i].y/sum)*100 + Number.EPSILON) * 100) / 100;
     }
 
@@ -147,9 +147,9 @@ function TasteAnalysis() {
     </Link>
     <br></br>
     <SpanCenter>
-    <Button variant="contained" size="small" onClick={(e) => {handleWishToHave(item.idx, e)}}>
+    <Button variant="contained" style={{background:"black", color:"white"}} size="small" onClick={(e) => {handleWishToHave(item.idx, e)}}>
       보유리스트로</Button>
-    <Button variant="outlined" size="small" onClick={(e) => {handleWishDelete(item.idx, e)}} startIcon={<Delete />}>
+    <Button variant="outlined" style={{background:"black", color:"white"}} size="small" onClick={(e) => {handleWishDelete(item.idx, e)}} startIcon={<Delete />}>
       삭제
       </Button>
     </SpanCenter>
@@ -164,7 +164,7 @@ function TasteAnalysis() {
       </Link>
       <br></br>
       <SpanCenter>
-      <Button variant="outlined" size="small" onClick={(e) => {handleHaveDelete(item.idx, e)}} startIcon={<Delete />}>
+      <Button variant="outlined" style={{background:"black", color:"white"}} size="small" onClick={(e) => {handleHaveDelete(item.idx, e)}} startIcon={<Delete />}>
         삭제
         </Button>
       </SpanCenter>
@@ -208,7 +208,7 @@ function TasteAnalysis() {
       })})
     },[]);
 
-    if(wishData.length===0){
+    if(wishData?.length===0){
       wishBody = <><h1 className="tasteAnalysis_emptyList_title fs-36">
       위시리스트가 비었어요!
     </h1>
@@ -227,13 +227,14 @@ function TasteAnalysis() {
       <CarouselSlider
         slideCpnts={customSlideWishCpnts}
         manner={{ circular: true }}
+        style={{background: "rgb(0,0,0)"}}
         sliderBoxStyle={sliderBoxStyle}
         buttonSetting={buttonSetting}
         itemsStyle={itemsStyle}        
       ></CarouselSlider>
     }
 
-    if(haveData.length===0){
+    if(haveData?.length===0){
       haveBody = <><h1 className="tasteAnalysis_emptyList_title fs-36">
       보유한 향수가 없어요...
     </h1></>
@@ -252,7 +253,7 @@ function TasteAnalysis() {
 
 
     let recomBody;
-    if(recomSVDData.length===0){
+    if(recomSVDData?.length===0){
       recomBody = <h1 className="tasteAnalysis_emptyList_title fs-36">
       데이터가 없어요...
     </h1>
