@@ -147,9 +147,9 @@ function TasteAnalysis() {
     </Link>
     <br></br>
     <SpanCenter>
-    <Button variant="contained" style={{background:"black", color:"white"}} size="small" onClick={(e) => {handleWishToHave(item.idx, e)}}>
+    <Button variant="contained" style={{background:"rgba(0, 0, 0, 0.5)", "border-color": "white", color:"white"}} size="small" onClick={(e) => {handleWishToHave(item.idx, e)}}>
       보유리스트로</Button>
-    <Button variant="outlined" style={{background:"black", color:"white"}} size="small" onClick={(e) => {handleWishDelete(item.idx, e)}} startIcon={<Delete />}>
+    <Button variant="outlined" style={{background:"rgba(0, 0, 0, 0.5)", "border-color": "white", color:"white"}} size="small" onClick={(e) => {handleWishDelete(item.idx, e)}} startIcon={<Delete />}>
       삭제
       </Button>
     </SpanCenter>
@@ -164,7 +164,7 @@ function TasteAnalysis() {
       </Link>
       <br></br>
       <SpanCenter>
-      <Button variant="outlined" style={{background:"black", color:"white"}} size="small" onClick={(e) => {handleHaveDelete(item.idx, e)}} startIcon={<Delete />}>
+      <Button variant="outlined" style={{background:"rgba(0, 0, 0, 0.5)", "border-color": "white" , color:"white"}} size="small" onClick={(e) => {handleHaveDelete(item.idx, e)}} startIcon={<Delete />}>
         삭제
         </Button>
       </SpanCenter>
@@ -227,7 +227,11 @@ function TasteAnalysis() {
       <CarouselSlider
         slideCpnts={customSlideWishCpnts}
         manner={{ circular: true }}
-        style={{background: "rgb(0,0,0)"}}
+        dotsSetting={{ style: {
+          dotSize: "5px",
+          currDotColor: "rgba(0, 0, 0, 0.5)",
+          marginTop: "2px"
+      }}}
         sliderBoxStyle={sliderBoxStyle}
         buttonSetting={buttonSetting}
         itemsStyle={itemsStyle}        
@@ -243,6 +247,11 @@ function TasteAnalysis() {
       <CarouselSlider
         slideCpnts={customSlideHaveCpnts}
         manner={{ circular: true }}
+        dotsSetting={{ style: {
+          dotSize: "5px",
+          currDotColor: "rgba(0, 0, 0, 0.5)",
+          marginTop: "2px"
+      }}}
         sliderBoxStyle={sliderBoxStyle}
         buttonSetting={buttonSetting}
         itemsStyle={itemsStyle}        
@@ -262,6 +271,11 @@ function TasteAnalysis() {
       <CarouselSlider
         slideCpnts={customSlideRecomSVDCpnts}
         manner={{ circular: true }}
+        dotsSetting={{ style: {
+          dotSize: "5px",
+          currDotColor: "rgba(0, 0, 0, 0.5)",
+          marginTop: "2px"
+      }}}
         sliderBoxStyle={sliderBoxStyle}
         buttonSetting={buttonSetting}
         itemsStyle={itemsStyle}        
