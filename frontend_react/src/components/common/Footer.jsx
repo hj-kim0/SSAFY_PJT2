@@ -6,6 +6,7 @@ import {
   MDBRow,
 } from 'mdb-react-ui-kit';
 import notion from '../../assets/images/logo/notion.png';
+// import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 
 const FooterPage = () => {
   return (
