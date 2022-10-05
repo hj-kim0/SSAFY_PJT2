@@ -60,7 +60,6 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
         Map<String, Object> data = new HashMap<>();
         Optional<UserEntity> OptionalUser = userRepository.findByUserId(decodeId);
         List<AccordEntity> accordList;
-        Integer a = 1;
 
 
         String type = reviewListDto.getType();
@@ -114,6 +113,10 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
             }
 
         }
+        System.out.println(data.get("list")+" 뭐냐");
+
+//        List<AccordClassEntity> aList = new ArrayList<>();
+
         List<AccordInfoDto> aList = new ArrayList<>();
         for(AccordEntity ae : accordList) {
             AccordInfoDto aid = AccordInfoDto.builder()
