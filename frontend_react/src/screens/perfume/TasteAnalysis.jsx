@@ -93,7 +93,7 @@ function TasteAnalysis() {
   }else{
     let sum = 0;
 
-    for(let i = 0; i < accordClassData??.length; i++){
+    for(let i = 0; i < accordClassData?.length; i++){
       accordClassData[i].y = accordClassData[i].accordClassCount;
       delete accordClassData[i].accordClassIdx;
       delete accordClassData[i].accordClassCount;
@@ -205,7 +205,7 @@ function TasteAnalysis() {
       })})
     },[]);
 
-    if(wishData??.length===0){
+    if(wishData?.length===0){
       wishBody = <><h1 className="tasteAnalysis_emptyList_title fs-36">
       위시리스트가 비었어요!
     </h1>
@@ -235,7 +235,7 @@ function TasteAnalysis() {
       ></CarouselSlider>
     }
 
-    if(haveData??.length===0){
+    if(haveData?.length===0){
       haveBody = <><h1 className="tasteAnalysis_emptyList_title fs-36">
       보유한 향수가 없어요...
     </h1></>
