@@ -8,25 +8,36 @@ import { fetchMainPerfume } from "../apis/perfumeAPI";
 import { fetchMainPerfumeUser } from "../apis/perfumeAPI";
 import { useRecoilState } from "recoil";
 import { userState } from "../atom";
+import CommonCardMain from "../components/common/CommonCardMain";
 
     const ContentWrapper = styled.div`
         display: block;
         height: auto;
         margin-top: 200px;
         margin-bottom: 200px;
-    
     `
-    
     const DivCenter = styled.div`
         margin: 30px 0px 30px 0px;
         text-align: center;
+        height: auto;
     `;
 
+    const SpanCenter = styled.span`
+        font-family: KyoboHandwriting2020A;
+    display: inline-block;
+    width:90%;
+    text-align: center;
+        margin-top: 5px;
+        font-size: 24px;    
+        height: auto;
+    `
+
     const SubContent = styled.p`
-    font-family: NotoSansMedium;
+    font-family: KyoboHandwriting2020A;
     text-align: center;
     margin: 15px 15px 0px 0px;
-    font-size: 32px;
+    font-size: 60px;
+    height: auto;
 `;
 
 function Home() {
@@ -54,12 +65,12 @@ function Home() {
         {
             idx: 1,
             name: "second",
-            src: require("../assets/images/carousel/9.jpg"),
+            src: require("../assets/images/carousel/22.jpg"),
         },
         {
             idx: 2,
             name: "third",
-            src: require("../assets/images/carousel/11.jpg"),
+            src: require("../assets/images/carousel/21.jpg"),
         },
     ]
 
@@ -67,28 +78,38 @@ function Home() {
     const links = ["personal", "tasteanalysis", "perfumesearch" ];
     // BEST 향수 추천 리스트 나중에 리팩토링
 
+
+
+    console.log(bestPerfume);
+    
     const bestData = ([
         {
+            index: 0,
             imgSrc: `${bestPerfume[0].perfumeImg}`,
             idx: `${bestPerfume[0].idx}`
         },
         {
+            index: 1,
             imgSrc: `${bestPerfume[1].perfumeImg}`,
             idx: `${bestPerfume[1].idx}`
         },
         {
+            index: 2,
             imgSrc: `${bestPerfume[2].perfumeImg}`,
             idx: `${bestPerfume[2].idx}`
         },
         {
+            index: 3,
             imgSrc: `${bestPerfume[3].perfumeImg}`,
             idx: `${bestPerfume[3].idx}`
         },
         {
+            index: 4,
             imgSrc: `${bestPerfume[4].perfumeImg}`,
             idx: `${bestPerfume[4].idx}`
         },
         {
+            index: 5,
             imgSrc: `${bestPerfume[5].perfumeImg}`,
             idx: `${bestPerfume[5].idx}`
         },
@@ -97,26 +118,32 @@ function Home() {
     // 오늘의 향수 추천 리스트 나중에 리팩토링
     const todayData = ([
         {
+            index: 0,
             imgSrc: `${todayPerfume[0].perfumeImg}`,
             idx: `${todayPerfume[0].idx}`
         },
         {
+            index: 1,
             imgSrc: `${todayPerfume[1].perfumeImg}`,
             idx: `${todayPerfume[1].idx}`
         },
         {
+            index: 2,
             imgSrc: `${todayPerfume[2].perfumeImg}`,
             idx: `${todayPerfume[2].idx}`
         },
         {
+            index: 3,
             imgSrc: `${todayPerfume[3].perfumeImg}`,
             idx: `${todayPerfume[3].idx}`
         },
         {
+            index: 4,
             imgSrc: `${todayPerfume[4].perfumeImg}`,
             idx: `${todayPerfume[4].idx}`
         },
         {
+            index: 5,
             imgSrc: `${todayPerfume[5].perfumeImg}`,
             idx: `${todayPerfume[5].idx}`
         },
@@ -126,13 +153,19 @@ function Home() {
     const customSlideCpnts =
         todayData.map((item) => (
             <Link to={"/detail/" + item.idx} key={item.idx}>
-                <img src={item.imgSrc}/>
+                <CommonCardMain img={item.imgSrc} 
+                description={todayPerfume[item.index].perfumeName}></CommonCardMain>
+                <SpanCenter>{todayPerfume[item.index].scent}</SpanCenter>
+                
             </Link>
         ));
     const customSlideCpnts2 = 
         bestData.map((item) => (
-        <Link to={"/detail/" + item.idx} key={item.idx}>
-            <img src={item.imgSrc}/>
+            <Link to={"/detail/" + item.idx} key={item.idx}>
+            <CommonCardMain img={item.imgSrc} 
+            description={todayPerfume[item.index].perfumeName}></CommonCardMain>
+            <SpanCenter>{todayPerfume[item.index].scent}</SpanCenter>
+            
         </Link>
     ));
 
@@ -154,16 +187,16 @@ function Home() {
         },[]);
 
     const sliderBoxStyle = {
-        height: "600px",
+        height: "750px",
         width: "80%",
         background: "transparent",
-        border: "1px solid #e1e4e8"
+        border: "1px solid #e1e4e8",
     };
     
     const itemsStyle = {
         width: "400px",
         height: "580px",
-        padding: "5px",
+        padding: "2px",
         background: "transparent",
         border: "1px solid #e1e4e8",
         borderRadius: "2px",
@@ -219,8 +252,7 @@ function Home() {
                         manner={{ circular: true }}
                         sliderBoxStyle={sliderBoxStyle}
                         buttonSetting={buttonSetting}
-                        itemsStyle={itemsStyle}
-                    ></CarouselSlider>        
+                        itemsStyle={itemsStyle}></CarouselSlider>        
                 </ContentWrapper>
                 <ContentWrapper>
                 <DivCenter>

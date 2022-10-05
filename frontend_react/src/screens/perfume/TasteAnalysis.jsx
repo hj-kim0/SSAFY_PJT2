@@ -12,6 +12,7 @@ import { useRecoilState } from "recoil";
 import { Button, IconButton } from '@mui/material';
 import { Delete, Send } from "@material-ui/icons";
 import history from "../../utils/history";
+import SendIcon from '@mui/icons-material/Send';
 
 const DivCenter = styled.div`
 margin: 30px 0px 30px 0px;
@@ -87,9 +88,9 @@ function TasteAnalysis() {
   let pieBody;
 
   if(accordClassData.length===0){
-    pieBody = <h1 className="tasteAnalysis_emptyList_title fs-36">
+    pieBody = <DivCenter><h1 className="tasteAnalysis_emptyList_title fs-36">
     데이터가 없어요...
-  </h1>
+  </h1></DivCenter>
   }else{
     let sum = 0;
 
@@ -102,7 +103,7 @@ function TasteAnalysis() {
     for(let i = 0; i < accordClassData?.length; i++){
       accordClassData[i].y = Math.round(((accordClassData[i].y/sum)*100 + Number.EPSILON) * 100) / 100;
     }
-
+    console.log("돌아감?")
     pieBody = <PieChart data={accordClassData}/>
   }
 
@@ -144,9 +145,10 @@ function TasteAnalysis() {
     </Link>
     <br></br>
     <SpanCenter>
-    <Button variant="contained" style={{background:"rgba(0, 0, 0, 0.5)", "border-color": "white", color:"white"}} size="small" onClick={(e) => {handleWishToHave(item.idx, e)}}>
+    <Button variant="contained" style={{backgroundColor : "black", color:"white", fontFamily : "NotoSansRegular", marginRight : "2px"}} size="small" onClick={(e) => {handleWishToHave(item.idx, e)}}>
+      {/*<SendIcon/>*/}
       보유리스트로</Button>
-    <Button variant="outlined" style={{background:"rgba(0, 0, 0, 0.5)", "border-color": "white", color:"white"}} size="small" onClick={(e) => {handleWishDelete(item.idx, e)}} startIcon={<Delete />}>
+    <Button variant="outlined" style={{background:"#ff1744", color:"white", fontFamily : "NotoSansRegular"}} size="small" onClick={(e) => {handleWishDelete(item.idx, e)}} startIcon={<Delete />}>
       삭제
       </Button>
     </SpanCenter>
@@ -161,7 +163,7 @@ function TasteAnalysis() {
       </Link>
       <br></br>
       <SpanCenter>
-      <Button variant="outlined" style={{background:"rgba(0, 0, 0, 0.5)", "border-color": "white" , color:"white"}} size="small" onClick={(e) => {handleHaveDelete(item.idx, e)}} startIcon={<Delete />}>
+      <Button variant="outlined" style={{background:"#ff1744",  color:"white", fontFamily : "NotoSansRegular"}} size="small" onClick={(e) => {handleHaveDelete(item.idx, e)}} startIcon={<Delete />}>
         삭제
         </Button>
       </SpanCenter>
