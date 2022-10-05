@@ -60,6 +60,7 @@ public class PerfumeDetailServiceImpl implements PerfumeDetailService {
         Map<String, Object> data = new HashMap<>();
         Optional<UserEntity> OptionalUser = userRepository.findByUserId(decodeId);
         List<AccordEntity> accordList;
+        Integer a = 1;
 
 
         String type = reviewListDto.getType();
