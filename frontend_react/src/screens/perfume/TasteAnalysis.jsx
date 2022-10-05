@@ -88,9 +88,9 @@ function TasteAnalysis() {
   let pieBody;
 
   if(accordClassData.length===0){
-    pieBody = <h1 className="tasteAnalysis_emptyList_title fs-36">
+    pieBody = <DivCenter><h1 className="tasteAnalysis_emptyList_title fs-36">
     데이터가 없어요...
-  </h1>
+  </h1></DivCenter>
   }else{
     let sum = 0;
 
