@@ -1,14 +1,29 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 // import LiveHelpTwoToneIcon from "@mui/icons-material/LiveHelpTwoTone";
-import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
+import PsychologyAltIcon from "@mui/icons-material/PsychologyAlt";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import BookSharpIcon from "@mui/icons-material/BookSharp";
 import uuid from "react-uuid";
+import { userProfileState, userState } from "../../atom";
 import { getAccordClass } from "../../apis/perfume";
+import { fetchRecommendNmf } from "../../apis/perfumeAPI";
 import navLogo from "@images/logo/logo.png";
 // import book from "@images/icon/book.png";
 import "./StickyButton.scss";
 
 function StickyButton() {
+  // const user = useRecoilValue(userState);
+  // console.log(user);
+  const userProfile = useRecoilValue(userProfileState);
+  // console.log(userProfile[0]?.idx);
+  const [name, setName] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
+  const [imgNum, setImgNum] = useState(0);
+  function toPerfume(e) {
+    window.location.replace(`/detail/${imgNum}`);
+  }
   const [openMenu, setOpenMenu] = useState(false);
   const [openBook, setOpenBook] = useState(false);
   const [openWord, setOpenWord] = useState(false);
@@ -22,8 +37,11 @@ function StickyButton() {
   const getAccord = async accordId => {
     const res = await getAccordClass(accordId);
     setAccordType(res.accordClass.classDescription);
-    const accord = res.accordList.map((v) => (
-      <div key={uuid()} className="book_content_scent_contents_box_detail kyobo fs-18 flex">
+    const accord = res.accordList.map(v => (
+      <div
+        key={uuid()}
+        className="book_content_scent_contents_box_detail kyobo fs-18 flex"
+      >
         <div className="book_content_scent_contents_box_detail_img flex">
           <img src={v.accordImg} alt="향이미지" />
         </div>
@@ -40,16 +58,31 @@ function StickyButton() {
     setDetailInfo(accord);
   };
   console.log(accordType);
-  const accordList = [{accordName: 'Citrus', accordNumber: 1}, {accordName: 'Floral', accordNumber: 2}, {accordName: 'Herbal', accordNumber: 3}, {accordName: 'Fruity', accordNumber: 4}, {accordName: 'Spicy', accordNumber: 5}, {accordName: 'Animalic', accordNumber: 6}, {accordName: 'Synthetic', accordNumber: 7}, {accordName: 'Sweet', accordNumber: 8}];
-  const accordClassList = accordList.map((v) => (
+  const accordList = [
+    { accordName: "Citrus", accordNumber: 1 },
+    { accordName: "Floral", accordNumber: 2 },
+    { accordName: "Herbal", accordNumber: 3 },
+    { accordName: "Fruity", accordNumber: 4 },
+    { accordName: "Spicy", accordNumber: 5 },
+    { accordName: "Animalic", accordNumber: 6 },
+    { accordName: "Synthetic", accordNumber: 7 },
+    { accordName: "Sweet", accordNumber: 8 }
+  ];
+  const accordClassList = accordList.map(v => (
     <div key={uuid()} className="book_content_scent_tags_tag">
-      <button type="button" className="book_content_scent_tags_tag_btn kyobo fs-18" onClick={() => {getAccord(v.accordNumber)}}>
+      <button
+        type="button"
+        className="book_content_scent_tags_tag_btn kyobo fs-18"
+        onClick={() => {
+          getAccord(v.accordNumber);
+        }}
+      >
         {v.accordName}
       </button>
     </div>
   ));
   // console.log(accordClassList);
-  // const accordClassList = accordList.map(v => 
+  // const accordClassList = accordList.map(v =>
   //   (<div className="book_content_scent_tags_tag" key={v.accordNumber}>
   //     <button className="book_content_scent_tags_tag_ kyobo fs-18" type="button" onClick={getAccord(v.accordNumber)}>
   //       {v.accordName}
@@ -58,7 +91,28 @@ function StickyButton() {
   // useEffect(() => {
   //   getAccord(1);
   // }, []);
+  const getOne = () => {
+    if (userProfile[0]?.idx) {
+      fetchRecommendNmf(userProfile[0].idx).then(res => {
+        res.json().then(res => {
+          // setRecommendPerfume(res)
+          const randomNum = Math.floor(Math.random() * 10 + 1);
+          setName(res[randomNum].perfume_name);
+          setImgUrl(res[randomNum].perfume_img);
+          setImgNum(res[randomNum].idx);
+        });
+      });
+    } else {
+      setName("1 Million Lucky");
+      setImgUrl("https://fimgs.net/mdimg/perfume/375x500.48903.jpg");
+      setImgNum(1);
+    }
+  };
+  useEffect(() => {
+    getOne();
+  }, []);
   const openMenuOpt = () => {
+    // getOne();
     setOpenMenu(!openMenu);
     setOpenWord(false);
     setOpenScent(false);
@@ -118,12 +172,28 @@ function StickyButton() {
             </div>
             <div className="sticky_menuBar_toBook flex">
               <button
-                className="sticky_menuBar_toBook_btn"
+                className="sticky_menuBar_toBook_btn flex"
                 type="button"
                 onClick={openBookOpt}
               >
-                정보 알아보기
+                <BookSharpIcon sx={{ fontSize: 41, color: "black" }} />
+                <div className="sticky_menuBar_toBook_btn_des kkomi fs-28">
+                  정보 알아보기
+                </div>
               </button>
+            </div>
+            <div className="sticky_menuBar_ad flex">
+              <div className="sticky_menuBar_ad_title kkomi fs-26">
+                이런 향수는 어떠신가요?
+              </div>
+              <button
+                type="button"
+                className="sticky_menuBar_ad_img"
+                onClick={toPerfume}
+              >
+                <img src={imgUrl} alt="향수하나추천" />
+              </button>
+              <div className="sticky_menuBar_ad_name kkomi fs-24">{name}</div>
             </div>
           </div>
         )}
@@ -256,7 +326,8 @@ function StickyButton() {
                   <div className="book_content_word_contents kyobo fs-16 flex">
                     <div className="book_content_word_contents_box flex">
                       <div className="book_content_word_contents_box_terms">
-                        퍼퓸 <br />(Perfume)
+                        퍼퓸 <br />
+                        (Perfume)
                       </div>
                       <div className="book_content_word_contents_box_mean">
                         원액의 농도가{" "}
@@ -375,15 +446,16 @@ function StickyButton() {
                 <div className="book_content_scent_tags flex">
                   {accordClassList}
                 </div>
-                {typeof(accordType) === "string" && (
-                <div className="book_content_scent_contents flex">
-                  <div className="book_content_scent_contents_title kyobo fs-18">
-                    {accordType}
+                {typeof accordType === "string" && (
+                  <div className="book_content_scent_contents flex">
+                    <div className="book_content_scent_contents_title kyobo fs-18">
+                      {accordType}
+                    </div>
+                    <div className="book_content_scent_contents_box flex">
+                      {detailInfo}
+                    </div>
                   </div>
-                  <div className="book_content_scent_contents_box flex">
-                    {detailInfo}
-                  </div>
-                </div>)}
+                )}
               </div>
             )}
           </div>
