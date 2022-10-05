@@ -103,7 +103,7 @@ function TasteAnalysis() {
     for(let i = 0; i < accordClassData?.length; i++){
       accordClassData[i].y = Math.round(((accordClassData[i].y/sum)*100 + Number.EPSILON) * 100) / 100;
     }
-
+    console.log("돌아감?")
     pieBody = <PieChart data={accordClassData}/>
   }
 

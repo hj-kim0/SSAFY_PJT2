@@ -117,15 +117,15 @@ function PerfumeDetail() {
     }
   };
 
-  function onScroll(){
-    setPosition(window.scrollY)
-  }
-  useEffect(() => {
-    window.addEventListener("scroll", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll)
-    }
-  }, [])
+  // function onScroll(){
+  //   setPosition(window.scrollY)
+  // }
+  // useEffect(() => {
+  //   window.addEventListener("scroll", onScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", onScroll)
+  //   }
+  // }, [])
 
   useEffect(() => {
     fetchRecommendCos(id)
