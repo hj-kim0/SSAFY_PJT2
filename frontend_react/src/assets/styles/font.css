@@ -95,7 +95,6 @@
     url("./fonts/Roboto-Bold.otf") format("opentype");
 }
 
-
 @font-face {
   font-family: "LoveYaLikeASister";
   font-style: normal;
@@ -105,8 +104,15 @@
 }
 
 @font-face {
-  font-family: 'KyoboHandwriting2020A';
-  src: url('./fonts/KyoboHandwriting2020pdy.ttf') format('truetype');
+  font-family: "KyoboHandwriting2020A";
+  src: url("./fonts/KyoboHandwriting2020pdy.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "KNPSKkomi";
+  src: url("./fonts/KNPSKkomi.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
