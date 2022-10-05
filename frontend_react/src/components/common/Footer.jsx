@@ -1,102 +1,37 @@
 import React from 'react';
+import {
+  MDBFooter,
+  MDBContainer,
+  MDBCol,
+  MDBRow,
+} from 'mdb-react-ui-kit';
+import notion from '../../assets/images/logo/notion.png';
 
-function Footer(){
-    return(
-        <footer className="bottom"
-        style={{
-            background: "#343a40",
-            color: "#ffffff",
-            textAlign: "justify",
-            bottom: 0,
-            width: "100%",
-            position: "relative",
-            margin: 0,
-            padding: 30,
-            borderSize: "border-box"
-        }}>
-    <div className="container">
-        <div className="row">
-            <div className="col-md-4 col 12">
-            <h3
-            style={{
-                backgroundColor: "white",
-                color: "black",
-                width: 110,
-                height: 35,
-                marginTop: 5,
-                borderStyle: "solid",
-                borderColor: "black",
-                border: 1,
-                borderRadius: 7
-            }}
-            >
-                Find Us
-            </h3>
-
-            <div>
-                <div>SSAFY</div>
-                <div>C105</div>
-            </div>
-            </div>
-            <div className="col-md-4 col-12" style={{ marginTop: 40 }}>
-            <h4 style={{ color: "lightgrey" }}> Resources </h4>
-            <ul className="list-unstyled">
-                <li>Privacy Policy </li>
-            </ul>
-            </div>
-            <div className="col-md-4 col-12" style={{ marginTop: 40 }}>
-            <h4 style={{ color: "lightgrey", textAlign: "justify" }}>
-                {" "}
-                About{" "}
-            </h4>
+const FooterPage = () => {
+  return (
+    <MDBFooter bgColor='black' className='text-white text-center text-lg-left'>
+      <MDBContainer className='p-4'>
+        <MDBRow>
+          <MDBCol lg='12' md='12' className='mb-4 mb-md-0'>
+            <h5 className='text-uppercase'>Contact Us</h5>
+            <br></br>
             <p>
-                -
+              <a href="https://www.notion.so/PJT2_C105_-8ba2738dcb49470ba9f4e9c1fd1fd88f">
+              <img src={notion} width="50px"/>
+              </a>
             </p>
-            </div>
-            <div className=" col-12">
-            <i
-            className="fa fa-facebook-official"
-            aria-hidden="true"
-            style={{
-                padding: 10,
-                color: "white",
-                float: "left",
-                fontSize: 25
-            }}
-            >
-            {" "}
-            </i>
-            <i
-            className="fa fa-twitter-square"
-            aria-hidden="true"
-            style={{
-                padding: 10,
-                color: "white",
-                float: "left",
-                fontSize: 25
-            }}
-            ></i>
-            <i
-            className="fa fa-github-square"
-            aria-hidden="true"
-            style={{
-                padding: 10,
-                color: "white",
-                float: "left",
-                fontSize: 25
-            }}
-            ></i>
-        </div>
-        <div
-            className="col-12"
-            style={{ fontSize: 14, color: "lightgrey", textAlign: "center" }}
-        >
-            &copy; 2022 SSAFY | All Rights Reserved
-        </div>
-        </div>
-        </div>
-        </footer>
-    )
+          </MDBCol>
+        </MDBRow>
+    </MDBContainer>
+
+      <div className='text-center p-3' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+        &copy; {new Date().getFullYear()} Copyright:{' '}
+        <a className='text-white' href='https://edu.ssafy.com/'>
+          SSAFY.com
+        </a>
+      </div>
+    </MDBFooter>
+  );
 }
 
-export default Footer;
+export default FooterPage;

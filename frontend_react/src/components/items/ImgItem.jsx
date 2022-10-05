@@ -38,16 +38,14 @@ const ImgItem = (props) => {
     
     return(
     <DivCenter>
-        <NavLink to="/">
             <div className="banner">
-                <Img src={imgSrc} alt=""/>        
+                <Img src={imgSrc} alt=""/>  
                 <div className="banner-txt">
                     <p className="maintheme">{maintheme}</p>
                     <p className="subtheme">{subtheme}</p>
                     <br/>
                 </div>
             </div>
-        </NavLink>
     </DivCenter>
     );
 };

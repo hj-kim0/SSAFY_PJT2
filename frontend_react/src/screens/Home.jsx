@@ -62,7 +62,9 @@ function Home() {
             src: require("../assets/images/carousel/11.jpg"),
         },
     ]
-    console.log(bestPerfume)
+
+    //향수추천 향분석 향수찾기
+    const links = ["personal", "tasteanalysis", "perfumesearch" ];
     // BEST 향수 추천 리스트 나중에 리팩토링
 
     const bestData = ([
@@ -136,18 +138,15 @@ function Home() {
 
     // 로그인 여부에 따른 api 호출
     useEffect(() => {
-        //console.log(user);
         if(user.isLogin){
             fetchMainPerfumeUser(user.sToken)
             .then((res) => {res.json().then((res) => {
-              // console.log(res)
                 setBestPerfume(res.BestPerfumeList)
                 setTodayPerfume(res.todayPerfumeList)
             })})
         }else{
             fetchMainPerfume()
             .then((res) => {res.json().then((res) => {
-              // console.log(res)
                 setBestPerfume(res.BestPerfumeList)
                 setTodayPerfume(res.todayPerfumeList)
             })})
@@ -172,7 +171,7 @@ function Home() {
         
 
     const buttonSetting = {
-        placeOn: "middle-outside",
+        placeOn: "middle-inside",
         style: {
             left: {
             color: "#929393",
@@ -202,6 +201,11 @@ function Home() {
                     className="main-carousel"
                 >
                     {items.map((item, i) => (
+                        (!((user.isLogin === null)&&(i===1))) ? 
+                        <Link to={"/" + links[i] } key={item.idx}>
+                        <ImgItem key={i} item={item} />
+                        </Link>
+                        :
                         <ImgItem key={i} item={item} />
                     ))}
                 </Carousel>
@@ -229,7 +233,6 @@ function Home() {
                         itemsStyle={itemsStyle}
                     ></CarouselSlider>   
                 </ContentWrapper>
-    
             </Wrapper></>
         )
 }
