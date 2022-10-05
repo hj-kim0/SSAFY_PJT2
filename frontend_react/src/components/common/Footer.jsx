@@ -23,7 +23,6 @@ padding: 5px;
 color:white;
 `
 
->>>>>>> ace9fc2d833367e039e89b8318e023585a50ffdd
 
 const FooterPage = () => {
   return (
