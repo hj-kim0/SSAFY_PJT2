@@ -61,7 +61,8 @@ module.exports = {
     "react/jsx-props-no-spreading" : "off",
     "react/jsx-curly-brace-presence" : "off",
     "no-undef" : "off",
-    "jsx-a11y/anchor-is-valid" : "off"
+    "jsx-a11y/anchor-is-valid" : "off",
+    "jsx-a11y/control-has-associated-label" : "off"
   },
   settings: {
     "import/resolver": {

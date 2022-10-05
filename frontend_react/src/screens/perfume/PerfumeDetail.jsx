@@ -28,6 +28,8 @@ import "slick-carousel/slick/slick-theme.css"
 import { wishPerfume, havePerfume } from "../../apis/perfumeAPI";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+
 
 const CommonCard = (props) => {
   return(
@@ -307,7 +309,7 @@ function PerfumeDetail() {
                   { isClicked === "have" ? (
                     <ShoppingCartIcon sx={{ fontSize: 36, color: "red"}}/>
                   ) : (
-                    <ShoppingCartIcon sx={{ fontSize: 36, color: "black"}}/>
+                    <ShoppingCartOutlinedIcon sx={{ fontSize: 36, color: "black"}}/>
                   )}
                 </button>
                 <div className="perfumeDetail2_title_count_have_number roBold fs-24">

@@ -54,12 +54,12 @@ function Home() {
         {
             idx: 1,
             name: "second",
-            src: require("../assets/images/carousel/9.jpg"),
+            src: require("../assets/images/carousel/22.jpg"),
         },
         {
             idx: 2,
             name: "third",
-            src: require("../assets/images/carousel/11.jpg"),
+            src: require("../assets/images/carousel/21.jpg"),
         },
     ]
 
