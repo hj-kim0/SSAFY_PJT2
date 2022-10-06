@@ -66,6 +66,12 @@ function InfoEdit() {
   const completeEdit = () => {
     if (isChecked) {
       const accord = accordClassRef.current.value;
+      const copy = JSON.parse(JSON.stringify(userProfile));
+      copy[0].nickname = nicknameRef.current.value;
+      copy[0].gender = genderRef.current.value;
+      copy[0].seasons = seasonsRef.current.value;
+      copy[0].accordClass = LUT[accord];
+      setUserProfile(copy)
       // console.log("어코드 디버깅", accord);
       // console.log("클래스 디버깅", LUT[accord]);
       axios({

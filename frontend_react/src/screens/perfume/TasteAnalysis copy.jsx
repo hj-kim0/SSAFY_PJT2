@@ -13,7 +13,6 @@ import { Button, IconButton } from '@mui/material';
 import { Delete, Send } from "@material-ui/icons";
 import history from "../../utils/history";
 import SendIcon from '@mui/icons-material/Send';
-import Pie from "./Pie";
 
 const DivCenter = styled.div`
 margin: 30px 0px 30px 0px;
@@ -85,7 +84,38 @@ function TasteAnalysis() {
   const accordClassData = accordClassList;
   const recomSVDData = recomSVDList;
   const nickname = userProfile[0][0]?.nickname;
-  console.log("바깥 재실행");
+
+  let pieBody;
+
+  if(accordClassData.length===0){
+    pieBody = <DivCenter><h1 className="tasteAnalysis_emptyList_title fs-36">
+    데이터가 없어요...
+  </h1></DivCenter>
+  }else{
+    let sum = 0;
+
+    for(let i = 0; i < accordClassData?.length; i++){
+      accordClassData[i].y = accordClassData[i].accordClassCount;
+      delete accordClassData[i].accordClassIdx;
+      delete accordClassData[i].accordClassCount;
+      sum += accordClassData[i].y;
+    }
+    for(let i = 0; i < accordClassData?.length; i++){
+      accordClassData[i].y = Math.round(((accordClassData[i].y/sum)*100 + Number.EPSILON) * 100) / 100;
+    }
+    console.log("돌아감?")
+    pieBody = <PieChart data={accordClassData}/>
+  }
+
+  
+  // console.log("위시");
+  // console.log(wishData);
+  // console.log("해브");
+  // console.log(haveData);
+  // console.log(accordClassData);
+  // console.log(userProfile[0][0].nickname);
+  // console.log(recomSVDData);
+  // 클릭시 삭
 
   function handleWishDelete(idx, e){
     e.preventDefault();
@@ -148,66 +178,34 @@ function TasteAnalysis() {
     </Link>
     ));
 
+
     useEffect(() => {
       fetchHaveListUser(user.sToken)
       .then((res) => {res.json().then((res) => {
         setHaveList(res.haveList)
-        console.log("해브리스트")
       })})
-
-      fetchWishListUser(user.sToken)
-        .then((res) => {res.json().then((res) => {
-          setWishList(res.wishList)
-          console.log("위시리스트")
-        })})
-
-        fetchRecomSVD(userProfile[0][0]?.idx)
-        .then((res) => {res.json().then((res) => {
-          setRecomSVDList(res);
-          console.log("svd리스트")
-        })})  
-
-        setTimeout(() => fetchAccordClassListUser(user.sToken)
-        .then((res) => {res.json().then((res) => {
-            setAccordClassList(res.accordClassList)
-            console.log("어코드리스트")
-        })}), 1000);
-
     },[]);
 
-      // useEffect(() => {
-      //   fetchHaveListUser(user.sToken)
-      //   .then((res) => {res.json().then((res) => {
-      //     setHaveList(res.haveList)
-      //     console.log("해브리스트")
-      //   })})
-      // },[]);
-  
-      // useEffect(() => {
-      //   fetchWishListUser(user.sToken)
-      //   .then((res) => {res.json().then((res) => {
-      //     setWishList(res.wishList)
-      //     console.log("위시리스트")
-      //   })})
-      // },[]);
+    useEffect(() => {
+      fetchWishListUser(user.sToken)
+      .then((res) => {res.json().then((res) => {
+        setWishList(res.wishList)
+      })})
+    },[]);
 
-      // useEffect(() => {
-      //   fetchRecomSVD(userProfile[0][0]?.idx)
-      //   .then((res) => {res.json().then((res) => {
-      //     setRecomSVDList(res);
-      //     console.log("svd리스트")
-      //   })})
-      // },[]);
+    useEffect(() => {
+      fetchAccordClassListUser(user.sToken)
+      .then((res) => {res.json().then((res) => {
+        setAccordClassList(res.accordClassList)
+      })})
+    });
 
-      // useEffect(() => {
-      //   fetchAccordClassListUser(user.sToken)
-      //   .then((res) => {res.json().then((res) => {
-      //       setAccordClassList(res.accordClassList)
-      //       console.log("어코드리스트")
-      //   })})
-  
-      // },[]);
-
+    useEffect(() => {
+      fetchRecomSVD(userProfile[0][0]?.idx)
+      .then((res) => {res.json().then((res) => {
+        setRecomSVDList(res);
+      })})
+    },[]);
 
     if(wishData?.length===0){
       wishBody = <><h1 className="tasteAnalysis_emptyList_title fs-36">
@@ -284,7 +282,6 @@ function TasteAnalysis() {
 
     }
 
-
       return (<>
         <DivCenter className="container flex">
           <DivCenter id="tasteAnalysis" className="tasteAnalysis flex">
@@ -305,7 +302,7 @@ function TasteAnalysis() {
             </DivCenter>
           </DivCenter>
         </DivCenter>
-        <Pie accordClassList={accordClassList}/>
+        {pieBody}
         <DivCenter className="container flex">
           <DivCenter id="tasteAnalysis" className="tasteAnalysis flex">
           <DivCenter className="tasteAnalysis_wishList_title notoBold fs-36">
