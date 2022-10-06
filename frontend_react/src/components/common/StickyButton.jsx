@@ -96,10 +96,17 @@ function StickyButton() {
       fetchRecommendNmf(userProfile[0].idx).then(res => {
         res.json().then(res => {
           // setRecommendPerfume(res)
-          const randomNum = Math.floor(Math.random() * 10 + 1);
-          setName(res[randomNum].perfume_name);
-          setImgUrl(res[randomNum].perfume_img);
-          setImgNum(res[randomNum].idx);
+          let ressize = res.length;
+          if(!ressize){
+            setName("1 Million Lucky");
+            setImgUrl("https://fimgs.net/mdimg/perfume/375x500.48903.jpg");
+            setImgNum(1);
+          }else{
+            let randomNum = Math.floor(Math.random() * ressize);
+            setName(res[randomNum].perfume_name);
+            setImgUrl(res[randomNum].perfume_img);
+            setImgNum(res[randomNum].idx);
+          }
         });
       });
     } else {

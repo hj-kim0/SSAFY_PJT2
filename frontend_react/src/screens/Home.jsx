@@ -82,6 +82,7 @@ function Home() {
 
 
     console.log(bestPerfume);
+    console.log(todayPerfume);
     
     const bestData = ([
         {
@@ -164,8 +165,8 @@ function Home() {
         bestData.map((item) => (
             <Link to={"/detail/" + item.idx} key={item.idx}>
             <CommonCardMain img={item.imgSrc} 
-            description={todayPerfume[item.index].perfumeName}></CommonCardMain>
-            <SpanCenter>{todayPerfume[item.index].scent}</SpanCenter>
+            description={bestPerfume[item.index].perfumeName}></CommonCardMain>
+            <SpanCenter>{bestPerfume[item.index].scent}</SpanCenter>
             
         </Link>
     ));
