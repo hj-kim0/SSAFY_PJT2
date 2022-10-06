@@ -252,6 +252,11 @@ function Home() {
                     <CarouselSlider 
                         slideCpnts={customSlideCpnts}
                         manner={{ circular: true }}
+                        dotsSetting={{ style: {
+                            dotSize: "10px",
+                            currDotColor: "rgba(0, 0, 0, 0.5)",
+                            marginTop: "30px"
+                        }}}
                         sliderBoxStyle={sliderBoxStyle}
                         buttonSetting={buttonSetting}
                         itemsStyle={itemsStyle}></CarouselSlider>        
@@ -262,6 +267,11 @@ function Home() {
                 <CarouselSlider 
                         slideCpnts={customSlideCpnts2}
                         manner={{ circular: true }}
+                        dotsSetting={{ style: {
+                            dotSize: "10px",
+                            currDotColor: "rgba(0, 0, 0, 0.5)",
+                            marginTop: "30px"
+                        }}}
                         sliderBoxStyle={sliderBoxStyle}
                         buttonSetting={buttonSetting}
                         itemsStyle={itemsStyle}
