@@ -99,9 +99,25 @@ SSAFY 7기_특화프로젝트_빅데이터 광주1반(C105) 향믈리에 팀
 ![image](/uploads/b0242a61e7d4132d91425aee05deae33/image.png)
 간단한 설문을 통하여 설문 결과 사용자와 가장 어울리는 향수를 추천해줍니다. 추천 결과 카카오톡 공유하기를 이용하여 지인들에게 공유할 수 있습니다.
 
+<img src="/uploads/abb8d89c30006172d93dc797bf402a0a/2_향수설문_gif.gif"  width="600" height="300"/>
+
+<카카오톡 공유>
+![image](/uploads/7b9b55e4cea13dcf0253ec8f74fa2fc8/image.png)
+
 ### 3. 향수 찾기
 
+![image](/uploads/1363453d5ab60deadf331909fee06413/image.png)
+향수 명을 모르는 사람들을 위해 카테고리 별로 향수를 검색하실 수 있습니다.
+
+<img src="/uploads/1f7b86b5a3730cacd14137a3879316b8/3_향수검색_gif.gif"  width="600" height="300"/>
+
 ### 4. 향수 분석
+
+![image](/uploads/c4168f94f0187ee91187c828e0b44b67/image.png)
+사용자가 담은 위시리스트/보유리스트를 기반으로 사용자의 취향을 분석해 그래프로 나타냅니다.
+사용자와 비슷한 취향을 가진 유저들이 좋아하는 향수 또한 추천해 줍니다.
+
+<img src="/uploads/51eb9e4348f1acba3f1a9e0b5ad6be76/4_향분석_gif.gif"  width="600" height="300"/>
 
 </div>
 
