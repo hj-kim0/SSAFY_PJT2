@@ -68,23 +68,38 @@ SSAFY 7기_특화프로젝트_빅데이터 광주1반(C105) 향믈리에 팀
 # 🎞 UCC
 [유우씨씨 여기 올려쥬세요]
 
-# 🖥 서비스 주요 기능 - 여기에 화면 스크린샷 or gif 올릴예정
+# 🖥 서비스 주요 기능 
 <div align="center">
+
+<br/>
+<hr/>
 
 ### 0. 회원가입 및 로그인
 
 ![image](/uploads/988057e07ffc7927153bbb469b63486a/image.png)
 카카오 API를 사용하여 간편하게 회원가입과 로그인이 가능합니다.
 
+<br/>
+<hr/>
+<br/>
+
 ### 1. 메인 화면
 
 ![image](/uploads/7ded298daad6f4fdca2d0863ad65d5d2/image.png)
 메인 화면 입니다. 중앙에 배너가 있고 배너는 자동으로 바뀌며, 배너 클릭 시 해당 페이지로 이동합니다.
 
+<br/>
+<hr/>
+<br/>
+
 #### 1-1. 오늘의 향수
 
 ![image](/uploads/7b573cf50c7e1e78c4c74956b1448153/image.png)
 서비스 사용자의 현재 시간과 날짜를 기준으로 적합한 향수를 추천해줍니다.
+
+<br/>
+<hr/>
+<br/>
 
 #### 1-2. 베스트 향수
 
@@ -94,22 +109,40 @@ SSAFY 7기_특화프로젝트_빅데이터 광주1반(C105) 향믈리에 팀
 <img src="/uploads/9e481e840247379be9a375b1d628c031/1_메인화면_gif.gif"  width="600" height="300"/>
 
 
+<br/>
+<hr/>
+<br/>
+
 ### 2. 향수 추천
 
 ![image](/uploads/b0242a61e7d4132d91425aee05deae33/image.png)
 간단한 설문을 통하여 설문 결과 사용자와 가장 어울리는 향수를 추천해줍니다. 추천 결과 카카오톡 공유하기를 이용하여 지인들에게 공유할 수 있습니다.
 
+<br/>
+
 <img src="/uploads/abb8d89c30006172d93dc797bf402a0a/2_향수설문_gif.gif"  width="600" height="300"/>
+
+<br/>
 
 <카카오톡 공유>
 ![image](/uploads/7b9b55e4cea13dcf0253ec8f74fa2fc8/image.png)
+
+<br/>
+<hr/>
+<br/>
 
 ### 3. 향수 찾기
 
 ![image](/uploads/1363453d5ab60deadf331909fee06413/image.png)
 향수 명을 모르는 사람들을 위해 카테고리 별로 향수를 검색하실 수 있습니다.
 
+<br/>
+
 <img src="/uploads/1f7b86b5a3730cacd14137a3879316b8/3_향수검색_gif.gif"  width="600" height="300"/>
+
+<br/>
+<hr/>
+<br/>
 
 ### 4. 향수 분석
 
@@ -117,7 +150,13 @@ SSAFY 7기_특화프로젝트_빅데이터 광주1반(C105) 향믈리에 팀
 사용자가 담은 위시리스트/보유리스트를 기반으로 사용자의 취향을 분석해 그래프로 나타냅니다.
 사용자와 비슷한 취향을 가진 유저들이 좋아하는 향수 또한 추천해 줍니다.
 
+<br/>
+
 <img src="/uploads/51eb9e4348f1acba3f1a9e0b5ad6be76/4_향분석_gif.gif"  width="600" height="300"/>
+
+<br/>
+<hr/>
+<br/>
 
 </div>
 
