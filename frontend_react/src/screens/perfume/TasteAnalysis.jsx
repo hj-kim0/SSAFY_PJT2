@@ -163,7 +163,10 @@ function TasteAnalysis() {
 
         fetchRecomSVD(userProfile[0][0]?.idx)
         .then((res) => {res.json().then((res) => {
-          setRecomSVDList(res);
+          let ten_res = res.slice(0,10);
+          console.log(res);
+          console.log(ten_res);
+          setRecomSVDList(ten_res);
           console.log("svd리스트")
         })})  
 
