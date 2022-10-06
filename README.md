@@ -13,6 +13,8 @@
 <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white"/>
 <img src="https://img.shields.io/badge/AmazonEC2-FF9900?style=flat-square&logo=AmazonEC2&logoColor=white"/> <br/><br/>
 
+![image](/uploads/2122429427550c41e38e7d3e3b6f61af/image.png)
+
  🚩 진행 기간 : 2022.08.29 ~ 2022.10.07 (6주) <br/>
  🚩 한줄 소개 : 빅데이터 기반 맞춤형 향수 추천 서비스 <br/>
  🚩 서비스 명 : PERFECTRUM
@@ -69,9 +71,33 @@ SSAFY 7기_특화프로젝트_빅데이터 광주1반(C105) 향믈리에 팀
 # 🖥 서비스 주요 기능 - 여기에 화면 스크린샷 or gif 올릴예정
 <div align="center">
 
+### 0. 회원가입 및 로그인
+
+![image](/uploads/988057e07ffc7927153bbb469b63486a/image.png)
+카카오 API를 사용하여 간편하게 회원가입과 로그인이 가능합니다.
+
 ### 1. 메인 화면
 
+![image](/uploads/7ded298daad6f4fdca2d0863ad65d5d2/image.png)
+메인 화면 입니다. 중앙에 배너가 있고 배너는 자동으로 바뀌며, 배너 클릭 시 해당 페이지로 이동합니다.
+
+#### 1-1. 오늘의 향수
+
+![image](/uploads/7b573cf50c7e1e78c4c74956b1448153/image.png)
+서비스 사용자의 현재 시간과 날짜를 기준으로 적합한 향수를 추천해줍니다.
+
+#### 1-2. 베스트 향수
+
+![image](/uploads/c01ab5a9276156947467eafaf9b16322/image.png)
+사용자가 추가로 입력한 정보가 있으면 정보에 적합한 향수를 추천해주고, 입력한 정보가 없다면 사용자들에게 가장 있기있는 향수를 추천해줍니다.
+
+<img src="/uploads/9e481e840247379be9a375b1d628c031/1_메인화면_gif.gif"  width="600" height="300"/>
+
+
 ### 2. 향수 추천
+
+![image](/uploads/b0242a61e7d4132d91425aee05deae33/image.png)
+간단한 설문을 통하여 설문 결과 사용자와 가장 어울리는 향수를 추천해줍니다. 추천 결과 카카오톡 공유하기를 이용하여 지인들에게 공유할 수 있습니다.
 
 ### 3. 향수 찾기
 
