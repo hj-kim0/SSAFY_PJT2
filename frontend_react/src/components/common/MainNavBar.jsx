@@ -29,7 +29,7 @@ function MainNavBar() {
 
     <div className="wrapper flex align-center">
       <nav id="MainNavBar" className="flex align-center">
-        <nav className="left_nav notoBold flex align-center">
+        <nav  style={{ fontFamily : "SUIT Variable", fontWeight : "bold"}} className="left_nav flex align-center">
           <Link to="/" className="left_nav_home flex">
             <img className="logo" title="!213" alt="logoImage" src={navLogo} />
           </Link>

@@ -16,6 +16,7 @@
   margin-bottom: (10px);
 }
 .perfumeDetail1 {
+  //font-family: SUIT Variable;
   width: (810px);
   margin: (80px) (45px) (20px) (45px);
   &_img {
@@ -44,6 +45,8 @@
   width: (810px);
   height: (90px);
   margin: 0 (45px) (60px) (45px);
+  font-family: SUIT Variable;
+  font-weight: bold;
   &_title {
     width: (300px);
     margin-left: (30px);

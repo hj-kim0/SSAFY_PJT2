@@ -7,7 +7,6 @@
   width: 100%;
   height: (84px);
   padding: 0 (135px);
-
   justify-content: space-between;
   background-color: $WHITE;
   color: $BLACK;
@@ -107,6 +106,7 @@
     .left_nav {
       &_home, &_personal, &_search {
         //   align-items: center;
+
         margin-right: vw-p(60px);
       }
     }
