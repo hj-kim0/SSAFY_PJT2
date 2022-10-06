@@ -33,7 +33,6 @@ function PerfumeReview(props) {
     window.location.reload();
   };
   const perfumeItem = props.item;
-  // console.log(perfumeItem);
   const [total, setTotal] = useState(perfumeItem?.totalScore);
   const [longevity, setLongevity] = useState(perfumeItem?.longevity);
   const [sil, setSil] = useState(perfumeItem?.sillageScore);
@@ -66,32 +65,30 @@ function PerfumeReview(props) {
     if (e.target.files[0]) {
       URL.revokeObjectURL(image.preview_URL);
       const preview_URL = URL.createObjectURL(e.target.files[0])
-      console.log(preview_URL)
       setImage(() => (
         {
           image_file: e.target.files[0],
           preview_URL: preview_URL
         }
       ))
-      // console.log(image)
       const storageRef = storage.ref("review/test/")
       const imageRef = storageRef.child(e.target.files[0].name)
       const upLoadTask = imageRef.put(e.target.files[0])
       upLoadTask.on(
         "state_changed",
         (snapshot) => {
-          console.log("snapshot", snapshot);
+          // console.log("snapshot", snapshot);
           const percent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(percent + "% done");
+          // console.log(percent + "% done");
         },
         (error) => {
-          console.log("err", error);
+          // console.log("err", error);
         },
         () => {
           upLoadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-            console.log("File available at", downloadURL);
+            // console.log("File available at", downloadURL);
             setImageFile(downloadURL);
-            console.log(downloadURL);
+            // console.log(downloadURL);
           });
         }
       )
@@ -112,8 +109,8 @@ function PerfumeReview(props) {
         "content" : reviewRef.current.value
       }
     })
-    .then(res => console.log("엑시오스", res))
-    .catch(err => console.log(err))
+    .then(res => res)
+    .catch(err => err)
     move();
   };
   const deleteReview = () => {
@@ -125,8 +122,8 @@ function PerfumeReview(props) {
           Authorization : user.sToken
         }
       })
-      .then(res => console.log(res))
-      .catch(error => console.log(error))
+      .then(res => res)
+      .catch(error => error)
       move();
     }
   };
@@ -253,7 +250,7 @@ function PerfumeReview(props) {
           </div>
         </div>
       }
-      {!editInfo && 
+      {userProfile[0]?.nickname === perfumeItem?.userNickname && !editInfo && 
         <div className="perfumeReview_btns flex">
           <button className="perfumeReview_btns_edit" type="button" onClick={changeEdit}>
             <EditIcon sx={{ fontSize: 36, color: "black"}} />
@@ -263,7 +260,7 @@ function PerfumeReview(props) {
           </button>
         </div>
       }
-      {editInfo &&
+      {userProfile[0]?.nickname === perfumeItem?.userNickname && editInfo &&
         <div className="perfumeReview_btns flex">
           <button className="perfumeReview_btns_save" type="button" onClick={updateReview}>
             <SaveAsSharpIcon sx={{ fontSize: 36, color: "black"}} />

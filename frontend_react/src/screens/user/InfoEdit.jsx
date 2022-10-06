@@ -106,36 +106,36 @@ function InfoEdit() {
 
   const handleChangeFile = (e) => {
     e.preventDefault()
-    console.log(e.target.files[0])
+    // console.log(e.target.files[0])
     if(e.target.files[0]){
         URL.revokeObjectURL(image.preview_URL);
         const preview_URL = URL.createObjectURL(e.target.files[0])
-        console.log(preview_URL)
+        // console.log(preview_URL)
         setImage(() => (
             {
               image_file: e.target.files[0],
               preview_URL: preview_URL
             }
         ))
-      console.log(image)
+      // console.log(image)
       const storageRef = storage.ref("userProfile/test/")
       const imageRef = storageRef.child(e.target.files[0].name)
       const upLoadTask = imageRef.put(e.target.files[0])
       upLoadTask.on(
           "state_changed",
           (snapshot) => {
-            console.log("snapshot", snapshot);
+            // console.log("snapshot", snapshot);
             const percent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log(percent + "% done");
+            // console.log(percent + "% done");
           },
           (error) => {
-            console.log("err", error);
+            // console.log("err", error);
           },
           () => {
             upLoadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-              console.log("File available at", downloadURL);
+              // console.log("File available at", downloadURL);
               setImageUrl(downloadURL);
-              console.log(downloadURL)
+              // console.log(downloadURL)
               const copy = JSON.parse(JSON.stringify(userProfile));
               copy[0].profileImg = downloadURL;
               setUserProfile(copy)
