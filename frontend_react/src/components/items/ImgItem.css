@@ -21,7 +21,8 @@
   }
 
   .maintheme {
-    font-family: KyoboHandwriting2020A;
+    font-family: SUIT Variable;
+      font-weight: bold;
     text-align: center;
     margin: 15px 15px 0px 0px;
     font-size: 52px;

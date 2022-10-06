@@ -23,7 +23,7 @@ import CommonCardMain from "../components/common/CommonCardMain";
     `;
 
     const SpanCenter = styled.span`
-        font-family: KyoboHandwriting2020A;
+        font-family: SUIT Variable;
     display: inline-block;
     width:90%;
     text-align: center;
@@ -33,7 +33,8 @@ import CommonCardMain from "../components/common/CommonCardMain";
     `
 
     const SubContent = styled.p`
-    font-family: KyoboHandwriting2020A;
+        font-weight: bold;
+    font-family: SUIT Variable;
     text-align: center;
     margin: 15px 15px 0px 0px;
     font-size: 60px;

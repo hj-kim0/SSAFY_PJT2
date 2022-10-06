@@ -263,7 +263,7 @@ function PerfumeDetail() {
         </div>
         <div id="perfumeDetail2" className="perfumeDetail2 flex">
           <div className="perfumeDetail2_title flex">
-            <div className="perfumeDetail2_title_name loveYa fs-24">
+            <div className="perfumeDetail2_title_name fs-24">
               {perfumeDetail.perfumeName}
             </div>
             <div className="perfumeDetail2_title_count flex">
@@ -318,7 +318,7 @@ function PerfumeDetail() {
               </div>
             </div>
           </div>
-          <div className="perfumeDetail2_info flex align-center loveYa fs-24">
+          <div className="perfumeDetail2_info flex align-center fs-24">
             <div className="perfumeDetail2_info_season">
               {perfumeDetail.seasons}
             </div>
@@ -329,7 +329,7 @@ function PerfumeDetail() {
         </div>
         <div className="divide1" />
         <div>
-          <Typography style={{ fontFamily : 'KyoboHandwriting2020A', textAlign : 'center', margin : "5px" }} component="div" variant="h4">
+          <Typography style={{ fontFamily : 'SUIT Variable', fontWeight : "bold", textAlign : 'center', margin : "10px" }} component="div" variant="h4">
             이 향수를 PICK한 사용자들은 이런 향수를 좋아해요😍
           </Typography>
           <Slider

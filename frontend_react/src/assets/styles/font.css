@@ -116,3 +116,8 @@
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: "SUIT Variable";
+  src : url("./fonts/SUIT-Variable.ttf") format("truetype");
+}

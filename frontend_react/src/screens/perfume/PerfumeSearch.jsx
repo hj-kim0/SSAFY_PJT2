@@ -212,12 +212,12 @@ function PerfumeSearch() {
 
   return (
     <div className="container flex">
-      <div id="perfumeSearch" className="perfumeSearch flex">
-        <div className="perfumeSearch_title flex notoBold fs-36">
+      <div  id="perfumeSearch" className="perfumeSearch flex">
+        <div style={{ fontFamily : "SUIT Variable", fontWeight : "bold" }}  className="perfumeSearch_title flex notoBold fs-36">
           맞춤 향수 검색
         </div>
-        <div className="perfumeSearch_gender flex">
-          <div className="perfumeSearch_gender_title notoBold fs-32">
+        <div  className="perfumeSearch_gender flex">
+          <div style={{ fontFamily : "SUIT Variable", fontWeight : "bold"}} className="perfumeSearch_gender_title notoBold fs-32">
             Gender
           </div>
           <div className="perfumeSearch_gender_btns flex">
@@ -226,7 +226,8 @@ function PerfumeSearch() {
                 key={index}
                 style ={{
                   backgroundColor : isActive[index] ?  'gainsboro' : '#bbdefb',
-                  color : 'black'
+                  color : 'black',
+                  fontFamily : "SUIT Variable"
                 }}
                 variant="contained"
                 onClick={() => {
@@ -242,7 +243,7 @@ function PerfumeSearch() {
         </div>
         <div className="divide" />
         <div className="perfumeSearch_duration flex">
-          <div className="perfumeSearch_duration_title notoBold fs-32">
+          <div style={{ fontFamily : "SUIT Variable", fontWeight : "bold" }} className="perfumeSearch_duration_title fs-32">
             Duration
           </div>
           <div className="perfumeSearch_duration_btns1 flex">
@@ -254,6 +255,7 @@ function PerfumeSearch() {
                     backgroundColor : isDurationActive[index] ?  'gainsboro' : '#bbdefb',
                     color : 'black',
                     fontSize : 18,
+                    fontFamily : "SUIT Variable"
                   }}
                   variant="contained"
                   onClick={() => {
@@ -272,7 +274,8 @@ function PerfumeSearch() {
                   key={index+3}
                   style={{
                     backgroundColor : isDurationActive[index+3] ?  'gainsboro' : '#bbdefb',
-                    color : 'black'
+                    color : 'black',
+                    fontFamily : "SUIT Variable"
                   }}
                   variant="contained"
                   onClick={() => {
@@ -287,7 +290,7 @@ function PerfumeSearch() {
         </div>
         <div className="divide" />
         <div className="perfumeSearch_duration flex">
-          <div className="perfumeSearch_duration_title notoBold fs-32">
+          <div style={{ fontFamily : "SUIT Variable", fontWeight : "bold" }} className="perfumeSearch_duration_title notoBold fs-32">
             AccordClass
           </div>
           <div className="perfumeSearch_duration_btns1 flex">
@@ -297,7 +300,8 @@ function PerfumeSearch() {
                   key = {index}
                   style = {{
                     backgroundColor : isAccordClassActive[index] ? 'gainsboro' : '#bbdefb',
-                    color : 'black'
+                    color : 'black',
+                    fontFamily : "SUIT Variable"
                   }}
                   onClick={() => {
                     handleClickAccordClass(index)
@@ -315,7 +319,8 @@ function PerfumeSearch() {
                   key={index+4}
                   style = {{
                     backgroundColor : isAccordClassActive[index+4] ? 'gainsboro' : '#bbdefb',
-                    color : 'black'
+                    color : 'black',
+                    fontFamily : "SUIT Variable",
                   }}
                   onClick={() => {
                     handleClickAccordClass(index+4)
@@ -328,21 +333,6 @@ function PerfumeSearch() {
           </div>
         </div>
         <div className="divide" />
-        {/*<div className="perfumeSearch_duration_btns2 flex">*/}
-        {/*  <Button*/}
-        {/*    style = {{*/}
-        {/*      backgroundColor : "#bbdefb",*/}
-        {/*      color : "black",*/}
-        {/*      borderWidth : "2px"*/}
-        {/*    }}*/}
-        {/*    onClick={() => {*/}
-        {/*      searchPerfume()*/}
-        {/*    }}*/}
-        {/*  >*/}
-        {/*    <SearchIcon style={{ fontSize : "30px" }}></SearchIcon>&nbsp;*/}
-        {/*    향수 검색*/}
-        {/*  </Button>*/}
-        {/*</div>*/}
           <Button onClick={() => {
             searchPerfume()
           }}
