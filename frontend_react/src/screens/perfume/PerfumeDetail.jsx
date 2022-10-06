@@ -375,7 +375,7 @@ function PerfumeDetail() {
             <div className="perfumeDetail3_rating flex kyobo fs-16">
               <div className="perfumeDetail3_rating_total flex">
                 <div className="perfumeDetail3_rating_total_sub">
-                  종합
+                  종합sdf
                 </div>
                 <Rating
                   name="simple-controlled"

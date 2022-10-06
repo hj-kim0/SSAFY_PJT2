@@ -134,10 +134,14 @@ function PerfumeReview(props) {
           <div className="perfumeReview_profile_img flex">
             {/* {perfumeItem.review} */}
             {perfumeItem?.userProfileimg && (
-              <img src={perfumeItem.userProfileimg} alt="프로필이미지" />
+              <button className="perfumeReview_button" type="button" onClick={() => window.location.replace(`/userreview/${perfumeItem.userNickname}`)}>
+                <img src={perfumeItem.userProfileimg} alt="프로필이미지" />
+              </button>
             )}
             {!perfumeItem?.userProfileimg && (
+            <button className="perfumeReview_button" type="button" onClick={() => window.location.replace(`/userreview/${perfumeItem.userNickname}`)}>
               <img src={dummyProfile} alt="프로필이미지" />
+            </button>
             )}
           </div>
           <div className="perfumeReview_profile_name notoBold fs-16 flex">
