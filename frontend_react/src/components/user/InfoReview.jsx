@@ -30,9 +30,11 @@ function InfoReview (props) {
   console.log(reviewItem)
   return (
     <div id="infoReview" className="infoReview flex">
-      <div className="infoReview_img">
-        <img src={reviewItem.reviewImg} alt="향수이미지" />
-      </div>
+
+        <button  className="infoReview_frame" onClick={() => window.location.replace(`/detail/${reviewItem.perfumeIdx}`)} type="button">
+          <img  className="infoReview_frame_img" src={reviewItem.reviewImg} alt="향수이미지" />
+        </button>
+
       <div className="infoReview_extra">
         <div className="infoReview_extra_name notoBold fs-24">{reviewItem.perfumeName}</div>
         <div className="infoReview_extra_rating flex">
