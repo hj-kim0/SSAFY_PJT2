@@ -108,7 +108,6 @@ function PerfumeDetail() {
         }
       })
       .then((res) => {
-        console.log(res);
         setPerfumeDetail(res.data.perfume);
         setGetReviewList(res.data.reviewList);
         setIsClicked(res.data.isClicked)
@@ -323,7 +322,7 @@ function PerfumeDetail() {
               {perfumeDetail.seasons}
             </div>
             <div className="perfumeDetail2_info_time">
-              {perfumeDetail.timezone}
+              {perfumeDetail.scent}
             </div>
           </div>
         </div>
