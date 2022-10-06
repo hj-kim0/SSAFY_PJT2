@@ -8,8 +8,8 @@ import { userProfileState } from "./atom";
 import { userState } from "./atom";
 
 const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
-// const REDIRECT_URI = 'http://localhost:3000/oauth/kakao';
-const REDIRECT_URI = 'http://j7c105.p.ssafy.io/oauth/kakao';
+const REDIRECT_URI = 'http://localhost:3000/oauth/kakao';
+// const REDIRECT_URI = 'http://j7c105.p.ssafy.io/oauth/kakao';
 
 function Auth() {
     const userProfile = useRecoilState(userProfileState);

@@ -1,6 +1,10 @@
 .perfumeReview {
   height: (124px);
   margin: (20px) 0 (20px) 0;
+  &_button {
+    margin: 0px;
+    padding: 0px;
+  }
   &_profile {
     flex-direction: column;
     margin-right: (8px);
