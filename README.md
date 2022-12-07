@@ -30,12 +30,12 @@ SSAFY 7기_특화프로젝트_빅데이터 광주1반(C105) 향믈리에 팀
 ```
 |Front-End|Front-End|Back-End(Django)|Back-End(Django)|Back-End(SpringBoot)|Back-End(SpringBoot)|
 |-----|---|---|---|---|---|
-|<img src="/exec/images/팀원/김혁주.png" width="150" height="150"/>|<img src="/uploads/15028e4747ae82eeb21f1e11e7f12bd0/image.png" width="150" height="150"/>|<img src="/uploads/27c6e668e54bdfe4e05d7c2571e9733f/image.png" width="150" height="150"/>|<img src="/uploads/527686e283639a003ff6957c83ca20be/image.png" width="150" height="150"/>|<img src="https://user-images.githubusercontent.com/94892374/184817637-affbdd0f-d397-4e6c-b092-c771227425e6.png" width="150" height="150"/>|<img src="/uploads/c1588911a2cc91edcc6bced03de8055e/image.png" width="150" height="150"/>|
+|<img src="/exec/images/%ED%8C%80%EC%9B%90/%EA%B9%80%ED%98%81%EC%A3%BC.png" width="150" height="150"/>|<img src="/exec/images/%ED%8C%80%EC%9B%90/%EB%B0%95%ED%95%9C.png" width="150" height="150"/>|<img src="/exec/images/%ED%8C%80%EC%9B%90/%EA%B9%80%EA%B0%95%ED%98%84.png" width="150" height="150"/>|<img src="exec/images/%ED%8C%80%EC%9B%90/%EA%B9%80%EB%B2%94%EC%A2%85.png" width="150" height="150"/>|<img src="https://user-images.githubusercontent.com/94892374/184817637-affbdd0f-d397-4e6c-b092-c771227425e6.png" width="150" height="150"/>|<img src="exec/images/%ED%8C%80%EC%9B%90/%EC%96%91%EC%8A%B9%ED%98%B8.png" width="150" height="150"/>|
 |김혁주(팀원)|박 한(팀원)|김강현(팀장)|김범종(팀원)|김혜진(팀원)|양승호(팀원)|
 <br/>
 
 # 🍒 기술 스택
-![image](/uploads/b8b140befb087437aae3c15819b25768/image.png)
+![image](exec/images/%EA%B8%B0%EC%88%A0%20%EC%8A%A4%ED%83%9D.png)
 
 # 🍒 기획 배경
 ```
@@ -54,7 +54,7 @@ SSAFY 7기_특화프로젝트_빅데이터 광주1반(C105) 향믈리에 팀
 ```
 
 # 🍒 프로젝트 소개
-![image](/uploads/21194d7cf0ccd1bbac21a86077b579fc/image.png)
+![image](exec/images/%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%EC%86%8C%EA%B0%9C.png)
 ```
 "PERFECTRUM"은 향수의 Perfume과 spectrum의 합성어로 자신에게 맞는 향수를 추천해주는 서비스를 제공하는 프로젝트입니다.
 
@@ -73,7 +73,7 @@ SSAFY 7기_특화프로젝트_빅데이터 광주1반(C105) 향믈리에 팀
 
 ### 0. 회원가입 및 로그인
 
-![image](/uploads/988057e07ffc7927153bbb469b63486a/image.png)
+![image](exec/images/%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85%20%EB%B0%8F%20%EB%A1%9C%EA%B7%B8%EC%9D%B8.png)
 카카오 API를 사용하여 간편하게 회원가입과 로그인이 가능합니다.
 
 <br/>
@@ -82,7 +82,7 @@ SSAFY 7기_특화프로젝트_빅데이터 광주1반(C105) 향믈리에 팀
 
 ### 1. 메인 화면
 
-![image](/uploads/7ded298daad6f4fdca2d0863ad65d5d2/image.png)
+![image](exec/images/%EB%A9%94%EC%9D%B8%20%ED%99%94%EB%A9%B4.png)
 메인 화면 입니다. 중앙에 배너가 있고 배너는 자동으로 바뀌며, 배너 클릭 시 해당 페이지로 이동합니다.
 
 <br/>
@@ -91,7 +91,7 @@ SSAFY 7기_특화프로젝트_빅데이터 광주1반(C105) 향믈리에 팀
 
 #### 1-1. 오늘의 향수
 
-![image](/uploads/7b573cf50c7e1e78c4c74956b1448153/image.png)
+![image](exec/images/%EC%98%A4%EB%8A%98%EC%9D%98%20%ED%96%A5%EC%88%98.png)
 서비스 사용자의 현재 시간과 날짜를 기준으로 적합한 향수를 추천해줍니다.
 
 <br/>
@@ -100,10 +100,10 @@ SSAFY 7기_특화프로젝트_빅데이터 광주1반(C105) 향믈리에 팀
 
 #### 1-2. 베스트 향수
 
-![image](/uploads/c01ab5a9276156947467eafaf9b16322/image.png)
+![image](exec/images/BEST%20%ED%96%A5%EC%88%98.png)
 사용자가 추가로 입력한 정보가 있으면 정보에 적합한 향수를 추천해주고, 입력한 정보가 없다면 사용자들에게 가장 있기있는 향수를 추천해줍니다.
 
-<img src="/uploads/9e481e840247379be9a375b1d628c031/1_메인화면_gif.gif"  width="600" height="300"/>
+<img src="exec/images/1_%EB%A9%94%EC%9D%B8%ED%99%94%EB%A9%B4_gif.gif"  width="600" height="300"/>
 
 
 <br/>
@@ -112,17 +112,17 @@ SSAFY 7기_특화프로젝트_빅데이터 광주1반(C105) 향믈리에 팀
 
 ### 2. 향수 추천
 
-![image](/uploads/b0242a61e7d4132d91425aee05deae33/image.png)
+![image](exec/images/%ED%96%A5%EC%88%98%20%EC%B6%94%EC%B2%9C.png)
 간단한 설문을 통하여 설문 결과 사용자와 가장 어울리는 향수를 추천해줍니다. 추천 결과 카카오톡 공유하기를 이용하여 지인들에게 공유할 수 있습니다.
 
 <br/>
 
-<img src="/uploads/abb8d89c30006172d93dc797bf402a0a/2_향수설문_gif.gif"  width="600" height="300"/>
+<img src="exec/images/2_%ED%96%A5%EC%88%98%EC%84%A4%EB%AC%B8_gif.gif"  width="600" height="300"/>
 
 <br/>
 
 <카카오톡 공유>
-![image](/uploads/7b9b55e4cea13dcf0253ec8f74fa2fc8/image.png)
+![image](exec/images/%ED%96%A5%EC%88%98%20%EC%B6%94%EC%B2%9C%20(2).png)
 
 <br/>
 <hr/>
@@ -130,12 +130,12 @@ SSAFY 7기_특화프로젝트_빅데이터 광주1반(C105) 향믈리에 팀
 
 ### 3. 향수 찾기
 
-![image](/uploads/1363453d5ab60deadf331909fee06413/image.png)
+![image](exec/images/%ED%96%A5%EC%88%98%20%EC%B0%BE%EA%B8%B0.png)
 향수 명을 모르는 사람들을 위해 카테고리 별로 향수를 검색하실 수 있습니다.
 
 <br/>
 
-<img src="/uploads/1f7b86b5a3730cacd14137a3879316b8/3_향수검색_gif.gif"  width="600" height="300"/>
+<img src="exec/images/3_%ED%96%A5%EC%88%98%EA%B2%80%EC%83%89_gif.gif"  width="600" height="300"/>
 
 <br/>
 <hr/>
@@ -143,13 +143,13 @@ SSAFY 7기_특화프로젝트_빅데이터 광주1반(C105) 향믈리에 팀
 
 ### 4. 향수 분석
 
-![image](/uploads/c4168f94f0187ee91187c828e0b44b67/image.png)
+![image](exec/images/%ED%96%A5%EC%88%98%20%EB%B6%84%EC%84%9D.png)
 사용자가 담은 위시리스트/보유리스트를 기반으로 사용자의 취향을 분석해 그래프로 나타냅니다.
 사용자와 비슷한 취향을 가진 유저들이 좋아하는 향수 또한 추천해 줍니다.
 
 <br/>
 
-<img src="/uploads/51eb9e4348f1acba3f1a9e0b5ad6be76/4_향분석_gif.gif"  width="600" height="300"/>
+<img src="exec/images/4_%ED%96%A5%EB%B6%84%EC%84%9D_gif.gif"  width="600" height="300"/>
 
 <br/>
 <hr/>
