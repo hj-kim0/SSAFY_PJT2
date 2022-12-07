@@ -13,7 +13,7 @@
 <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white"/>
 <img src="https://img.shields.io/badge/AmazonEC2-FF9900?style=flat-square&logo=AmazonEC2&logoColor=white"/> <br/><br/>
 
-![image](/uploads/2122429427550c41e38e7d3e3b6f61af/image.png)
+![image](/exec/images/Perfectrum.png)
 
  🚩 진행 기간 : 2022.08.29 ~ 2022.10.07 (6주) <br/>
  🚩 한줄 소개 : 빅데이터 기반 맞춤형 향수 추천 서비스 <br/>
@@ -30,7 +30,7 @@ SSAFY 7기_특화프로젝트_빅데이터 광주1반(C105) 향믈리에 팀
 ```
 |Front-End|Front-End|Back-End(Django)|Back-End(Django)|Back-End(SpringBoot)|Back-End(SpringBoot)|
 |-----|---|---|---|---|---|
-|<img src="/uploads/7d03d59318711ed8fee095d420f36753/image.png" width="150" height="150"/>|<img src="/uploads/15028e4747ae82eeb21f1e11e7f12bd0/image.png" width="150" height="150"/>|<img src="/uploads/27c6e668e54bdfe4e05d7c2571e9733f/image.png" width="150" height="150"/>|<img src="/uploads/527686e283639a003ff6957c83ca20be/image.png" width="150" height="150"/>|<img src="https://user-images.githubusercontent.com/94892374/184817637-affbdd0f-d397-4e6c-b092-c771227425e6.png" width="150" height="150"/>|<img src="/uploads/c1588911a2cc91edcc6bced03de8055e/image.png" width="150" height="150"/>|
+|<img src="/exec/images/팀원/김혁주.png" width="150" height="150"/>|<img src="/uploads/15028e4747ae82eeb21f1e11e7f12bd0/image.png" width="150" height="150"/>|<img src="/uploads/27c6e668e54bdfe4e05d7c2571e9733f/image.png" width="150" height="150"/>|<img src="/uploads/527686e283639a003ff6957c83ca20be/image.png" width="150" height="150"/>|<img src="https://user-images.githubusercontent.com/94892374/184817637-affbdd0f-d397-4e6c-b092-c771227425e6.png" width="150" height="150"/>|<img src="/uploads/c1588911a2cc91edcc6bced03de8055e/image.png" width="150" height="150"/>|
 |김혁주(팀원)|박 한(팀원)|김강현(팀장)|김범종(팀원)|김혜진(팀원)|양승호(팀원)|
 <br/>
 
